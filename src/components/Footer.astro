@@ -9,7 +9,6 @@ const realLogos = logos.filter((logo) => logo.image);
 ---
 
 <footer
-  id="contacto"
   class="relative isolate overflow-hidden bg-navy text-white"
   aria-labelledby="pie-titulo"
 >
@@ -72,19 +71,16 @@ const realLogos = logos.filter((logo) => logo.image);
       </h2>
       <ul class="mt-2 text-[15px]">
         {
-          nav.items
-            // "Contacto" apunta a este mismo pie de página
-            .filter((item) => item.href !== "#contacto")
-            .map((item) => (
-              <li>
-                <a
-                  href={withBase(item.href)}
-                  class="inline-block rounded-sm py-1.5 text-white/80 underline-offset-4 transition-colors hover:text-white hover:underline lg:py-1"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))
+          nav.items.map((item) => (
+            <li>
+              <a
+                href={withBase(item.href)}
+                class="inline-block rounded-sm py-1.5 text-white/80 underline-offset-4 transition-colors hover:text-white hover:underline lg:py-1"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
         }
       </ul>
     </nav>

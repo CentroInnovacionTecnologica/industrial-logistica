@@ -27,9 +27,14 @@ export const featured = {
   },
 
   actions: {
-    details: { label: "Ver detalles", href: "#" },
-    // Después será el enlace al formulario de Google Forms.
-    register: { label: "Registrarme", href: "#" },
+    register: {
+      label: "Registrarme",
+      // ▼ LÍNEA A CAMBIAR para abrir el registro: sustituye `null` por la URL del
+      //   formulario (p. ej. "https://forms.gle/…"). Con `null` el botón se
+      //   muestra deshabilitado, con el texto de `unavailable` debajo.
+      href: null as string | null,
+      unavailable: "Registro disponible próximamente",
+    },
   },
 
   /** La fotografía se activa en src/data/images.ts (HERO_PHOTO). */

@@ -1,17 +1,31 @@
 ---
 import { Image } from "astro:assets";
 import { isCurrentPage, logos, nav, site, withBase } from "../data/site";
+import ChevronDownIcon from "./icons/ChevronDownIcon.astro";
 import CloseIcon from "./icons/CloseIcon.astro";
 import MenuIcon from "./icons/MenuIcon.astro";
 
 const home = import.meta.env.BASE_URL;
+const { pathname } = Astro.url;
 
 // El enlace activo depende de la página actual, no de un valor fijo.
-const items = nav.items.map((item) => ({
-  label: item.label,
-  href: withBase(item.href),
-  current: isCurrentPage(item, Astro.url.pathname),
-}));
+// Un elemento con submenú está activo si lo está alguna de sus opciones.
+const items = nav.items.map((item, index) => {
+  const children = (item.children ?? []).map((child) => ({
+    label: child.label,
+    href: withBase(child.href),
+    current: isCurrentPage(child, pathname),
+  }));
+
+  return {
+    label: item.label,
+    href: withBase(item.href),
+    current:
+      isCurrentPage(item, pathname) || children.some((child) => child.current),
+    children,
+    submenuId: `submenu-${index}`,
+  };
+});
 ---
 
 <header
@@ -61,17 +75,49 @@ const items = nav.items.map((item) => ({
     <nav class="ml-auto hidden lg:block" aria-label={nav.label}>
       <ul class="flex items-center gap-5 xl:gap-9">
         {
-          items.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class="nav-link text-[15px] xl:text-[17px]"
-                aria-current={item.current ? "page" : undefined}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
+          items.map((item) =>
+            item.children.length > 0 ? (
+              // Submenú (patrón "disclosure"): botón + lista de enlaces normales
+              <li class="relative" data-submenu>
+                <button
+                  type="button"
+                  class="nav-link nav-trigger text-[15px] xl:text-[17px]"
+                  aria-expanded="false"
+                  aria-controls={item.submenuId}
+                  data-current={item.current ? "" : undefined}
+                  data-submenu-trigger
+                >
+                  {item.label}
+                  <ChevronDownIcon class="nav-chevron size-4" />
+                </button>
+                <div id={item.submenuId} class="nav-sub" data-submenu-panel>
+                  <ul class="nav-sub__list">
+                    {item.children.map((child) => (
+                      <li>
+                        <a
+                          href={child.href}
+                          class="nav-sub__link"
+                          aria-current={child.current ? "page" : undefined}
+                        >
+                          {child.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ) : (
+              <li>
+                <a
+                  href={item.href}
+                  class="nav-link text-[15px] xl:text-[17px]"
+                  aria-current={item.current ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ),
+          )
         }
       </ul>
     </nav>
@@ -102,17 +148,47 @@ const items = nav.items.map((item) => ({
   >
     <ul class="site-container py-2">
       {
-        items.map((item) => (
-          <li>
-            <a
-              href={item.href}
-              class="nav-link-mobile"
-              aria-current={item.current ? "page" : undefined}
-            >
-              {item.label}
-            </a>
-          </li>
-        ))
+        items.map((item) =>
+          item.children.length > 0 ? (
+            // Fila que se expande y contrae; abierta de inicio si contiene la página actual
+            <li>
+              <button
+                type="button"
+                class="nav-link-mobile nav-trigger-mobile"
+                aria-expanded={item.current ? "true" : "false"}
+                aria-controls={`${item.submenuId}-movil`}
+                data-current={item.current ? "" : undefined}
+                data-mobile-submenu-trigger
+              >
+                {item.label}
+                <ChevronDownIcon class="nav-chevron size-5" />
+              </button>
+              <ul id={`${item.submenuId}-movil`} hidden={!item.current}>
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      href={child.href}
+                      class="nav-link-mobile nav-link-mobile--child"
+                      aria-current={child.current ? "page" : undefined}
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ) : (
+            <li>
+              <a
+                href={item.href}
+                class="nav-link-mobile"
+                aria-current={item.current ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ),
+        )
       }
     </ul>
   </nav>
@@ -144,8 +220,87 @@ const items = nav.items.map((item) => ({
 
   .nav-link:hover::after,
   .nav-link:focus-visible::after,
-  .nav-link[aria-current="page"]::after {
+  .nav-link[aria-current="page"]::after,
+  .nav-trigger[aria-expanded="true"]::after,
+  .nav-trigger[data-current]::after {
     transform: scaleX(1);
+  }
+
+  /* Botón que abre el submenú: mismo aspecto que un enlace, con chevron */
+  .nav-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  :is(.nav-trigger, .nav-trigger-mobile) :global(.nav-chevron) {
+    flex-shrink: 0;
+    transition: rotate 160ms ease-out;
+  }
+
+  :is(.nav-trigger, .nav-trigger-mobile)[aria-expanded="true"]
+    :global(.nav-chevron) {
+    rotate: 180deg;
+  }
+
+  /* Submenú: pegado al botón (el relleno superior hace de puente para el cursor)
+     y con el texto de las opciones alineado con el de "Actividades" */
+  .nav-sub {
+    position: absolute;
+    top: 100%;
+    left: calc(-1.125rem - 1px);
+    z-index: 10;
+    padding-top: 0.25rem;
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 -4px;
+    transition:
+      opacity 110ms ease-in,
+      translate 110ms ease-in,
+      visibility 0s 110ms;
+  }
+
+  .nav-trigger[aria-expanded="true"] + .nav-sub {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    transition:
+      opacity 160ms ease-out,
+      translate 160ms ease-out;
+  }
+
+  /* Mismo panel que la lista de ui/Select.astro */
+  .nav-sub__list {
+    min-width: 12.5rem;
+    padding: 0.375rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    background: #fff;
+    font-size: 0.9375rem;
+    box-shadow:
+      0 2px 6px rgb(15 30 74 / 0.08),
+      0 14px 28px -12px rgb(15 30 74 / 0.28);
+  }
+
+  .nav-sub__link {
+    display: flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--color-navy);
+    white-space: nowrap;
+  }
+
+  .nav-sub__link:hover,
+  .nav-sub__link:focus-visible {
+    background: var(--color-surface);
+  }
+
+  .nav-sub__link[aria-current="page"] {
+    font-weight: 700;
   }
 
   .nav-link-mobile {
@@ -167,8 +322,26 @@ const items = nav.items.map((item) => ({
     background: var(--color-surface);
   }
 
-  .nav-link-mobile[aria-current="page"] {
+  .nav-link-mobile[aria-current="page"],
+  .nav-trigger-mobile[data-current] {
     font-weight: 700;
+  }
+
+  .nav-trigger-mobile {
+    justify-content: space-between;
+    width: 100%;
+    text-align: left;
+  }
+
+  .nav-trigger-mobile[data-current] {
+    border-left-color: var(--color-gold-dark);
+  }
+
+  /* Opciones del submenú, indentadas bajo su fila */
+  .nav-link-mobile--child {
+    min-height: 2.75rem;
+    padding-left: 1.75rem;
+    font-size: 0.9375rem;
   }
 </style>
 
@@ -211,6 +384,95 @@ const items = nav.items.map((item) => ({
     // Al pasar a escritorio el panel deja de existir: se restablece el estado
     window.matchMedia("(min-width: 64rem)").addEventListener("change", (event) => {
       if (event.matches) setOpen(false);
+    });
+  }
+
+  // Menú móvil: filas que expanden y contraen su submenú
+  for (const row of document.querySelectorAll<HTMLButtonElement>(
+    "[data-mobile-submenu-trigger]",
+  )) {
+    const list = document.getElementById(row.getAttribute("aria-controls") ?? "");
+    if (!list) continue;
+
+    row.addEventListener("click", () => {
+      const open = row.getAttribute("aria-expanded") !== "true";
+      row.setAttribute("aria-expanded", String(open));
+      list.hidden = !open;
+    });
+  }
+
+  // Submenús de escritorio: se abren con hover, clic o teclado
+  const CLOSE_DELAY_MS = 180; // margen para llevar el cursor del botón al panel
+
+  for (const group of document.querySelectorAll<HTMLElement>("[data-submenu]")) {
+    const trigger = group.querySelector<HTMLButtonElement>("[data-submenu-trigger]");
+    const submenu = group.querySelector<HTMLElement>("[data-submenu-panel]");
+    if (!trigger || !submenu) continue;
+
+    const links = [...submenu.querySelectorAll<HTMLAnchorElement>("a")];
+    let closeTimer = 0;
+    // Abierto con clic o teclado: no se cierra solo porque el cursor salga
+    let pinned = false;
+
+    const isOpen = () => trigger.getAttribute("aria-expanded") === "true";
+
+    const setOpen = (open: boolean, pin = false) => {
+      window.clearTimeout(closeTimer);
+      pinned = open && pin;
+      trigger.setAttribute("aria-expanded", String(open));
+    };
+
+    group.addEventListener("pointerenter", (event) => {
+      if (event.pointerType !== "mouse") return;
+      if (isOpen()) window.clearTimeout(closeTimer);
+      else setOpen(true);
+    });
+
+    group.addEventListener("pointerleave", (event) => {
+      if (event.pointerType !== "mouse" || pinned) return;
+      window.clearTimeout(closeTimer);
+      closeTimer = window.setTimeout(() => setOpen(false), CLOSE_DELAY_MS);
+    });
+
+    // Enter y Espacio llegan como clic. Si ya lo abrió el hover, el clic lo fija
+    trigger.addEventListener("click", () => {
+      if (isOpen() && pinned) setOpen(false);
+      else setOpen(true, true);
+    });
+
+    group.addEventListener("keydown", (event) => {
+      const index = links.indexOf(document.activeElement as HTMLAnchorElement);
+
+      if (event.key === "Escape" && isOpen()) {
+        event.stopPropagation();
+        setOpen(false);
+        trigger.focus();
+      } else if (event.key === "ArrowDown") {
+        event.preventDefault();
+        if (!isOpen()) setOpen(true, true);
+        links[Math.min(index + 1, links.length - 1)]?.focus();
+      } else if (event.key === "ArrowUp" && index >= 0) {
+        event.preventDefault();
+        (links[index - 1] ?? trigger).focus();
+      }
+    });
+
+    // Si el foco entra en una opción mientras el panel se desvanece, se reabre
+    submenu.addEventListener("focusin", () => {
+      if (!isOpen()) setOpen(true, true);
+    });
+
+    // Cierre al salir con Tab…
+    group.addEventListener("focusout", (event) => {
+      if (!group.contains(event.relatedTarget as Node | null)) setOpen(false);
+    });
+
+    // …al hacer clic fuera y al elegir una opción
+    document.addEventListener("pointerdown", (event) => {
+      if (isOpen() && !group.contains(event.target as Node)) setOpen(false);
+    });
+    submenu.addEventListener("click", (event) => {
+      if ((event.target as Element).closest("a")) setOpen(false);
     });
   }
 </script>

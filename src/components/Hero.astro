@@ -3,13 +3,12 @@ import { featured } from "../data/featured";
 import Countdown from "./Countdown.astro";
 import HeroDecor from "./HeroDecor.astro";
 import HeroPhoto from "./HeroPhoto.astro";
-import ArrowRightIcon from "./icons/ArrowRightIcon.astro";
 import CalendarIcon from "./icons/CalendarIcon.astro";
 import PinIcon from "./icons/PinIcon.astro";
 import UserIcon from "./icons/UserIcon.astro";
 
 const [careerOne, careerTwo] = featured.careers;
-const { details, register } = featured.actions;
+const { register } = featured.actions;
 ---
 
 <section
@@ -62,25 +61,35 @@ const { details, register } = featured.actions;
         finishedMessage={featured.countdown.finished}
       />
 
-      <!-- Acciones -->
-      <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:gap-4 lg:mt-5">
-        <a
-          href={details.href}
-          class="btn bg-gold-gradient group shadow-[0_8px_18px_-10px_var(--color-gold-dark)] hover:brightness-105 hover:shadow-[0_12px_22px_-10px_var(--color-gold-dark)]"
-        >
-          <CalendarIcon class="size-6" />
-          {details.label}
-          <ArrowRightIcon
-            class="size-5 transition-transform duration-200 ease-out group-hover:translate-x-1"
-          />
-        </a>
-        <a
-          href={register.href}
-          class="btn border-[1.5px] border-navy bg-white hover:bg-navy hover:text-white"
-        >
-          <UserIcon class="size-6" />
-          {register.label}
-        </a>
+      <!-- Registro: enlace si hay URL en src/data/featured.ts; si no, botón inactivo -->
+      <div class="mt-4 lg:mt-5">
+        {
+          register.href ? (
+            <a
+              href={register.href}
+              class="btn border-[1.5px] border-navy bg-white hover:bg-navy hover:text-white"
+            >
+              <UserIcon class="size-6" />
+              {register.label}
+            </a>
+          ) : (
+            <>
+              {/* aria-disabled (y no disabled) para que siga recibiendo el foco y se lea la nota */}
+              <button
+                type="button"
+                class="btn btn--unavailable"
+                aria-disabled="true"
+                aria-describedby="registro-nota"
+              >
+                <UserIcon class="size-6" />
+                {register.label}
+              </button>
+              <p id="registro-nota" class="mt-2.5 text-center text-sm text-muted">
+                {register.unavailable}
+              </p>
+            </>
+          )
+        }
       </div>
     </div>
   </div>
@@ -132,8 +141,8 @@ const { details, register } = featured.actions;
   }
 
   .btn {
-    display: inline-flex;
-    flex: 1;
+    display: flex;
+    width: 100%; /* mismo ancho que la barra de cuenta regresiva */
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
@@ -153,5 +162,20 @@ const { details, register } = featured.actions;
 
   .btn:active {
     transform: scale(0.98);
+  }
+
+  /* Registro aún no disponible: inactivo (atenuado), con borde y halo guinda suaves */
+  .btn--unavailable {
+    border: 1.5px solid color-mix(in srgb, var(--color-guinda) 55%, transparent);
+    background: #fff;
+    opacity: 0.6;
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--color-guinda) 10%, transparent),
+      0 8px 26px -6px color-mix(in srgb, var(--color-guinda) 45%, transparent);
+    cursor: not-allowed;
+  }
+
+  .btn--unavailable:active {
+    transform: none;
   }
 </style>

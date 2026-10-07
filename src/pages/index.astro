@@ -1,5 +1,4 @@
 ---
-import FilterBar from "../components/FilterBar.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import { sections } from "../data/site";
@@ -12,19 +11,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <main id="contenido">
     <Hero />
 
-    <section
-      id={sections.upcoming.id}
-      class="site-container scroll-mt-4 py-4 lg:py-5"
-      aria-labelledby="proximos-eventos-titulo"
-    >
-      <h2 id="proximos-eventos-titulo" class="sr-only">
-        {sections.upcoming.title}
-      </h2>
-      <FilterBar />
+    <!-- Ancla del enlace "Actividades" del pie de página.
+         Tarea posterior: <section> con su título y la cuadrícula de tarjetas de eventos -->
+    <div id={sections.activities.id}></div>
 
-      <!-- Tarea posterior: cuadrícula de tarjetas de eventos (escuchan "eventos:filtrar") -->
-    </section>
-
-    <!-- Tarea posterior: <section id="eventos-pasados"> -->
+    <!-- Tarea posterior: <section id="galeria"> -->
   </main>
 </BaseLayout>

@@ -41,10 +41,18 @@ export const logos: Logo[] = [
 
 /* ---------- Navegación ---------- */
 
-export interface NavItem {
+export interface NavLink {
   label: string;
-  /** Ruta desde la raíz del sitio ("/cursos", "/#seccion") o ancla ("#contacto"). */
+  /** Ruta desde la raíz del sitio ("/cursos", "/#seccion"). */
   href: string;
+}
+
+export interface NavItem extends NavLink {
+  /**
+   * Opciones del submenú. Con hijos, el encabezado muestra un botón que lo
+   * despliega; `href` solo se usa en el pie de página (un único enlace).
+   */
+  children?: NavLink[];
 }
 
 export const nav = {
@@ -56,23 +64,34 @@ export const nav = {
   items: [
     { label: "Inicio", href: "/" },
     { label: "Cursos", href: "/cursos" },
-    { label: "Próximos eventos", href: "/#proximos-eventos" },
-    { label: "Eventos pasados", href: "/#eventos-pasados" },
-    // El pie de página (id="contacto") está en todas las páginas.
-    { label: "Contacto", href: "#contacto" },
+    {
+      label: "Actividades",
+      href: "/#actividades",
+      // Rutas reales: cuando existan las páginas, sustituye cada "#" por su
+      // ruta (p. ej. "/conferencias"). El encabezado marcará "Actividades"
+      // como activo al estar en cualquiera de ellas.
+      children: [
+        { label: "Conferencias", href: "#" },
+        { label: "Certificaciones", href: "#" },
+        { label: "Paneles", href: "#" },
+        { label: "Visitas", href: "#" },
+        { label: "Charlas", href: "#" },
+      ],
+    },
+    { label: "Galería", href: "/#galeria" },
   ] satisfies NavItem[],
 };
 
 /** Antepone la base del sitio (astro.config `base`) a una ruta interna. */
 export function withBase(href: string): string {
-  if (href.startsWith("#")) return href;
+  if (href === "#") return href; // destino provisional
   return `${import.meta.env.BASE_URL.replace(/\/$/, "")}${href}`;
 }
 
 const trimSlash = (path: string): string => path.replace(/\/+$/, "");
 
 /** Un enlace es el activo si apunta a la página actual (las anclas no cuentan). */
-export function isCurrentPage(item: NavItem, pathname: string): boolean {
+export function isCurrentPage(item: NavLink, pathname: string): boolean {
   if (item.href.includes("#")) return false;
   return trimSlash(withBase(item.href)) === trimSlash(pathname);
 }
@@ -88,46 +107,5 @@ export const footer = {
 /* ---------- Secciones ---------- */
 
 export const sections = {
-  upcoming: { id: "proximos-eventos", title: "Próximos eventos" },
-};
-
-/* ---------- Filtros ---------- */
-
-export interface FilterOption {
-  value: string;
-  label: string;
-}
-
-/** Nombre del evento personalizado que emite la barra de filtros en `document`. */
-export const FILTER_EVENT = "eventos:filtrar";
-
-/** `detail` del evento personalizado. */
-export interface EventFilterDetail {
-  /** Valor del chip activo (p. ej. "talleres"). */
-  type: string;
-  /** Valor del select de carrera (p. ej. "industrial"). */
-  career: string;
-}
-
-export const filters = {
-  type: {
-    label: "Filtrar por tipo de evento:",
-    options: [
-      { value: "todos", label: "Todos" },
-      { value: "conferencias", label: "Conferencias" },
-      { value: "talleres", label: "Talleres" },
-      { value: "cursos", label: "Cursos" },
-      { value: "certificaciones", label: "Certificaciones" },
-      { value: "paneles", label: "Paneles" },
-      { value: "visitas", label: "Visitas" },
-    ] satisfies FilterOption[],
-  },
-  career: {
-    label: "Filtrar por carrera:",
-    options: [
-      { value: "todas", label: "Todas las carreras" },
-      { value: "industrial", label: "Ingeniería Industrial" },
-      { value: "logistica", label: "Ingeniería en Logística" },
-    ] satisfies FilterOption[],
-  },
+  activities: { id: "actividades", title: "Actividades" },
 };
