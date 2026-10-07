@@ -22,7 +22,7 @@ const LOGO_TECNM: ImageFile = "logo-tecnm.png";
 const LOGO_ITD: ImageFile = "logo-itd.png";
 
 // Fotografía del hero. Recomendado: JPG horizontal de al menos 1600 px de ancho.
-const HERO_PHOTO: ImageFile = null;
+const HERO_PHOTO: ImageFile = "hero-nexus.png";
 
 /* ------------------------------------------------------------------
    No es necesario modificar nada de aquí hacia abajo.
