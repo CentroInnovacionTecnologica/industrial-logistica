@@ -1,10 +1,10 @@
 ---
 import { ordinal, SEMESTRES, temas } from "../../data/cursos";
 import BuildingIcon from "../icons/BuildingIcon.astro";
-import ChevronDownIcon from "../icons/ChevronDownIcon.astro";
 import GraduationCapIcon from "../icons/GraduationCapIcon.astro";
 import ListIcon from "../icons/ListIcon.astro";
 import SearchIcon from "../icons/SearchIcon.astro";
+import Select from "../ui/Select.astro";
 import { FILTROS_INICIALES } from "./filtros";
 
 interface Props {
@@ -17,6 +17,11 @@ const carreras = [
   { value: FILTROS_INICIALES.carrera, label: "Todas" },
   { value: "industrial", label: "Industrial" },
   { value: "logistica", label: "Logística" },
+];
+
+const temaOptions = [
+  { value: FILTROS_INICIALES.tema, label: "Todos los temas" },
+  ...temas.map((tema) => ({ value: tema, label: tema })),
 ];
 ---
 
@@ -87,23 +92,17 @@ const carreras = [
     </div>
 
     <div class="lg:flex lg:items-center lg:gap-3">
-      <label for="filtro-tema" class="filter-label">
+      <label id="filtro-tema-etiqueta" for="filtro-tema" class="filter-label">
         <ListIcon class="size-5 shrink-0" />
         Tema:
       </label>
-      <div class="relative mt-2 lg:mt-0 lg:w-48 xl:w-56">
-        <select
-          id="filtro-tema"
-          class="field appearance-none pl-4 pr-11 font-medium!"
-          data-filter-tema
-        >
-          <option value={FILTROS_INICIALES.tema}>Todos los temas</option>
-          {temas.map((tema) => <option value={tema}>{tema}</option>)}
-        </select>
-        <ChevronDownIcon
-          class="pointer-events-none absolute right-3.5 top-1/2 size-5 -translate-y-1/2 text-navy"
-        />
-      </div>
+      <Select
+        id="filtro-tema"
+        class="mt-2 [--select-weight:500] lg:mt-0 lg:w-48 xl:w-56"
+        options={temaOptions}
+        labelledby="filtro-tema-etiqueta"
+        data-filter-tema
+      />
     </div>
 
     <div class="relative md:col-span-2 lg:min-w-0 lg:flex-1">
@@ -183,6 +182,8 @@ const carreras = [
 
   .segment:focus-visible {
     z-index: 1;
+    outline: 2px solid var(--color-navy);
+    outline-offset: 2px;
   }
 
   @media (width >= 80rem) {

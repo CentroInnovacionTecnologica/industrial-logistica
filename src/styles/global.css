@@ -107,7 +107,7 @@
     }
   }
 
-  /* Campo de formulario (select y búsqueda) */
+  /* Campo de formulario (ui/Select.astro y búsqueda) */
   .field {
     width: 100%;
     height: 2.75rem;
@@ -124,12 +124,34 @@
   .field:hover {
     border-color: color-mix(in srgb, var(--color-navy) 40%, transparent);
   }
+
+  /* Foco de los controles de filtro: anillo fino azul marino con separación */
+  .chip:focus-visible,
+  .field:focus-visible {
+    outline: 2px solid var(--color-navy);
+    outline-offset: 2px;
+  }
 }
 
 @layer base {
+  /* Altura del encabezado anclado (Header.astro): 72 / 96 / 116 px */
+  :root {
+    --header-height: 4.5rem;
+
+    @media (width >= 48rem) {
+      --header-height: 6rem;
+    }
+
+    @media (width >= 64rem) {
+      --header-height: 7.25rem;
+    }
+  }
+
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    /* Las anclas y scrollIntoView no quedan tapados por el encabezado */
+    scroll-padding-top: var(--header-height);
   }
 
   body {

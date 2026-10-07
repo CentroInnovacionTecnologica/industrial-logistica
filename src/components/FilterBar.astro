@@ -1,8 +1,8 @@
 ---
 import { FILTER_EVENT, filters } from "../data/site";
 import CalendarCheckIcon from "./icons/CalendarCheckIcon.astro";
-import ChevronDownIcon from "./icons/ChevronDownIcon.astro";
 import LayersIcon from "./icons/LayersIcon.astro";
+import Select from "./ui/Select.astro";
 
 const [defaultType] = filters.type.options;
 ---
@@ -49,28 +49,20 @@ const [defaultType] = filters.type.options;
     class="mt-3 border-t border-line pt-4 lg:mt-0 lg:w-60 lg:shrink-0 lg:border-0 lg:pt-0"
   >
     <label
+      id="filtro-carrera-etiqueta"
       for="filtro-carrera"
       class="flex items-center gap-2 text-sm font-bold text-navy"
     >
       <CalendarCheckIcon class="size-[18px] shrink-0" />
       {filters.career.label}
     </label>
-    <div class="relative mt-3.5 lg:mt-3">
-      <select
-        id="filtro-carrera"
-        class="field appearance-none pl-4 pr-11"
-        data-filter-career
-      >
-        {
-          filters.career.options.map((option) => (
-            <option value={option.value}>{option.label}</option>
-          ))
-        }
-      </select>
-      <ChevronDownIcon
-        class="pointer-events-none absolute right-3.5 top-1/2 size-5 -translate-y-1/2 text-navy"
-      />
-    </div>
+    <Select
+      id="filtro-carrera"
+      class="mt-3.5 lg:mt-3"
+      options={filters.career.options}
+      labelledby="filtro-carrera-etiqueta"
+      data-filter-career
+    />
   </div>
 </div>
 

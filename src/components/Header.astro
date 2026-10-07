@@ -15,10 +15,10 @@ const items = nav.items.map((item) => ({
 ---
 
 <header
-  class="relative z-40 bg-white shadow-[0_1px_0_rgb(15_30_74/0.06),0_8px_20px_-14px_rgb(15_30_74/0.35)]"
+  class="sticky top-0 z-40 bg-white shadow-[0_1px_0_rgb(15_30_74/0.06),0_8px_20px_-14px_rgb(15_30_74/0.35)]"
 >
   <div
-    class="site-container flex h-[72px] items-center gap-3 md:h-24 md:gap-4 lg:h-[116px] xl:gap-6"
+    class="site-container flex h-(--header-height) items-center gap-3 md:gap-4 xl:gap-6"
   >
     <!-- Logos (enlace al inicio): imagen real si está definida en src/data/images.ts; si no, marcador -->
     <a

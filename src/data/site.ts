@@ -77,24 +77,7 @@ export function isCurrentPage(item: NavItem, pathname: string): boolean {
   return trimSlash(withBase(item.href)) === trimSlash(pathname);
 }
 
-/* ---------- Redes sociales (pie de página) ---------- */
-
-export interface SocialLink {
-  id: "facebook" | "instagram" | "youtube";
-  label: string;
-  href: string;
-}
-
-// CAMBIAR AQUÍ las URL de las redes sociales: sustituye cada "#" por la
-// dirección completa (por ejemplo "https://www.facebook.com/...").
-export const social = {
-  title: "Síguenos",
-  links: [
-    { id: "facebook", label: "Facebook", href: "#" },
-    { id: "instagram", label: "Instagram", href: "#" },
-    { id: "youtube", label: "YouTube", href: "#" },
-  ] satisfies SocialLink[],
-};
+/* ---------- Pie de página ---------- */
 
 export const footer = {
   careers: "Ingeniería Industrial e Ingeniería en Logística",
