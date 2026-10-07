@@ -1,0 +1,23 @@
+---
+// Franjas diagonales de marca para una esquina derecha (cabecera de página y pie).
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"svg"> {
+  /** "dark": para fondos azul marino (sustituye la franja marino por una clara). */
+  tone?: "light" | "dark";
+}
+
+const { tone = "light", ...rest } = Astro.props;
+const band = tone === "dark" ? "rgb(255 255 255 / 0.1)" : "var(--color-navy)";
+---
+
+<svg viewBox="0 0 260 220" aria-hidden="true" {...rest}>
+  <polygon points="0,0 64,0 260,196 260,220 220,220" fill={band}></polygon>
+  <polygon points="78,0 140,0 260,120 260,182" fill="var(--color-guinda)"></polygon>
+  <polygon points="154,0 176,0 260,84 260,106" fill="var(--color-gold)"></polygon>
+  <polygon points="190,0 260,0 260,70" fill="var(--color-gold-dark)"></polygon>
+  <polygon points="150,220 205,165 232,192 204,220" fill="var(--color-guinda)"
+  ></polygon>
+  <polygon points="196,220 260,156 260,186 226,220" fill="var(--color-gold-dark)"
+  ></polygon>
+</svg>

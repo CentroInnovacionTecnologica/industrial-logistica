@@ -1,0 +1,155 @@
+---
+import { Image } from "astro:assets";
+import { featured } from "../data/featured";
+import { footer, logos, nav, social, withBase } from "../data/site";
+import type { SocialLink } from "../data/site";
+import DiagonalStripes from "./decor/DiagonalStripes.astro";
+import FacebookIcon from "./icons/FacebookIcon.astro";
+import InstagramIcon from "./icons/InstagramIcon.astro";
+import PinIcon from "./icons/PinIcon.astro";
+import YouTubeIcon from "./icons/YouTubeIcon.astro";
+
+const socialIcons: Record<SocialLink["id"], typeof FacebookIcon> = {
+  facebook: FacebookIcon,
+  instagram: InstagramIcon,
+  youtube: YouTubeIcon,
+};
+
+const realLogos = logos.filter((logo) => logo.image);
+---
+
+<footer
+  id="contacto"
+  class="relative isolate overflow-hidden bg-navy text-white"
+  aria-labelledby="pie-titulo"
+>
+  <!-- Franjas diagonales decorativas en las esquinas -->
+  <DiagonalStripes
+    tone="dark"
+    class="pointer-events-none absolute left-0 top-0 -z-10 h-14 -scale-x-100 lg:h-24"
+  />
+  <DiagonalStripes
+    tone="dark"
+    class="pointer-events-none absolute bottom-0 right-0 -z-10 h-14 -scale-y-100 lg:h-24"
+  />
+
+  <div
+    class="site-container grid gap-8 py-10 sm:grid-cols-2 lg:grid-cols-[auto_minmax(0,1.6fr)_auto_auto] lg:items-center lg:gap-0 lg:py-12"
+  >
+    <!-- Logos sobre placa blanca: sus colores no se leen sobre el fondo oscuro -->
+    {
+      realLogos.length > 0 && (
+        <div class="sm:col-span-2 lg:col-span-1 lg:pr-6 xl:pr-10">
+          <div class="inline-flex items-center gap-4 rounded-xl bg-white px-4 py-3">
+            {realLogos.map((logo, index) => (
+              <>
+                {index > 0 && (
+                  <span class="h-10 w-px bg-line" aria-hidden="true" />
+                )}
+                {logo.image && (
+                  <Image
+                    src={logo.image}
+                    alt={logo.alt}
+                    height={120}
+                    class="h-[52px] w-auto max-w-none sm:h-[60px] lg:h-12 xl:h-[60px]"
+                  />
+                )}
+              </>
+            ))}
+          </div>
+        </div>
+      )
+    }
+
+    <div class="footer-col sm:col-span-2 lg:col-span-1">
+      <h2 id="pie-titulo" class="font-display text-lg font-bold">
+        {featured.eyebrow}
+      </h2>
+      <p class="mt-3 text-[15px] leading-relaxed text-white/80">
+        {footer.careers}
+        <br />
+        <time datetime={featured.datesIso}>{featured.dates}</time>
+      </p>
+      <p class="mt-2 flex items-center gap-2 text-[15px] text-white/80">
+        <PinIcon class="size-5 shrink-0 text-accent-red" />
+        {featured.place}
+      </p>
+    </div>
+
+    <nav class="footer-col" aria-labelledby="pie-enlaces">
+      <h2 id="pie-enlaces" class="font-display text-base font-bold">
+        {nav.footerLabel}
+      </h2>
+      <ul class="mt-2 text-[15px]">
+        {
+          nav.items
+            // "Contacto" apunta a este mismo pie de página
+            .filter((item) => item.href !== "#contacto")
+            .map((item) => (
+              <li>
+                <a
+                  href={withBase(item.href)}
+                  class="inline-block rounded-sm py-1.5 text-white/80 underline-offset-4 transition-colors hover:text-white hover:underline lg:py-1"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+        }
+      </ul>
+    </nav>
+
+    <div class="footer-col">
+      <h2 class="font-display text-base font-bold">{social.title}</h2>
+      <ul class="mt-3 flex gap-3">
+        {
+          social.links.map((link) => {
+            const Icon = socialIcons[link.id];
+            return (
+              <li>
+                <a
+                  href={link.href}
+                  aria-label={link.label}
+                  class="grid size-11 place-items-center rounded-full bg-white text-navy transition-colors hover:bg-gold"
+                >
+                  <Icon class="size-5" />
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="bg-navy-900">
+    <p class="site-container py-4 text-center text-sm text-white/75">
+      {footer.copyright}
+    </p>
+  </div>
+</footer>
+
+<style>
+  /* Sobre el azul marino, el foco usa ámbar para que se distinga */
+  footer :focus-visible {
+    outline-color: var(--color-gold);
+  }
+
+  @media (width >= 64rem) {
+    .footer-col {
+      align-self: stretch;
+      padding-inline: 1.5rem;
+      border-left: 1px solid rgb(255 255 255 / 0.16);
+    }
+
+    .footer-col:last-child {
+      padding-right: 0;
+    }
+  }
+
+  @media (width >= 80rem) {
+    .footer-col {
+      padding-inline: 2.5rem;
+    }
+  }
+</style>

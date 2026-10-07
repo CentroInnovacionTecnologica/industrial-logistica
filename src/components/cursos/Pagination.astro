@@ -1,0 +1,102 @@
+---
+import ArrowRightIcon from "../icons/ArrowRightIcon.astro";
+
+interface Props {
+  /** Páginas con todos los cursos visibles; el script oculta las que sobren. */
+  totalPages: number;
+}
+
+const { totalPages } = Astro.props;
+const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+---
+
+{
+  totalPages > 1 && (
+    <nav
+      class="mt-7 lg:mt-8"
+      aria-label="Paginación de cursos"
+      data-course-pagination
+    >
+      <ul class="flex items-center justify-center gap-2">
+        <li class="mr-1.5">
+          <button
+            type="button"
+            class="page-arrow"
+            aria-label="Página anterior"
+            data-page-prev
+            disabled
+          >
+            <ArrowRightIcon class="size-5 rotate-180" />
+          </button>
+        </li>
+        {pages.map((page) => (
+          <li>
+            <button
+              type="button"
+              class="page-number"
+              aria-label={`Página ${page}`}
+              aria-current={page === 1 ? "page" : undefined}
+              data-page={page}
+            >
+              {page}
+            </button>
+          </li>
+        ))}
+        <li class="ml-1.5">
+          <button
+            type="button"
+            class="page-arrow"
+            aria-label="Página siguiente"
+            data-page-next
+          >
+            <ArrowRightIcon class="size-5" />
+          </button>
+        </li>
+      </ul>
+    </nav>
+  )
+}
+
+<style>
+  .page-number,
+  .page-arrow {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--color-line);
+    background: #fff;
+    color: var(--color-navy);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    transition:
+      background-color 200ms ease-out,
+      border-color 200ms ease-out,
+      color 200ms ease-out;
+  }
+
+  .page-number {
+    border-radius: 999px;
+  }
+
+  .page-arrow {
+    border-radius: 0.625rem;
+  }
+
+  .page-number:hover,
+  .page-arrow:hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--color-navy) 45%, transparent);
+  }
+
+  .page-number[aria-current="page"] {
+    border-color: var(--color-navy);
+    background: var(--color-navy);
+    color: #fff;
+    box-shadow: 0 6px 12px -6px rgb(15 30 74 / 0.6);
+  }
+
+  .page-arrow:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+</style>

@@ -1,0 +1,148 @@
+---
+import { carreraLabels, formatSemestres } from "../../data/cursos";
+import type { Carrera, Curso } from "../../data/cursos";
+import ClockIcon from "../icons/ClockIcon.astro";
+import GraduationCapIcon from "../icons/GraduationCapIcon.astro";
+import UsersIcon from "../icons/UsersIcon.astro";
+
+interface Props {
+  curso: Curso;
+}
+
+const { curso } = Astro.props;
+
+// Color por carrera: franja superior, chip del tema y etiqueta de carrera.
+const tones: Record<Carrera, { stripe: string; chip: string; tag: string }> = {
+  industrial: {
+    stripe: "bg-guinda",
+    chip: "bg-guinda/10 text-guinda-dark",
+    tag: "bg-guinda text-white",
+  },
+  logistica: {
+    stripe: "bg-gold-dark",
+    chip: "bg-gold/30 text-navy",
+    tag: "bg-gold text-navy",
+  },
+  ambas: {
+    stripe: "bg-navy",
+    chip: "bg-navy/8 text-navy",
+    tag: "bg-navy text-white",
+  },
+};
+
+const tone = tones[curso.carrera];
+const PENDING = "Por confirmar";
+
+const openTo =
+  curso.abiertoAOtraCarrera && curso.carrera !== "ambas"
+    ? `Abierto a ${carreraLabels[curso.carrera === "industrial" ? "logistica" : "industrial"]}`
+    : null;
+---
+
+<article
+  class="flex h-full flex-col overflow-hidden rounded-xl border border-line bg-white shadow-[0_8px_20px_-14px_rgb(15_30_74/0.4)]"
+>
+  <div class:list={["h-2 shrink-0", tone.stripe]} aria-hidden="true"></div>
+
+  <div class="flex flex-1 flex-col p-5">
+    <div class="flex items-start justify-between gap-3">
+      <p
+        class:list={[
+          "rounded-2xl px-3 py-1.5 text-[13px] font-medium leading-tight",
+          tone.chip,
+        ]}
+      >
+        <span class="sr-only">Tema:</span>
+        {curso.tema}
+      </p>
+      <div class="flex shrink-0 flex-col items-end gap-1.5">
+        <p
+          class:list={[
+            "rounded-full px-3 py-1.5 text-[13px] font-semibold leading-tight",
+            tone.tag,
+          ]}
+        >
+          <span class="sr-only">Carrera:</span>
+          {carreraLabels[curso.carrera]}
+        </p>
+        {openTo && <p class="text-xs font-medium text-muted">{openTo}</p>}
+      </div>
+    </div>
+
+    <h3 class="mt-4 font-display text-lg font-bold leading-snug text-navy">
+      {curso.nombre}
+    </h3>
+    <p class="mt-2 pb-5 text-[15px] leading-relaxed text-muted">
+      {curso.descripcion}
+    </p>
+
+    <!-- Datos del curso, pegados al fondo de la tarjeta -->
+    <div class="mt-auto overflow-hidden border-t border-line pt-4">
+      <ul class="facts text-[13px] leading-tight text-navy">
+        <li class="fact">
+          <GraduationCapIcon class="size-5 shrink-0" />
+          <span>
+            <span class="sr-only">Semestres:</span>
+            <strong class="block whitespace-nowrap text-sm font-bold">
+              {formatSemestres(curso.semestres)}
+            </strong>
+            semestre
+          </span>
+        </li>
+        <li class="fact">
+          <ClockIcon class="size-5 shrink-0" />
+          <span>
+            <span class="sr-only">Duración:</span>
+            {
+              curso.duracionHoras === null ? (
+                <span class="font-medium text-muted">{PENDING}</span>
+              ) : (
+                <strong class="text-sm font-bold">
+                  {curso.duracionHoras}&nbsp;h
+                </strong>
+              )
+            }
+          </span>
+        </li>
+        <li class="fact">
+          <UsersIcon class="size-5 shrink-0" />
+          <span>
+            <span class="sr-only">Cupo:</span>
+            {
+              curso.lugares === null ? (
+                <span class="font-medium text-muted">{PENDING}</span>
+              ) : (
+                <>
+                  <strong class="block text-sm font-bold">{curso.lugares}</strong>
+                  lugares
+                </>
+              )
+            }
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<style>
+  /* Si los tres datos no caben en una fila (tarjeta angosta con "Por confirmar"),
+     pasan a la siguiente. El margen negativo deja fuera del recorte la línea
+     divisoria del primer dato de cada fila. */
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 0.625rem;
+    margin-left: calc(-0.625rem - 1px);
+  }
+
+  .fact {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 2.25rem;
+    padding-left: 0.625rem;
+    border-left: 1px solid var(--color-line);
+  }
+</style>

@@ -1,0 +1,146 @@
+---
+import { featured } from "../../data/featured";
+import DiagonalStripes from "../decor/DiagonalStripes.astro";
+import DotGrid from "../decor/DotGrid.astro";
+import EdgeChevrons from "../decor/EdgeChevrons.astro";
+import Gears from "../decor/Gears.astro";
+import ClockIcon from "../icons/ClockIcon.astro";
+import GraduationCapIcon from "../icons/GraduationCapIcon.astro";
+import UsersIcon from "../icons/UsersIcon.astro";
+
+interface Props {
+  title: string;
+  /** Cantidad real de cursos publicados. */
+  totalCursos: number;
+}
+
+const { title, totalCursos } = Astro.props;
+const home = import.meta.env.BASE_URL;
+
+const subtitle = [featured.eyebrow, featured.dates, featured.place];
+
+const stats = [
+  { icon: GraduationCapIcon, text: `${totalCursos} cursos` },
+  { icon: ClockIcon, text: "8 horas por curso" },
+  { icon: UsersIcon, text: "Cupo limitado" },
+];
+---
+
+<section
+  class="relative isolate overflow-hidden bg-surface/60"
+  aria-labelledby="pagina-titulo"
+>
+  <!-- Decoración: engranes, puntos, franjas diagonales y chevron del borde -->
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <Gears class="gears absolute text-navy" />
+    <DotGrid id="cabecera-puntos" class="dots absolute text-navy" />
+    <DiagonalStripes class="absolute right-0 top-0 h-16 sm:h-24 lg:h-full" />
+    <EdgeChevrons variant="top" class="chevron absolute left-0" />
+  </div>
+
+  <div class="site-container py-6 lg:py-8">
+    <nav aria-label="Ruta de navegación">
+      <ol class="flex items-center gap-2 text-sm text-muted">
+        <li>
+          <a
+            href={home}
+            class="rounded-sm underline-offset-4 transition-colors hover:text-navy hover:underline"
+          >
+            Inicio
+          </a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page">Cursos</li>
+      </ol>
+    </nav>
+
+    <h1
+      id="pagina-titulo"
+      class="mt-2 font-display text-[1.75rem] font-extrabold leading-tight tracking-tight text-navy sm:text-4xl lg:text-[2.75rem]"
+    >
+      {title}
+    </h1>
+
+    <p
+      class="mt-1.5 flex flex-col text-[15px] italic text-muted sm:flex-row sm:flex-wrap sm:gap-x-2.5 lg:text-base"
+    >
+      {
+        subtitle.map((part, index) => (
+          <>
+            {index > 0 && (
+              <span class="hidden sm:inline" aria-hidden="true">
+                ·
+              </span>
+            )}
+            <span>{part}</span>
+          </>
+        ))
+      }
+    </p>
+
+    <ul
+      class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 font-display text-[15px] font-bold text-navy sm:gap-x-0 sm:text-base lg:mt-6 lg:text-lg"
+    >
+      {
+        stats.map((stat) => (
+          <li class="stat flex items-center gap-2.5 sm:gap-3">
+            <stat.icon class="size-6 shrink-0 text-accent-red sm:size-7 lg:size-8" />
+            {stat.text}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .gears {
+    right: -3rem;
+    bottom: -3rem;
+    width: 12rem;
+    opacity: 0.05;
+  }
+
+  .dots,
+  .chevron {
+    display: none;
+  }
+
+  /* Líneas verticales finas entre los datos */
+  @media (width >= 40rem) {
+    .stat + .stat {
+      margin-left: 1.75rem;
+      padding-left: 1.75rem;
+      border-left: 1px solid var(--color-line);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .stat + .stat {
+      margin-left: 3rem;
+      padding-left: 3rem;
+    }
+
+    .gears {
+      top: -1.5rem;
+      right: 17%;
+      bottom: auto;
+      width: 15rem;
+      opacity: 0.07;
+    }
+
+    .dots {
+      display: block;
+      top: 2.75rem;
+      right: calc(17% + 14.5rem);
+      width: 2.5rem;
+      opacity: 0.16;
+    }
+
+    .chevron {
+      display: block;
+      top: 0.75rem;
+      width: clamp(1.25rem, 4.4vw - 1.7rem, 3.25rem);
+    }
+  }
+</style>

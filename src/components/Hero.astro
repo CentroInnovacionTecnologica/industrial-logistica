@@ -1,0 +1,157 @@
+---
+import { featured } from "../data/featured";
+import Countdown from "./Countdown.astro";
+import HeroDecor from "./HeroDecor.astro";
+import HeroPhoto from "./HeroPhoto.astro";
+import ArrowRightIcon from "./icons/ArrowRightIcon.astro";
+import CalendarIcon from "./icons/CalendarIcon.astro";
+import PinIcon from "./icons/PinIcon.astro";
+import UserIcon from "./icons/UserIcon.astro";
+
+const [careerOne, careerTwo] = featured.careers;
+const { details, register } = featured.actions;
+---
+
+<section
+  id="inicio"
+  class="relative isolate overflow-hidden bg-linear-to-b from-white to-[#f3f5fa]"
+  aria-labelledby="hero-titulo"
+>
+  <HeroDecor />
+  <HeroPhoto image={featured.image} alt={featured.imageAlt} />
+
+  <div class="site-container relative">
+    <div class="hero-content pb-9 pt-7 lg:py-12">
+      <!-- Antetítulo y título con las dos carreras -->
+      <h1 id="hero-titulo" class="hero-title font-display">
+        <span class="hero-title__eyebrow">{featured.eyebrow}</span>
+        <span class="hero-title__careers">
+          <span class="bg-guinda-gradient">{careerOne}</span>
+          <span class="bg-gold-gradient">{careerTwo}</span>
+        </span>
+      </h1>
+
+      <!-- Lema -->
+      <p class="mt-3 text-lg italic text-muted lg:mt-4 lg:text-[22px]">
+        “{featured.motto}”
+      </p>
+
+      <!-- Fecha y lugar -->
+      <ul
+        class="mt-5 flex items-center gap-4 font-display text-[15px] font-bold leading-snug text-navy sm:gap-6 sm:text-lg lg:mt-6 lg:text-xl"
+      >
+        <li class="flex items-center gap-2.5 sm:gap-3.5">
+          <CalendarIcon class="size-8 shrink-0 text-accent-red sm:size-10" />
+          <time datetime={featured.datesIso} class="max-w-[8.5em] text-balance">
+            {featured.dates}
+          </time>
+        </li>
+        <li class="h-12 w-px shrink-0 bg-line sm:h-14" aria-hidden="true"></li>
+        <li class="flex items-center gap-2.5 sm:gap-3.5">
+          <PinIcon class="size-8 shrink-0 text-accent-red sm:size-10" />
+          <span class="max-w-[11.5em]">{featured.place}</span>
+        </li>
+      </ul>
+
+      <!-- Cuenta regresiva -->
+      <Countdown
+        class="mt-6"
+        target={featured.startsAt}
+        units={featured.countdown.units}
+        accessibleLabel={featured.countdown.accessibleLabel}
+        finishedMessage={featured.countdown.finished}
+      />
+
+      <!-- Acciones -->
+      <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:gap-4 lg:mt-5">
+        <a
+          href={details.href}
+          class="btn bg-gold-gradient group shadow-[0_8px_18px_-10px_var(--color-gold-dark)] hover:brightness-105 hover:shadow-[0_12px_22px_-10px_var(--color-gold-dark)]"
+        >
+          <CalendarIcon class="size-6" />
+          {details.label}
+          <ArrowRightIcon
+            class="size-5 transition-transform duration-200 ease-out group-hover:translate-x-1"
+          />
+        </a>
+        <a
+          href={register.href}
+          class="btn border-[1.5px] border-navy bg-white hover:bg-navy hover:text-white"
+        >
+          <UserIcon class="size-6" />
+          {register.label}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-content {
+    container-type: inline-size;
+    max-width: 40rem;
+  }
+
+  /* El título es fluido: se dimensiona con el ancho real de la columna (cqi),
+     así "Ingeniería en Logística" nunca se desborda ni se parte en dos líneas. */
+  .hero-title {
+    color: var(--color-navy);
+  }
+
+  .hero-title__eyebrow {
+    display: block;
+    font-size: clamp(1.5rem, 7.4cqi, 2.875rem);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .hero-title__careers {
+    display: block;
+    margin-top: 0.375rem;
+    font-size: clamp(1.25rem, 8.2cqi, 3.25rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    filter: drop-shadow(0 2px 1px rgb(15 30 74 / 0.14));
+  }
+
+  .hero-title__careers > span {
+    display: block;
+    width: fit-content;
+    padding-bottom: 0.08em; /* evita que el recorte del degradado corte la "g" */
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  @media (width >= 64rem) {
+    .hero-content {
+      width: 52%;
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 3.375rem;
+    padding-inline: 1.25rem;
+    border-radius: 0.625rem;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    transition:
+      background-color 200ms ease-out,
+      color 200ms ease-out,
+      box-shadow 200ms ease-out,
+      filter 200ms ease-out;
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+</style>

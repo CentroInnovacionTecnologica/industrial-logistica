@@ -1,0 +1,82 @@
+---
+// Decoración de fondo del hero: engranes tenues, retícula de puntos y chevrons
+// que asoman por el borde izquierdo. Todo es SVG decorativo (aria-hidden).
+
+import DotGrid from "./decor/DotGrid.astro";
+import EdgeChevrons from "./decor/EdgeChevrons.astro";
+import Gears from "./decor/Gears.astro";
+---
+
+<div
+  class="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+  aria-hidden="true"
+>
+  <!-- Engranes en trazo muy tenue, detrás del título -->
+  <Gears class="gears absolute text-navy" />
+
+  <!-- Retícula de puntos -->
+  <DotGrid id="hero-dots" class="dots absolute text-navy" />
+
+  <!-- Chevrons del borde izquierdo (solo escritorio) -->
+  <EdgeChevrons variant="top" class="chevrons chevrons--top absolute left-0" />
+  <EdgeChevrons
+    variant="bottom"
+    class="chevrons chevrons--bottom absolute left-0"
+  />
+</div>
+
+<style>
+  .gears {
+    right: -3.5rem;
+    bottom: -2.5rem;
+    width: 15rem;
+    opacity: 0.05;
+  }
+
+  .dots {
+    display: none;
+    opacity: 0.16;
+  }
+
+  .chevrons {
+    display: none;
+  }
+
+  @media (width >= 64rem) {
+    .gears {
+      top: -1.25rem;
+      right: auto;
+      bottom: auto;
+      left: calc(50% - min(100vw, 80rem) * 0.02);
+      width: clamp(15rem, 23vw, 19rem);
+      opacity: 0.06;
+    }
+
+    .dots {
+      display: block;
+      top: 57%;
+      left: 0.375rem;
+      width: clamp(1.5rem, 4.2vw - 1.25rem, 3.75rem);
+    }
+
+    .chevrons {
+      display: block;
+      width: clamp(1.25rem, 4.4vw - 1.7rem, 4.25rem);
+    }
+
+    .chevrons--top {
+      top: 4%;
+    }
+
+    .chevrons--bottom {
+      bottom: 13%;
+    }
+  }
+
+  /* En pantallas más anchas que el contenedor hay margen libre a la izquierda */
+  @media (width >= 90rem) {
+    .dots {
+      left: 1rem;
+    }
+  }
+</style>

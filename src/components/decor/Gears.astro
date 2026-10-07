@@ -1,0 +1,53 @@
+---
+// Engranes decorativos en trazo. Quien lo usa define posición, tamaño y opacidad
+// (el resto de atributos se propaga para que apliquen los estilos con ámbito).
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"svg">;
+
+/** Genera el contorno de un engrane centrado en (cx, cy). */
+function gearPath(cx: number, cy: number, radius: number, teeth: number): string {
+  const depth = radius * 0.2;
+  const step = (Math.PI * 2) / teeth;
+  const point = (r: number, angle: number) =>
+    `${(cx + r * Math.cos(angle)).toFixed(1)} ${(cy + r * Math.sin(angle)).toFixed(1)}`;
+
+  const points: string[] = [];
+  for (let i = 0; i < teeth; i++) {
+    const a = i * step;
+    points.push(
+      point(radius - depth, a),
+      point(radius, a + step * 0.14),
+      point(radius, a + step * 0.44),
+      point(radius - depth, a + step * 0.58),
+    );
+  }
+  return `M${points.join("L")}Z`;
+}
+
+const gears = [
+  { cx: 150, cy: 132, r: 86, teeth: 12 },
+  { cx: 62, cy: 44, r: 40, teeth: 9 },
+  { cx: 252, cy: 40, r: 30, teeth: 8 },
+];
+---
+
+<svg
+  viewBox="0 0 300 230"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  {...Astro.props}
+>
+  {
+    gears.map((gear) => (
+      <>
+        <path d={gearPath(gear.cx, gear.cy, gear.r, gear.teeth)} />
+        <circle cx={gear.cx} cy={gear.cy} r={gear.r * 0.42} />
+        <circle cx={gear.cx} cy={gear.cy} r={gear.r * 0.16} />
+      </>
+    ))
+  }
+</svg>

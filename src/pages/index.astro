@@ -1,16 +1,30 @@
 ---
-import "../styles/global.css";
+import FilterBar from "../components/FilterBar.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import { sections } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Eventos Industrial y Logística</title>
-  </head>
-  <body class="min-h-screen grid place-items-center bg-slate-900">
-    <h1 class="text-4xl font-bold text-amber-400">
-      Astro + Tailwind funcionando
-    </h1>
-  </body>
-</html>
+<BaseLayout>
+  <Header />
+
+  <main id="contenido">
+    <Hero />
+
+    <section
+      id={sections.upcoming.id}
+      class="site-container scroll-mt-4 py-4 lg:py-5"
+      aria-labelledby="proximos-eventos-titulo"
+    >
+      <h2 id="proximos-eventos-titulo" class="sr-only">
+        {sections.upcoming.title}
+      </h2>
+      <FilterBar />
+
+      <!-- Tarea posterior: cuadrícula de tarjetas de eventos (escuchan "eventos:filtrar") -->
+    </section>
+
+    <!-- Tarea posterior: <section id="eventos-pasados"> -->
+  </main>
+</BaseLayout>

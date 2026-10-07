@@ -1,0 +1,179 @@
+---
+// Fotografía del hero con su recorte en punta de flecha y las franjas diagonales.
+// Si no hay imagen (ver src/data/images.ts) se muestra un marcador con la misma forma.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import ImageIcon from "./icons/ImageIcon.astro";
+
+interface Props {
+  image: ImageMetadata | null;
+  alt: string;
+}
+
+const { image, alt } = Astro.props;
+---
+
+<div class="hero-photo">
+  <div class="hero-photo__clip">
+    {
+      image ? (
+        <Image
+          src={image}
+          alt={alt}
+          widths={[640, 960, 1280, 1600]}
+          sizes="(min-width: 64rem) 50vw, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          class="h-full w-full object-cover"
+        />
+      ) : (
+        <div class="placeholder" aria-hidden="true">
+          <svg class="absolute inset-0 h-full w-full">
+            <defs>
+              <pattern
+                id="hero-placeholder-pattern"
+                width="56"
+                height="96"
+                patternUnits="userSpaceOnUse"
+              >
+                <path
+                  d="M28 0 56 16v32L28 64 0 48V16ZM28 64v32M0 48 -28 64M56 48l28 16"
+                  fill="none"
+                  stroke="#fff"
+                  stroke-opacity="0.09"
+                  stroke-width="1.5"
+                />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#hero-placeholder-pattern)" />
+          </svg>
+          <span class="placeholder__icon">
+            <ImageIcon class="size-1/2" />
+          </span>
+        </div>
+      )
+    }
+  </div>
+
+  <!-- Franjas diagonales: escritorio -->
+  <svg
+    class="stripes stripes--desktop"
+    viewBox="0 0 100 100"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <!-- esquina superior derecha -->
+    <polygon points="70,0 79,0 90,13 81,13" fill="var(--color-guinda)"></polygon>
+    <polygon points="84,0 94,0 100,7 100,19" fill="var(--color-gold-dark)"
+    ></polygon>
+    <polygon points="96.5,0 100,0 100,4" fill="var(--color-navy)"></polygon>
+    <!-- esquina inferior izquierda -->
+    <polygon points="4,78 24,100 32,100 7.7,73.2" fill="var(--color-guinda)"
+    ></polygon>
+    <polygon points="21,86 33.7,100 38.5,100 25.8,86" fill="var(--color-gold-dark)"
+    ></polygon>
+    <!-- contorno fino que repite la punta de flecha -->
+    <polyline
+      points="11.5,0 33.5,44 13.5,70"
+      fill="none"
+      stroke="#fff"
+      stroke-opacity="0.75"
+      stroke-width="2"
+      vector-effect="non-scaling-stroke"></polyline>
+  </svg>
+
+  <!-- Franjas diagonales: móvil y tableta (recorte más simple) -->
+  <svg
+    class="stripes stripes--mobile"
+    viewBox="0 0 100 100"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <polygon points="72,0 81,0 91,22 82,22" fill="var(--color-guinda)"></polygon>
+    <polygon points="86,0 95,0 100,11 100,31" fill="var(--color-gold-dark)"
+    ></polygon>
+    <polygon points="0,100 40,92 40,85 0,93" fill="var(--color-guinda)"></polygon>
+    <polygon points="0,91 24,86.2 24,81.2 0,86" fill="var(--color-gold-dark)"
+    ></polygon>
+  </svg>
+</div>
+
+<style>
+  .hero-photo {
+    position: relative;
+    height: clamp(11.5rem, 48vw, 21rem);
+  }
+
+  /* Móvil: corte diagonal simple en el borde inferior */
+  .hero-photo__clip {
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  }
+
+  .stripes {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .stripes--desktop {
+    display: none;
+  }
+
+  .placeholder {
+    position: relative;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      var(--color-navy) 10%,
+      var(--color-navy-700) 45%,
+      var(--color-guinda-dark) 100%
+    );
+  }
+
+  .placeholder__icon {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    width: clamp(3.5rem, 9vw, 6rem);
+    aspect-ratio: 1;
+    border: 1.5px solid rgb(255 255 255 / 0.35);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.1);
+    color: rgb(255 255 255 / 0.85);
+    transform: translate(-50%, -50%);
+  }
+
+  @media (width >= 64rem) {
+    /* Escritorio: ocupa la zona derecha a sangre, a toda la altura del hero */
+    .hero-photo {
+      position: absolute;
+      inset-block: 0;
+      right: 0;
+      left: calc(50% + min(100vw, 80rem) * 0.04);
+      height: auto;
+    }
+
+    /* La zona blanca entra en la foto formando una punta de flecha (chevron) */
+    .hero-photo__clip {
+      clip-path: polygon(8% 0, 100% 0, 100% 100%, 24% 100%, 4% 78%, 30% 44%);
+    }
+
+    .stripes--desktop {
+      display: block;
+    }
+
+    .stripes--mobile {
+      display: none;
+    }
+
+    .placeholder__icon {
+      top: 50%;
+      left: 64%;
+    }
+  }
+</style>

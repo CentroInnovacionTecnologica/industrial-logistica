@@ -1,0 +1,203 @@
+---
+import CourseFilters from "../components/cursos/CourseFilters.astro";
+import CourseGrid from "../components/cursos/CourseGrid.astro";
+import PageHeader from "../components/cursos/PageHeader.astro";
+import Pagination from "../components/cursos/Pagination.astro";
+import { totalPaginas } from "../components/cursos/filtros";
+import Header from "../components/Header.astro";
+import { cursos, CURSOS_POR_PAGINA } from "../data/cursos";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const sorted = cursos.toSorted((a, b) => a.id - b.id);
+---
+
+<BaseLayout
+  title="Cursos | Semana Académica ITD"
+  description={`Consulta los ${sorted.length} cursos de actualización de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD y filtra por semestre, carrera y tema.`}
+>
+  <!-- Sin JavaScript no hay filtros ni páginas: se muestran todos los cursos -->
+  <noscript slot="head">
+    <style>
+      [data-course][data-oculto] {
+        display: block !important;
+      }
+
+      [data-course-pagination] {
+        display: none !important;
+      }
+    </style>
+  </noscript>
+
+  <Header />
+
+  <main id="contenido">
+    <PageHeader title="Cursos de actualización" totalCursos={sorted.length} />
+
+    <section
+      class="site-container pb-10 pt-5 lg:pb-12 lg:pt-6"
+      aria-labelledby="catalogo-titulo"
+    >
+      <h2 id="catalogo-titulo" class="sr-only">Catálogo de cursos</h2>
+      <CourseFilters totalCursos={sorted.length} />
+      <CourseGrid cursos={sorted} />
+      <Pagination totalPages={totalPaginas(sorted.length, CURSOS_POR_PAGINA)} />
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  import {
+    coincide,
+    FILTROS_INICIALES,
+    totalPaginas,
+  } from "../components/cursos/filtros";
+  import type { DatosTarjeta, FiltrosCursos } from "../components/cursos/filtros";
+
+  const filters = document.querySelector<HTMLElement>("[data-course-filters]");
+  const grid = document.querySelector<HTMLElement>("[data-course-grid]");
+
+  if (filters && grid) {
+    const perPage = Number(grid.dataset.perPage) || 6;
+    const list = grid.querySelector<HTMLElement>("ul");
+    const empty = grid.querySelector<HTMLElement>("[data-course-empty]");
+    const count = filters.querySelector<HTMLElement>("[data-course-count]");
+
+    const semestreChips = [
+      ...filters.querySelectorAll<HTMLButtonElement>("[data-filter-semestre]"),
+    ];
+    const carreraButtons = [
+      ...filters.querySelectorAll<HTMLButtonElement>("[data-filter-carrera]"),
+    ];
+    const temaSelect = filters.querySelector<HTMLSelectElement>("[data-filter-tema]");
+    const searchInput = filters.querySelector<HTMLInputElement>(
+      "[data-filter-busqueda]",
+    );
+
+    const pagination = document.querySelector<HTMLElement>(
+      "[data-course-pagination]",
+    );
+    const prev = pagination?.querySelector<HTMLButtonElement>("[data-page-prev]");
+    const next = pagination?.querySelector<HTMLButtonElement>("[data-page-next]");
+    const pageButtons = [
+      ...(pagination?.querySelectorAll<HTMLButtonElement>("[data-page]") ?? []),
+    ];
+
+    const cards = [...grid.querySelectorAll<HTMLElement>("[data-course]")].map(
+      (element) => {
+        const datos: DatosTarjeta = {
+          semestres: (element.dataset.semestres ?? "").split(","),
+          carreras: (element.dataset.carreras ?? "").split(","),
+          tema: element.dataset.tema ?? "",
+          texto: element.dataset.texto ?? "",
+        };
+        return { element, datos };
+      },
+    );
+
+    // El navegador puede restaurar el select y la búsqueda al recargar o volver.
+    const state: FiltrosCursos = {
+      ...FILTROS_INICIALES,
+      tema: temaSelect?.value ?? FILTROS_INICIALES.tema,
+      busqueda: searchInput?.value ?? FILTROS_INICIALES.busqueda,
+    };
+    let page = 1;
+
+    const setPressed = (buttons: HTMLButtonElement[], value: string, key: string) => {
+      for (const button of buttons) {
+        button.setAttribute("aria-pressed", String(button.dataset[key] === value));
+      }
+    };
+
+    const render = (): void => {
+      const matches = cards.filter((card) => coincide(card.datos, state));
+      const pages = totalPaginas(matches.length, perPage);
+      page = Math.min(Math.max(page, 1), pages);
+
+      const visible = new Set(
+        matches.slice((page - 1) * perPage, page * perPage).map((card) => card.element),
+      );
+      for (const card of cards) {
+        card.element.toggleAttribute("data-oculto", !visible.has(card.element));
+      }
+
+      if (count) {
+        count.textContent = `Mostrando ${matches.length} ${matches.length === 1 ? "curso" : "cursos"}`;
+      }
+      if (list) list.hidden = matches.length === 0;
+      if (empty) empty.hidden = matches.length > 0;
+
+      if (pagination) {
+        pagination.hidden = matches.length <= perPage;
+        for (const button of pageButtons) {
+          const number = Number(button.dataset.page);
+          const item = button.closest("li");
+          if (item) item.hidden = number > pages;
+          if (number === page) button.setAttribute("aria-current", "page");
+          else button.removeAttribute("aria-current");
+        }
+        if (prev) prev.disabled = page === 1;
+        if (next) next.disabled = page === pages;
+      }
+    };
+
+    /** Cualquier cambio de filtro regresa a la página 1. */
+    const applyFilters = (): void => {
+      page = 1;
+      render();
+    };
+
+    const goToPage = (target: number): void => {
+      if (target === page) return;
+      page = target;
+      render();
+      // html ya define scroll suave y lo desactiva con prefers-reduced-motion
+      grid.scrollIntoView({ block: "start" });
+    };
+
+    for (const chip of semestreChips) {
+      chip.addEventListener("click", () => {
+        state.semestre = chip.dataset.filterSemestre ?? FILTROS_INICIALES.semestre;
+        setPressed(semestreChips, state.semestre, "filterSemestre");
+        chip.scrollIntoView({ block: "nearest", inline: "nearest" });
+        applyFilters();
+      });
+    }
+
+    for (const button of carreraButtons) {
+      button.addEventListener("click", () => {
+        state.carrera = button.dataset.filterCarrera ?? FILTROS_INICIALES.carrera;
+        setPressed(carreraButtons, state.carrera, "filterCarrera");
+        applyFilters();
+      });
+    }
+
+    temaSelect?.addEventListener("change", () => {
+      state.tema = temaSelect.value;
+      applyFilters();
+    });
+
+    searchInput?.addEventListener("input", () => {
+      state.busqueda = searchInput.value;
+      applyFilters();
+    });
+
+    grid.querySelector("[data-clear-filters]")?.addEventListener("click", () => {
+      Object.assign(state, FILTROS_INICIALES);
+      setPressed(semestreChips, state.semestre, "filterSemestre");
+      setPressed(carreraButtons, state.carrera, "filterCarrera");
+      if (temaSelect) temaSelect.value = state.tema;
+      if (searchInput) searchInput.value = state.busqueda;
+      applyFilters();
+      // El botón desaparece con el mensaje: el foco vuelve al primer filtro
+      semestreChips[0]?.focus();
+    });
+
+    prev?.addEventListener("click", () => goToPage(page - 1));
+    next?.addEventListener("click", () => goToPage(page + 1));
+    for (const button of pageButtons) {
+      button.addEventListener("click", () => goToPage(Number(button.dataset.page)));
+    }
+
+    render();
+  }
+</script>

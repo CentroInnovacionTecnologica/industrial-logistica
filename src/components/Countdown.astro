@@ -1,0 +1,113 @@
+---
+import type { CountdownUnit } from "../data/featured";
+
+interface Props {
+  /** Fecha objetivo en ISO 8601, con zona horaria. */
+  target: string;
+  /** Etiquetas visibles de cada celda. */
+  units: Record<CountdownUnit, string>;
+  /** Texto para lectores de pantalla con la fecha del evento. */
+  accessibleLabel: string;
+  /** Mensaje que sustituye a la barra cuando llega a cero. */
+  finishedMessage: string;
+  class?: string;
+}
+
+const {
+  target,
+  units,
+  accessibleLabel,
+  finishedMessage,
+  class: className,
+} = Astro.props;
+
+const order: CountdownUnit[] = ["days", "hours", "minutes", "seconds"];
+---
+
+<div class={className} data-countdown data-target={target}>
+  <!-- La barra cambia cada segundo: se oculta a lectores de pantalla y se ofrece este texto fijo -->
+  <p class="sr-only">{accessibleLabel}</p>
+
+  <div
+    class="grid grid-cols-4 divide-x divide-white/25 rounded-xl bg-navy-700 py-3 text-white shadow-[0_10px_24px_-14px_rgb(15_30_74/0.7)] sm:py-3.5"
+    aria-hidden="true"
+    data-countdown-bar
+  >
+    {
+      order.map((unit) => (
+        <div class="px-1 text-center">
+          <span
+            class="block font-display text-[26px] font-bold leading-none tabular-nums sm:text-3xl lg:text-[34px]"
+            data-unit={unit}
+          >
+            --
+          </span>
+          <span class="mt-1 block text-xs sm:text-sm lg:text-base">
+            {units[unit]}
+          </span>
+        </div>
+      ))
+    }
+  </div>
+
+  <p
+    class="rounded-xl bg-navy-700 px-4 py-5 text-center font-display text-xl font-bold text-white sm:text-2xl"
+    data-countdown-finished
+    hidden
+  >
+    {finishedMessage}
+  </p>
+</div>
+
+<script>
+  import type { CountdownUnit } from "../data/featured";
+
+  const SECOND = 1000;
+  const MINUTE = 60 * SECOND;
+  const HOUR = 60 * MINUTE;
+  const DAY = 24 * HOUR;
+
+  function initCountdown(root: HTMLElement): void {
+    const target = Date.parse(root.dataset.target ?? "");
+    const bar = root.querySelector<HTMLElement>("[data-countdown-bar]");
+    const finished = root.querySelector<HTMLElement>("[data-countdown-finished]");
+    if (Number.isNaN(target) || !bar || !finished) return;
+
+    const cells = new Map<CountdownUnit, HTMLElement>();
+    for (const cell of root.querySelectorAll<HTMLElement>("[data-unit]")) {
+      cells.set(cell.dataset.unit as CountdownUnit, cell);
+    }
+
+    let timer: number | undefined;
+
+    const render = (): void => {
+      const remaining = target - Date.now();
+
+      if (remaining <= 0) {
+        bar.hidden = true;
+        finished.hidden = false;
+        window.clearInterval(timer);
+        return;
+      }
+
+      const values: Record<CountdownUnit, number> = {
+        days: Math.floor(remaining / DAY),
+        hours: Math.floor((remaining % DAY) / HOUR),
+        minutes: Math.floor((remaining % HOUR) / MINUTE),
+        seconds: Math.floor((remaining % MINUTE) / SECOND),
+      };
+
+      for (const [unit, cell] of cells) {
+        const text = String(values[unit]).padStart(2, "0");
+        if (cell.textContent !== text) cell.textContent = text;
+      }
+    };
+
+    timer = window.setInterval(render, SECOND);
+    render();
+  }
+
+  document
+    .querySelectorAll<HTMLElement>("[data-countdown]")
+    .forEach(initCountdown);
+</script>

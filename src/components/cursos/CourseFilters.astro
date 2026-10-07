@@ -1,0 +1,193 @@
+---
+import { ordinal, SEMESTRES, temas } from "../../data/cursos";
+import BuildingIcon from "../icons/BuildingIcon.astro";
+import ChevronDownIcon from "../icons/ChevronDownIcon.astro";
+import GraduationCapIcon from "../icons/GraduationCapIcon.astro";
+import ListIcon from "../icons/ListIcon.astro";
+import SearchIcon from "../icons/SearchIcon.astro";
+import { FILTROS_INICIALES } from "./filtros";
+
+interface Props {
+  totalCursos: number;
+}
+
+const { totalCursos } = Astro.props;
+
+const carreras = [
+  { value: FILTROS_INICIALES.carrera, label: "Todas" },
+  { value: "industrial", label: "Industrial" },
+  { value: "logistica", label: "Logística" },
+];
+---
+
+<div class="rounded-2xl bg-surface p-4 sm:p-5 lg:p-6" data-course-filters>
+  <!-- Fila 1: semestre -->
+  <p
+    id="filtro-semestre"
+    class="flex items-center gap-2.5 font-display text-[15px] font-bold text-navy lg:text-base"
+  >
+    <GraduationCapIcon class="size-6 shrink-0" />
+    ¿En qué semestre estás?
+  </p>
+  <div
+    class="scrollbar-none -mx-4 mt-2 flex gap-2.5 overflow-x-auto px-4 py-1.5 sm:-mx-5 sm:px-5 lg:mx-0 lg:gap-2 lg:overflow-visible lg:pl-9 lg:pr-0 xl:gap-3"
+    role="group"
+    aria-labelledby="filtro-semestre"
+  >
+    <button
+      type="button"
+      class="chip lg:flex-[1.5] lg:px-2"
+      aria-pressed="true"
+      data-filter-semestre={FILTROS_INICIALES.semestre}
+    >
+      Todos
+    </button>
+    {
+      SEMESTRES.map((semestre) => (
+        <button
+          type="button"
+          class="chip min-w-14 lg:min-w-0 lg:flex-1 lg:px-2"
+          aria-pressed="false"
+          aria-label={`Semestre ${semestre}`}
+          data-filter-semestre={semestre}
+        >
+          {ordinal(semestre)}
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- Fila 2: carrera, tema y búsqueda -->
+  <div
+    class="mt-4 grid gap-4 md:grid-cols-2 lg:flex lg:items-center lg:gap-5 xl:gap-7"
+  >
+    <div class="lg:flex lg:items-center lg:gap-3 xl:gap-4">
+      <p id="filtro-carrera-cursos" class="filter-label">
+        <BuildingIcon class="size-5 shrink-0" />
+        Carrera:
+      </p>
+      <div
+        class="mt-2 flex rounded-xl border border-line bg-white shadow-[0_1px_2px_rgb(15_30_74/0.06)] lg:mt-0"
+        role="group"
+        aria-labelledby="filtro-carrera-cursos"
+      >
+        {
+          carreras.map((carrera, index) => (
+            <button
+              type="button"
+              class="segment"
+              aria-pressed={index === 0 ? "true" : "false"}
+              data-filter-carrera={carrera.value}
+            >
+              {carrera.label}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="lg:flex lg:items-center lg:gap-3">
+      <label for="filtro-tema" class="filter-label">
+        <ListIcon class="size-5 shrink-0" />
+        Tema:
+      </label>
+      <div class="relative mt-2 lg:mt-0 lg:w-48 xl:w-56">
+        <select
+          id="filtro-tema"
+          class="field appearance-none pl-4 pr-11 font-medium!"
+          data-filter-tema
+        >
+          <option value={FILTROS_INICIALES.tema}>Todos los temas</option>
+          {temas.map((tema) => <option value={tema}>{tema}</option>)}
+        </select>
+        <ChevronDownIcon
+          class="pointer-events-none absolute right-3.5 top-1/2 size-5 -translate-y-1/2 text-navy"
+        />
+      </div>
+    </div>
+
+    <div class="relative md:col-span-2 lg:min-w-0 lg:flex-1">
+      <label for="filtro-busqueda" class="sr-only">Buscar curso</label>
+      <SearchIcon
+        class="pointer-events-none absolute left-3.5 top-1/2 size-5 -translate-y-1/2 text-navy"
+      />
+      <!-- 16 px en móvil: evita el zoom automático de iOS al enfocar -->
+      <input
+        id="filtro-busqueda"
+        type="search"
+        class="field pl-11 pr-4 text-base! font-medium! placeholder:font-normal placeholder:text-muted lg:text-[15px]!"
+        placeholder="Buscar curso"
+        autocomplete="off"
+        enterkeyhint="search"
+        data-filter-busqueda
+      />
+    </div>
+  </div>
+
+  <p class="mt-4 text-[15px] text-muted" aria-live="polite" data-course-count>
+    Mostrando {totalCursos} cursos
+  </p>
+</div>
+
+<style>
+  .filter-label {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.625rem;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  /* Control segmentado de carrera */
+  .segment {
+    position: relative;
+    flex: 1;
+    height: 2.625rem;
+    padding-inline: 1rem;
+    border-radius: 0.6875rem;
+    color: var(--color-navy);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition:
+      background-color 200ms ease-out,
+      color 200ms ease-out;
+  }
+
+  .segment + .segment::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 1px;
+    background: var(--color-line);
+  }
+
+  .segment:hover {
+    background: var(--color-surface);
+  }
+
+  .segment[aria-pressed="true"] {
+    background: var(--color-navy);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .segment[aria-pressed="true"]::before,
+  .segment[aria-pressed="true"] + .segment::before {
+    content: none;
+  }
+
+  .segment:focus-visible {
+    z-index: 1;
+  }
+
+  @media (width >= 80rem) {
+    .segment {
+      padding-inline: 1.25rem;
+    }
+  }
+</style>

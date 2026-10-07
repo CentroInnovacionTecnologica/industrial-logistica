@@ -1,0 +1,64 @@
+---
+import { carrerasDelCurso, CURSOS_POR_PAGINA } from "../../data/cursos";
+import type { Curso } from "../../data/cursos";
+import CourseCard from "./CourseCard.astro";
+import { normalizar } from "./filtros";
+
+interface Props {
+  cursos: Curso[];
+}
+
+const { cursos } = Astro.props;
+---
+
+<!-- Las tarjetas se generan todas en el HTML; el script de la página solo las
+     muestra, oculta y pagina leyendo sus atributos data-*. -->
+<div
+  id="lista-cursos"
+  class="mt-5 scroll-mt-4 lg:mt-6"
+  data-course-grid
+  data-per-page={CURSOS_POR_PAGINA}
+>
+  <ul role="list" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+    {
+      cursos.map((curso, index) => (
+        <li
+          data-course
+          data-semestres={curso.semestres.join(",")}
+          data-carreras={carrerasDelCurso(curso).join(",")}
+          data-tema={curso.tema}
+          data-texto={normalizar(
+            `${curso.nombre} ${curso.tema} ${curso.descripcion}`,
+          )}
+          data-oculto={index >= CURSOS_POR_PAGINA ? "" : undefined}
+        >
+          <CourseCard curso={curso} />
+        </li>
+      ))
+    }
+  </ul>
+
+  <div
+    class="rounded-2xl border border-dashed border-line px-6 py-14 text-center"
+    data-course-empty
+    hidden
+  >
+    <p class="font-display text-lg font-bold text-navy">
+      No encontramos cursos con esos filtros.
+    </p>
+    <button
+      type="button"
+      class="mt-5 inline-flex h-11 items-center rounded-[0.625rem] bg-navy px-6 font-display text-[15px] font-bold text-white transition-colors hover:bg-navy-700"
+      data-clear-filters
+    >
+      Limpiar filtros
+    </button>
+  </div>
+</div>
+
+<style>
+  /* Sin "hidden": así <noscript> (ver cursos.astro) puede volver a mostrarlas */
+  li[data-oculto] {
+    display: none;
+  }
+</style>
