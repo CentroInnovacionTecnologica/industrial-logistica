@@ -336,4 +336,17 @@ export const cursos: Curso[] = [
     duracionHoras: null,
     lugares: null,
   },
+  {
+    id: 24,
+    nombre:
+      "Estadística Aplicada con Inteligencia Artificial para la Toma de Decisiones",
+    tema: "Excel y datos",
+    descripcion:
+      "Técnicas estadísticas descriptivas e inferenciales apoyadas con herramientas de inteligencia artificial para el análisis de datos y la mejora de la productividad en procesos organizacionales.",
+    carrera: "ambas",
+    abiertoAOtraCarrera: false,
+    semestres: [7, 8],
+    duracionHoras: 8,
+    lugares: 20,
+  },
 ];
