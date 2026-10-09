@@ -4,6 +4,7 @@ import Countdown from "./Countdown.astro";
 import HeroDecor from "./HeroDecor.astro";
 import HeroPhoto from "./HeroPhoto.astro";
 import CalendarIcon from "./icons/CalendarIcon.astro";
+import HexNetworkIcon from "./icons/HexNetworkIcon.astro";
 import PinIcon from "./icons/PinIcon.astro";
 import UserIcon from "./icons/UserIcon.astro";
 
@@ -24,9 +25,15 @@ const { register } = featured.actions;
       <!-- Antetítulo y título con las dos carreras -->
       <h1 id="hero-titulo" class="hero-title font-display">
         <span class="hero-title__eyebrow">{featured.eyebrow}</span>
-        <span class="hero-title__careers">
-          <span class="bg-guinda-gradient">{careerOne}</span>
-          <span class="bg-gold-gradient">{careerTwo}</span>
+        <span class="hero-title__main">
+          <span class="hero-title__careers">
+            <span class="bg-guinda-gradient">{careerOne}</span>
+            <span class="bg-gold-gradient">{careerTwo}</span>
+          </span>
+          <!-- Logo de NEXUS: solo en escritorio (≥ 1024 px), donde cabe sin tocar la foto -->
+          <span class="hero-title__logo">
+            <HexNetworkIcon class="h-full w-auto" />
+          </span>
         </span>
       </h1>
 
@@ -114,10 +121,19 @@ const { register } = featured.actions;
     line-height: 1.1;
   }
 
-  .hero-title__careers {
-    display: block;
+  /* Fila de las carreras y el logo: el logo sobresale de la columna hacia la
+     derecha (la fila mide lo que su contenido), sin estrechar el texto. */
+  .hero-title__main {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    gap: 0.3em;
     margin-top: 0.375rem;
     font-size: clamp(1.25rem, 8.2cqi, 3.25rem);
+  }
+
+  .hero-title__careers {
+    display: block;
     font-weight: 800;
     line-height: 1.12;
     letter-spacing: -0.01em;
@@ -134,9 +150,21 @@ const { register } = featured.actions;
     color: transparent;
   }
 
+  /* Alto aproximado al de las dos líneas de las carreras juntas */
+  .hero-title__logo {
+    display: none;
+    flex-shrink: 0;
+    height: 2.2em;
+  }
+
   @media (width >= 64rem) {
     .hero-content {
       width: 52%;
+    }
+
+    /* Con la foto a la derecha queda hueco entre el título y la punta de flecha */
+    .hero-title__logo {
+      display: block;
     }
   }
 

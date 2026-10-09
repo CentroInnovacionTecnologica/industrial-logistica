@@ -1,0 +1,71 @@
+---
+// Logo de NEXUS: hexágono con nodos en los vértices, una diagonal y un nodo central.
+// Decorativo (aria-hidden); los colores salen de los tokens de src/styles/global.css.
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 88 100"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <!-- userSpaceOnUse: el degradado recorre el logo completo, no cada trazo -->
+    <linearGradient
+      id="hex-network-guinda"
+      gradientUnits="userSpaceOnUse"
+      x1="0"
+      y1="2"
+      x2="0"
+      y2="98"
+    >
+      <stop offset="0" style="stop-color: var(--color-guinda)"></stop>
+      <stop offset="1" style="stop-color: var(--color-guinda-dark)"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- Diagonal interior: del vértice superior izquierdo al inferior derecho -->
+  <path
+    d="M9.36 30 78.64 70"
+    stroke="var(--color-gold-dark)"
+    stroke-width="5.5"
+    stroke-linecap="round"></path>
+
+  <!-- Lados verticales -->
+  <path
+    d="M9.36 30v40M78.64 30v40"
+    stroke="var(--color-gold-dark)"
+    stroke-width="8"></path>
+
+  <!-- Lados inclinados -->
+  <path
+    d="M9.36 30 44 10l34.64 20M9.36 70 44 90l34.64-20"
+    stroke="url(#hex-network-guinda)"
+    stroke-width="8"
+    stroke-linejoin="round"></path>
+
+  <!-- Nodos de los vértices -->
+  <g fill="url(#hex-network-guinda)">
+    <circle cx="44" cy="10" r="8.5"></circle>
+    <circle cx="78.64" cy="30" r="8.5"></circle>
+    <circle cx="78.64" cy="70" r="8.5"></circle>
+    <circle cx="44" cy="90" r="8.5"></circle>
+    <circle cx="9.36" cy="70" r="8.5"></circle>
+    <circle cx="9.36" cy="30" r="8.5"></circle>
+  </g>
+
+  <!-- Nodo central -->
+  <circle
+    cx="44"
+    cy="50"
+    r="9"
+    fill="var(--color-gold-dark)"
+    stroke="url(#hex-network-guinda)"
+    stroke-width="4.5"></circle>
+</svg>
