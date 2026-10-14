@@ -334,7 +334,7 @@ export const cursos: Curso[] = [
     abiertoAOtraCarrera: false,
     semestres: [7, 8, 9, 10],
     duracionHoras: null,
-    lugares: null,
+    lugares: 25,
   },
   {
     id: 24,
@@ -347,6 +347,6 @@ export const cursos: Curso[] = [
     abiertoAOtraCarrera: false,
     semestres: [7, 8],
     duracionHoras: 8,
-    lugares: 20,
+    lugares: 25,
   },
 ];

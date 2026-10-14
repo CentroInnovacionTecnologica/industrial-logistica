@@ -6,10 +6,11 @@ import HeroPhoto from "./HeroPhoto.astro";
 import CalendarIcon from "./icons/CalendarIcon.astro";
 import HexNetworkIcon from "./icons/HexNetworkIcon.astro";
 import PinIcon from "./icons/PinIcon.astro";
+import RegistroDialog from "./RegistroDialog.astro";
 import UserIcon from "./icons/UserIcon.astro";
+import { registro } from "../data/registro";
 
 const [careerOne, careerTwo] = featured.careers;
-const { register } = featured.actions;
 ---
 
 <section
@@ -68,39 +69,24 @@ const { register } = featured.actions;
         finishedMessage={featured.countdown.finished}
       />
 
-      <!-- Registro: enlace si hay URL en src/data/featured.ts; si no, botón inactivo -->
+      <!-- Registro: abre la ventana con los días y horarios (src/data/registro.ts) -->
       <div class="mt-4 lg:mt-5">
-        {
-          register.href ? (
-            <a
-              href={register.href}
-              class="btn border-[1.5px] border-navy bg-white hover:bg-navy hover:text-white"
-            >
-              <UserIcon class="size-6" />
-              {register.label}
-            </a>
-          ) : (
-            <>
-              {/* aria-disabled (y no disabled) para que siga recibiendo el foco y se lea la nota */}
-              <button
-                type="button"
-                class="btn btn--unavailable"
-                aria-disabled="true"
-                aria-describedby="registro-nota"
-              >
-                <UserIcon class="size-6" />
-                {register.label}
-              </button>
-              <p id="registro-nota" class="mt-2.5 text-center text-sm text-muted">
-                {register.unavailable}
-              </p>
-            </>
-          )
-        }
+        <button
+          type="button"
+          class="btn bg-gold-gradient shadow-[0_8px_18px_-10px_var(--color-gold-dark)] hover:brightness-105 hover:shadow-[0_12px_22px_-10px_var(--color-gold-dark)]"
+          aria-haspopup="dialog"
+          aria-controls="registro-dialogo"
+          data-abre-dialogo="registro-dialogo"
+        >
+          <UserIcon class="size-6" />
+          {registro.boton}
+        </button>
       </div>
     </div>
   </div>
 </section>
+
+<RegistroDialog id="registro-dialogo" />
 
 <style>
   .hero-content {
@@ -190,20 +176,5 @@ const { register } = featured.actions;
 
   .btn:active {
     transform: scale(0.98);
-  }
-
-  /* Registro aún no disponible: inactivo (atenuado), con borde y halo guinda suaves */
-  .btn--unavailable {
-    border: 1.5px solid color-mix(in srgb, var(--color-guinda) 55%, transparent);
-    background: #fff;
-    opacity: 0.6;
-    box-shadow:
-      0 0 0 4px color-mix(in srgb, var(--color-guinda) 10%, transparent),
-      0 8px 26px -6px color-mix(in srgb, var(--color-guinda) 45%, transparent);
-    cursor: not-allowed;
-  }
-
-  .btn--unavailable:active {
-    transform: none;
   }
 </style>

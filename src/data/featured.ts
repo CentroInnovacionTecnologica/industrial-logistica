@@ -26,17 +26,6 @@ export const featured = {
     },
   },
 
-  actions: {
-    register: {
-      label: "Registrarme",
-      // ▼ LÍNEA A CAMBIAR para abrir el registro: sustituye `null` por la URL del
-      //   formulario (p. ej. "https://forms.gle/…"). Con `null` el botón se
-      //   muestra deshabilitado, con el texto de `unavailable` debajo.
-      href: null as string | null,
-      unavailable: "Registro disponible próximamente",
-    },
-  },
-
   /** La fotografía se activa en src/data/images.ts (HERO_PHOTO). */
   image: images.heroPhoto,
   imageAlt:
