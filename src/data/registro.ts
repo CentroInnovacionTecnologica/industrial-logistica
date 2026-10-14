@@ -42,6 +42,10 @@ export const registro = {
       dia: "Jueves",
       horarios: ["9:00 a 10:00 a. m.", "11:00 a. m. a 12:00 p. m.", "2:00 a 4:00 p. m."],
     },
+    {
+      dia: "Viernes",
+      horarios: ["11:00 a. m. a 1:00 p. m."],
+    },
   ] satisfies DiaRegistro[],
 
   /**

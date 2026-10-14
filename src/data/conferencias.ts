@@ -48,6 +48,12 @@ export const conferencias: Conferencia[] = [
     id: 2,
     titulo: "Si no usas IA, ¿eres competitivo?",
     ponente: "Aurora Carrales",
+    descripcion:
+      "Análisis estratégico sobre el impacto de la inteligencia artificial en el entorno profesional actual, explorando cómo la automatización, las herramientas inteligentes y la transformación digital se han convertido en elementos clave para la competitividad, la innovación y el desarrollo de ventajas en el mercado laboral y empresarial.",
+    frase: "Una conferencia visionaria, práctica y de alto impacto.",
+    fecha: "2026-11-24",
+    hora: "",
+    lugar: "",
   },
 ];
 
