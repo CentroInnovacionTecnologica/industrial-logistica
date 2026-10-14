@@ -64,7 +64,7 @@ export function carrerasDelCurso(curso: Curso): Exclude<Carrera, "ambas">[] {
   return [curso.carrera];
 }
 
-// Los id no son consecutivos (no existe el 3). El arreglo va ordenado por id.
+// Los id siguen la numeración del Excel de la comisión. El arreglo va ordenado por id.
 export const cursos: Curso[] = [
   {
     id: 1,
@@ -87,24 +87,24 @@ export const cursos: Curso[] = [
       "Recorrido de un producto del proveedor al cliente, Juego de la Cerveza (efecto látigo), campos laborales e invitado de una empresa logística.",
     carrera: "logistica",
     abiertoAOtraCarrera: false,
-    semestres: [1],
+    semestres: [1, 2],
     duracionHoras: 8,
     lugares: 25,
   },
   {
-    id: 4,
+    id: 3,
     nombre: "Zona Segura: Bienvenido a la Planta",
     tema: "Higiene y seguridad",
     descripcion:
       "Cultura de seguridad, equipo de protección personal (NOM-017-STPS), señalización (NOM-026-STPS) y actos y condiciones inseguras.",
     carrera: "ambas",
     abiertoAOtraCarrera: false,
-    semestres: [1],
+    semestres: [1, 2],
     duracionHoras: 8,
     lugares: 20,
   },
   {
-    id: 5,
+    id: 4,
     nombre: "Excel Básico para la Productividad",
     tema: "Excel y datos",
     descripcion:
@@ -116,7 +116,7 @@ export const cursos: Curso[] = [
     lugares: 20,
   },
   {
-    id: 6,
+    id: 5,
     nombre:
       "Comunicación Efectiva para Ingenieros: Expresión Oral, Escrita y Trabajo en Equipo",
     tema: "Habilidades blandas",
@@ -129,7 +129,7 @@ export const cursos: Curso[] = [
     lugares: 25,
   },
   {
-    id: 7,
+    id: 6,
     nombre: "Metodología 5S y Gestión Visual: Bases de la Excelencia Operativa",
     tema: "Calidad",
     descripcion:
@@ -141,7 +141,7 @@ export const cursos: Curso[] = [
     lugares: 20,
   },
   {
-    id: 8,
+    id: 7,
     nombre: "Excel Intermedio: Mejora tu Gestión de Datos",
     tema: "Excel y datos",
     descripcion:
@@ -153,7 +153,7 @@ export const cursos: Curso[] = [
     lugares: 20,
   },
   {
-    id: 9,
+    id: 8,
     nombre:
       "Manufactura Esbelta: Identificación de Desperdicios y Mapeo de la Cadena de Valor",
     tema: "Calidad",
@@ -166,7 +166,7 @@ export const cursos: Curso[] = [
     lugares: 20,
   },
   {
-    id: 10,
+    id: 9,
     nombre: "Riesgo Bajo Control: Seguridad con Normas STPS",
     tema: "Higiene y seguridad",
     descripcion:
@@ -178,7 +178,7 @@ export const cursos: Curso[] = [
     lugares: 20,
   },
   {
-    id: 11,
+    id: 10,
     nombre: "Gestión Logística Integral: Del Almacén al Cliente",
     tema: "Logística",
     descripcion:
@@ -190,7 +190,7 @@ export const cursos: Curso[] = [
     lugares: 20,
   },
   {
-    id: 12,
+    id: 11,
     nombre: "Fundamentos de Diseño en SolidWorks: Modelado de Piezas y Planos",
     tema: "Diseño y manufactura",
     descripcion:
@@ -202,11 +202,11 @@ export const cursos: Curso[] = [
     lugares: 20,
   },
   {
-    id: 13,
+    id: 12,
     nombre: "Normas que Abren Puertas: ISO 9001, 14001 y 45001",
     tema: "Normas y auditoría",
     descripcion:
-      "Estructura de alto nivel, requisitos clave y sistemas integrados de gestión. Incluye DC-3.",
+      "Estructura de alto nivel, requisitos clave y sistemas integrados de gestión.",
     carrera: "ambas",
     abiertoAOtraCarrera: false,
     semestres: [6, 7],
@@ -214,19 +214,7 @@ export const cursos: Curso[] = [
     lugares: 20,
   },
   {
-    id: 14,
-    nombre: "Rutas sin Fronteras: Comercio Exterior e Incoterms 2020",
-    tema: "Logística",
-    descripcion:
-      "Incoterms, documentación aduanal, modos de transporte y costeo logístico.",
-    carrera: "logistica",
-    abiertoAOtraCarrera: false,
-    semestres: [6, 7],
-    duracionHoras: 8,
-    lugares: 20,
-  },
-  {
-    id: 15,
+    id: 13,
     nombre: "Core Tools: El Pasaporte Automotriz (APQP y PPAP)",
     tema: "Calidad",
     descripcion:
@@ -238,19 +226,19 @@ export const cursos: Curso[] = [
     lugares: 20,
   },
   {
-    id: 16,
+    id: 14,
     nombre: "Impresión 3D Aplicada: Del Modelo CAD a la Pieza Física",
     tema: "Diseño y manufactura",
     descripcion:
       "Fundamentos de la impresión 3D como tecnología de manufactura aditiva: diseño, preparación, fabricación y evaluación de piezas.",
     carrera: "industrial",
     abiertoAOtraCarrera: false,
-    semestres: [7, 8],
+    semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 30,
   },
   {
-    id: 17,
+    id: 15,
     nombre:
       "Liderazgo Disruptivo: Innovación y Gestión del Cambio en la Industria",
     tema: "Habilidades blandas",
@@ -263,7 +251,7 @@ export const cursos: Curso[] = [
     lugares: 25,
   },
   {
-    id: 18,
+    id: 16,
     nombre: "Auditor en Formación: Auditorías Internas ISO 19011",
     tema: "Normas y auditoría",
     descripcion:
@@ -275,32 +263,7 @@ export const cursos: Curso[] = [
     lugares: 20,
   },
   {
-    id: 19,
-    nombre: "Logística Inteligente: KPI y Power BI para la Cadena de Suministro",
-    tema: "Logística",
-    descripcion:
-      "Indicadores de desempeño, modelado de datos y tableros en Power BI.",
-    carrera: "logistica",
-    abiertoAOtraCarrera: true,
-    semestres: [7, 8, 9],
-    duracionHoras: 8,
-    lugares: 20,
-  },
-  {
-    id: 20,
-    nombre:
-      "Listo para la Industria: IATF 16949:2016, primera edición y estado de revisión de la segunda edición",
-    tema: "Normas y auditoría",
-    descripcion:
-      "Fundamentos de la norma IATF 16949:2016 y su aplicación en los sistemas de gestión de calidad de la industria automotriz.",
-    carrera: "industrial",
-    abiertoAOtraCarrera: false,
-    semestres: [8, 9, 10],
-    duracionHoras: 8,
-    lugares: 20,
-  },
-  {
-    id: 21,
+    id: 17,
     nombre: "Introducción al Maquinado con CAM",
     tema: "Diseño y manufactura",
     descripcion:
@@ -309,10 +272,34 @@ export const cursos: Curso[] = [
     abiertoAOtraCarrera: false,
     semestres: [8, 9, 10],
     duracionHoras: 8,
-    lugares: 20,
+    lugares: 15,
   },
   {
-    id: 22,
+    id: 18,
+    nombre: "FlexSim: Modelado de Procesos",
+    tema: "Diseño y manufactura",
+    descripcion:
+      "Simulación de sistemas de eventos discretos en un entorno visual 3D para analizar, optimizar y tomar decisiones sobre operaciones de manufactura, logística o servicios.",
+    carrera: "industrial",
+    abiertoAOtraCarrera: false,
+    semestres: [8, 9, 10],
+    duracionHoras: 8,
+    lugares: 25,
+  },
+  {
+    id: 19,
+    nombre: "Estadística Aplicada con IA para la Toma de Decisiones",
+    tema: "Excel y datos",
+    descripcion:
+      "Técnicas estadísticas descriptivas e inferenciales apoyadas con herramientas de inteligencia artificial para el análisis de datos y la mejora de la productividad en procesos organizacionales.",
+    carrera: "industrial",
+    abiertoAOtraCarrera: false,
+    semestres: [5, 6, 7, 8, 9],
+    duracionHoras: 8,
+    lugares: 15,
+  },
+  {
+    id: 20,
     nombre:
       "Excel Avanzado para la Toma de Decisiones: Tablas Dinámicas, Power Query y Tableros",
     tema: "Excel y datos",
@@ -323,30 +310,5 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9, 10],
     duracionHoras: 8,
     lugares: 20,
-  },
-  {
-    id: 23,
-    nombre: "FlexSim: Modelado de Procesos",
-    tema: "Diseño y manufactura",
-    descripcion:
-      "Simulación de sistemas de eventos discretos en un entorno visual 3D para analizar, optimizar y tomar decisiones sobre operaciones de manufactura, logística o servicios.",
-    carrera: "ambas",
-    abiertoAOtraCarrera: false,
-    semestres: [7, 8, 9, 10],
-    duracionHoras: null,
-    lugares: 25,
-  },
-  {
-    id: 24,
-    nombre:
-      "Estadística Aplicada con Inteligencia Artificial para la Toma de Decisiones",
-    tema: "Excel y datos",
-    descripcion:
-      "Técnicas estadísticas descriptivas e inferenciales apoyadas con herramientas de inteligencia artificial para el análisis de datos y la mejora de la productividad en procesos organizacionales.",
-    carrera: "ambas",
-    abiertoAOtraCarrera: false,
-    semestres: [7, 8],
-    duracionHoras: 8,
-    lugares: 25,
   },
 ];
