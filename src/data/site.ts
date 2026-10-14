@@ -72,7 +72,7 @@ export const nav = {
       // como activo al estar en cualquiera de ellas.
       children: [
         { label: "Inauguración", href: "#" },
-        { label: "Conferencias", href: "#" },
+        { label: "Conferencias", href: "/actividades/conferencias" },
         { label: "Certificaciones", href: "#" },
         { label: "Paneles", href: "#" },
         { label: "Visitas", href: "/actividades/visitas" },
