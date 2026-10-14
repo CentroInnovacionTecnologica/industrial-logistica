@@ -1,0 +1,22 @@
+---
+/**
+ * Tarjeta común a cursos, visitas y actividades deportivas: franja superior de
+ * color, borde sutil y contenido en columna (los datos se pegan al fondo).
+ */
+interface Props {
+  /** Clase de fondo de la franja superior (ver tonos.ts). */
+  stripe: string;
+}
+
+const { stripe } = Astro.props;
+---
+
+<article
+  class="flex h-full flex-col overflow-hidden rounded-xl border border-line bg-white shadow-[0_8px_20px_-14px_rgb(15_30_74/0.4)]"
+>
+  <div class:list={["h-2 shrink-0", stripe]} aria-hidden="true"></div>
+
+  <div class="flex flex-1 flex-col p-5">
+    <slot />
+  </div>
+</article>

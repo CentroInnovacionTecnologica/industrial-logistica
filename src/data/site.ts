@@ -68,15 +68,16 @@ export const nav = {
       label: "Actividades",
       href: "/#actividades",
       // Rutas reales: cuando existan las páginas, sustituye cada "#" por su
-      // ruta (p. ej. "/conferencias"). El encabezado marcará "Actividades"
+      // ruta (p. ej. "/actividades/conferencias"). El encabezado marcará "Actividades"
       // como activo al estar en cualquiera de ellas.
       children: [
         { label: "Inauguración", href: "#" },
         { label: "Conferencias", href: "#" },
         { label: "Certificaciones", href: "#" },
         { label: "Paneles", href: "#" },
-        { label: "Visitas", href: "#" },
+        { label: "Visitas", href: "/actividades/visitas" },
         { label: "Charlas", href: "#" },
+        { label: "Actividades Deportivas", href: "/actividades/deportivas" },
       ],
     },
     { label: "Galería", href: "/#galeria" },

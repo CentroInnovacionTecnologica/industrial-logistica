@@ -1,14 +1,23 @@
 ---
 import CourseFilters from "../components/cursos/CourseFilters.astro";
 import CourseGrid from "../components/cursos/CourseGrid.astro";
-import PageHeader from "../components/cursos/PageHeader.astro";
+import PageHeader from "../components/PageHeader.astro";
 import Pagination from "../components/cursos/Pagination.astro";
 import { totalPaginas } from "../components/cursos/filtros";
 import Header from "../components/Header.astro";
+import ClockIcon from "../components/icons/ClockIcon.astro";
+import GraduationCapIcon from "../components/icons/GraduationCapIcon.astro";
+import UsersIcon from "../components/icons/UsersIcon.astro";
 import { cursos, CURSOS_POR_PAGINA } from "../data/cursos";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const sorted = cursos.toSorted((a, b) => a.id - b.id);
+
+const stats = [
+  { icon: GraduationCapIcon, text: `${sorted.length} cursos` },
+  { icon: ClockIcon, text: "8 horas por curso" },
+  { icon: UsersIcon, text: "Cupo limitado" },
+];
 ---
 
 <BaseLayout
@@ -31,7 +40,11 @@ const sorted = cursos.toSorted((a, b) => a.id - b.id);
   <Header />
 
   <main id="contenido">
-    <PageHeader title="Cursos de actualización" totalCursos={sorted.length} />
+    <PageHeader
+      title="Cursos de actualización"
+      breadcrumb={[{ label: "Cursos" }]}
+      stats={stats}
+    />
 
     <section
       class="site-container pb-10 pt-5 lg:pb-12 lg:pt-6"

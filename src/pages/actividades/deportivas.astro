@@ -1,0 +1,48 @@
+---
+import DeportivaCard from "../../components/deportivas/DeportivaCard.astro";
+import Header from "../../components/Header.astro";
+import TicketIcon from "../../components/icons/TicketIcon.astro";
+import TrophyIcon from "../../components/icons/TrophyIcon.astro";
+import UsersIcon from "../../components/icons/UsersIcon.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import { deportivas, totalLugaresDeportivas } from "../../data/deportivas";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const stats = [
+  { icon: TrophyIcon, text: `${deportivas.length} actividades` },
+  { icon: UsersIcon, text: `${totalLugaresDeportivas} lugares` },
+  { icon: TicketIcon, text: "Cupo limitado" },
+];
+---
+
+<BaseLayout
+  title="Actividades deportivas | Semana Académica ITD"
+  description={`Consulta las ${deportivas.length} actividades deportivas y recreativas de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD: rally, futbol, 100 Ingenieros Dijeron y ajedrez.`}
+>
+  <Header />
+
+  <main id="contenido">
+    <PageHeader
+      title="Actividades deportivas"
+      breadcrumb={[{ label: "Actividades" }, { label: "Actividades Deportivas" }]}
+      stats={stats}
+    />
+
+    <section
+      class="site-container pb-10 pt-5 lg:pb-12 lg:pt-6"
+      aria-labelledby="deportivas-titulo"
+    >
+      <h2 id="deportivas-titulo" class="sr-only">Actividades disponibles</h2>
+
+      <ul role="list" class="grid gap-5 md:grid-cols-2 lg:gap-6">
+        {
+          deportivas.map((actividad) => (
+            <li>
+              <DeportivaCard actividad={actividad} />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</BaseLayout>

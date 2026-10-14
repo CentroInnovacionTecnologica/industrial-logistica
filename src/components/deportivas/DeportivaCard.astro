@@ -1,0 +1,54 @@
+---
+import type { ActividadDeportiva, IconoDeportiva } from "../../data/deportivas";
+import ChessPawnIcon from "../icons/ChessPawnIcon.astro";
+import FlagIcon from "../icons/FlagIcon.astro";
+import MessagesIcon from "../icons/MessagesIcon.astro";
+import SoccerBallIcon from "../icons/SoccerBallIcon.astro";
+import UsersIcon from "../icons/UsersIcon.astro";
+import Card from "../ui/Card.astro";
+import CardFacts from "../ui/CardFacts.astro";
+import { tonos } from "../ui/tonos";
+
+interface Props {
+  actividad: ActividadDeportiva;
+}
+
+const { actividad } = Astro.props;
+
+const iconos: Record<IconoDeportiva, typeof FlagIcon> = {
+  rally: FlagIcon,
+  futbol: SoccerBallIcon,
+  concurso: MessagesIcon,
+  ajedrez: ChessPawnIcon,
+};
+
+const Icono = iconos[actividad.icono];
+---
+
+<Card stripe={tonos.ambas.stripe}>
+  <div class="flex items-center gap-3">
+    <span
+      class="grid size-11 shrink-0 place-items-center rounded-lg bg-navy/8 text-navy"
+      aria-hidden="true"
+    >
+      <Icono class="size-6" />
+    </span>
+    <h3 class="font-display text-lg font-bold leading-snug text-navy">
+      {actividad.nombre}
+    </h3>
+  </div>
+
+  <p class="mt-3 pb-5 text-[15px] leading-relaxed text-muted">
+    {actividad.descripcion}
+  </p>
+
+  <CardFacts>
+    <li>
+      <UsersIcon class="size-5 shrink-0" />
+      <span>
+        <span class="sr-only">Cupo:</span>
+        <strong class="text-sm font-bold">{actividad.lugares}</strong>{" "}lugares
+      </span>
+    </li>
+  </CardFacts>
+</Card>

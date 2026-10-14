@@ -1,0 +1,56 @@
+---
+import Header from "../../components/Header.astro";
+import BusIcon from "../../components/icons/BusIcon.astro";
+import ClockIcon from "../../components/icons/ClockIcon.astro";
+import FactoryIcon from "../../components/icons/FactoryIcon.astro";
+import UsersIcon from "../../components/icons/UsersIcon.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import VisitaCard from "../../components/visitas/VisitaCard.astro";
+import { visitas, visitasInfo } from "../../data/visitas";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const stats = [
+  { icon: FactoryIcon, text: `${visitas.length} empresas` },
+  { icon: ClockIcon, text: `Salida ${visitasInfo.salida}` },
+  { icon: UsersIcon, text: "Cupo limitado" },
+];
+---
+
+<BaseLayout
+  title="Visitas | Semana Académica ITD"
+  description={`Conoce las ${visitas.length} visitas a empresas de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD: Grupo Armas, Yazaki, Hulmaq y Arca Continental.`}
+>
+  <Header />
+
+  <main id="contenido">
+    <PageHeader
+      title="Visitas a empresas"
+      breadcrumb={[{ label: "Actividades" }, { label: "Visitas" }]}
+      stats={stats}
+    />
+
+    <section
+      class="site-container pb-10 pt-5 lg:pb-12 lg:pt-6"
+      aria-labelledby="visitas-titulo"
+    >
+      <h2 id="visitas-titulo" class="sr-only">Empresas que se visitarán</h2>
+
+      <p
+        class="flex items-start gap-3 rounded-xl border border-gold-dark/60 bg-gold/15 px-4 py-3 text-[15px] font-medium leading-snug text-navy"
+      >
+        <BusIcon class="mt-px size-5 shrink-0" />
+        <span><span class="sr-only">Aviso:</span> {visitasInfo.aviso}</span>
+      </p>
+
+      <ul role="list" class="mt-5 grid gap-5 md:grid-cols-2 lg:mt-6 lg:gap-6">
+        {
+          visitas.map((visita) => (
+            <li>
+              <VisitaCard visita={visita} />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</BaseLayout>
