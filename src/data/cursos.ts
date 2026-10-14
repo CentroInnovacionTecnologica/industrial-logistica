@@ -296,7 +296,7 @@ export const cursos: Curso[] = [
     abiertoAOtraCarrera: false,
     semestres: [5, 6, 7, 8, 9],
     duracionHoras: 8,
-    lugares: 15,
+    lugares: 25,
   },
   {
     id: 20,
@@ -310,5 +310,17 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9, 10],
     duracionHoras: 8,
     lugares: 20,
+  },
+  {
+    id: 21,
+    nombre: "Automatización y Robótica Industrial",
+    tema: "Diseño y manufactura",
+    descripcion:
+      "Introducción a la automatización de procesos y a la robótica industrial: sensores, actuadores, controladores lógicos programables (PLC) y aplicación de robots en líneas de producción y manufactura.",
+    carrera: "ambas",
+    abiertoAOtraCarrera: false,
+    semestres: [7, 8, 9, 10],
+    duracionHoras: 8,
+    lugares: 15,
   },
 ];
