@@ -40,7 +40,7 @@ export const paneles: Panel[] = [
     lugar: "",
     panelistas: [
       {
-        nombre: "Nalley Talamantez",
+        nombre: "Nalley Talamantes",
         cargo:
           "Directora de SHITSU / Presidenta del Clúster de Innovación y Tecnología XIXIM",
       },
