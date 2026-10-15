@@ -6,9 +6,11 @@
 interface Props {
   /** Clase de fondo de la franja superior (ver tonos.ts). */
   stripe: string;
+  /** Relleno del contenido; por defecto "p-5". */
+  padding?: string;
 }
 
-const { stripe } = Astro.props;
+const { stripe, padding = "p-5" } = Astro.props;
 ---
 
 <article
@@ -16,7 +18,7 @@ const { stripe } = Astro.props;
 >
   <div class:list={["h-2 shrink-0", stripe]} aria-hidden="true"></div>
 
-  <div class="flex flex-1 flex-col p-5">
+  <div class:list={["flex flex-1 flex-col", padding]}>
     <slot />
   </div>
 </article>

@@ -1,0 +1,40 @@
+---
+import Header from "../../components/Header.astro";
+import HexNetworkIcon from "../../components/icons/HexNetworkIcon.astro";
+import MessagesIcon from "../../components/icons/MessagesIcon.astro";
+import UsersIcon from "../../components/icons/UsersIcon.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import PanelSection from "../../components/paneles/PanelSection.astro";
+import { paneles, totalPanelistas } from "../../data/paneles";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const total = paneles.length;
+
+const stats = [
+  { icon: MessagesIcon, text: `${total} ${total === 1 ? "panel" : "paneles"}` },
+  {
+    icon: UsersIcon,
+    text: `${totalPanelistas} ${totalPanelistas === 1 ? "panelista" : "panelistas"}`,
+  },
+  { icon: HexNetworkIcon, text: "Semana Académica NEXUS" },
+];
+---
+
+<BaseLayout
+  title="Paneles | Semana Académica ITD"
+  description="Conoce el panel de expertos de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD, del 24 al 27 de noviembre de 2026, con líderes de la industria."
+>
+  <Header />
+
+  <main id="contenido">
+    <PageHeader
+      title="Paneles"
+      breadcrumb={[{ label: "Actividades" }, { label: "Paneles" }]}
+      stats={stats}
+    />
+
+    <div class="site-container space-y-6 pb-10 pt-5 lg:space-y-8 lg:pb-12 lg:pt-6">
+      {paneles.map((panel) => <PanelSection panel={panel} />)}
+    </div>
+  </main>
+</BaseLayout>

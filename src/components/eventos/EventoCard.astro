@@ -1,62 +1,82 @@
 ---
-import { formatearFecha, valor } from "../../data/conferencias";
-import type { Conferencia } from "../../data/conferencias";
+/**
+ * Tarjeta de conferencias y charlas: chip con el tipo de evento, ponente,
+ * descripción, lista de temas, frase y fila de datos (fecha, hora, lugar).
+ */
+import { formatearFecha, valor } from "../../data/eventos";
+import type { Evento } from "../../data/eventos";
 import CalendarIcon from "../icons/CalendarIcon.astro";
 import ClockIcon from "../icons/ClockIcon.astro";
 import PinIcon from "../icons/PinIcon.astro";
 import UserIcon from "../icons/UserIcon.astro";
 import Card from "../ui/Card.astro";
 import CardFacts from "../ui/CardFacts.astro";
-import { tonos } from "../ui/tonos";
 
 interface Props {
-  conferencia: Conferencia;
+  evento: Evento;
+  /** Texto del chip, p. ej. "Conferencia" o "Charla". */
+  etiqueta: string;
+  /** Franja superior y chip (ver tonos.ts). */
+  tono: { stripe: string; chip: string };
 }
 
-const { conferencia } = Astro.props;
+const { evento, etiqueta, tono } = Astro.props;
 
 // Los campos vacíos no se muestran (ni el dato ni su ícono).
-const alias = valor(conferencia.alias);
-const cargo = valor(conferencia.cargo);
-const descripcion = valor(conferencia.descripcion);
-const frase = valor(conferencia.frase);
-const fecha = valor(conferencia.fecha);
-const hora = valor(conferencia.hora);
-const lugar = valor(conferencia.lugar);
+const alias = valor(evento.alias);
+const cargo = valor(evento.cargo);
+const descripcion = valor(evento.descripcion);
+const frase = valor(evento.frase);
+const fecha = valor(evento.fecha);
+const hora = valor(evento.hora);
+const lugar = valor(evento.lugar);
+const puntos = (evento.puntos ?? [])
+  .map((punto) => ({ titulo: valor(punto.titulo), texto: valor(punto.texto) }))
+  .filter((punto) => punto.texto);
 
 const tieneDatos = Boolean(fecha || hora || lugar);
-const sinDetalles = !descripcion && !tieneDatos;
+const sinDetalles = !descripcion && puntos.length === 0 && !tieneDatos;
 ---
 
-<Card stripe={tonos.industrial.stripe}>
+<Card stripe={tono.stripe}>
   <p
     class:list={[
       "self-start rounded-2xl px-3 py-1.5 text-[13px] font-medium leading-tight",
-      tonos.industrial.chip,
+      tono.chip,
     ]}
   >
-    Conferencia
+    {etiqueta}
   </p>
 
   <h3 class="mt-4 font-display text-lg font-bold leading-snug text-navy">
-    {conferencia.titulo}
+    {evento.titulo}
   </h3>
 
   <p class="mt-3 flex items-start gap-2 text-[15px] leading-snug text-navy">
     <UserIcon class="mt-px size-5 shrink-0" />
     <span>
       <span class="sr-only">Ponente:</span>
-      <strong class="font-bold">{conferencia.ponente}</strong>
+      <strong class="font-bold">{evento.ponente}</strong>
       {alias && <span>{" "}“{alias}”</span>}
       {cargo && <span class="mt-0.5 block text-[13px] text-muted">{cargo}</span>}
     </span>
   </p>
 
   {
-    (descripcion || frase) && (
+    (descripcion || puntos.length > 0 || frase) && (
       <div class="mt-3 space-y-3 pb-5">
         {descripcion && (
           <p class="text-[15px] leading-relaxed text-muted">{descripcion}</p>
+        )}
+        {puntos.length > 0 && (
+          <ul class="list-disc space-y-1.5 pl-5 text-[15px] leading-relaxed text-muted marker:text-navy">
+            {puntos.map((punto) => (
+              <li>
+                {punto.titulo && <strong class="font-bold text-navy">{punto.titulo}:</strong>}{" "}
+                {punto.texto}
+              </li>
+            ))}
+          </ul>
         )}
         {frase && (
           <p class="text-[15px] font-medium italic leading-relaxed text-guinda">

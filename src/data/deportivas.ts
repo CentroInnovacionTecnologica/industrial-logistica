@@ -34,7 +34,7 @@ export const deportivas: ActividadDeportiva[] = [
     icono: "concurso",
     descripcion:
       "Basada en el famoso formato de los concursos de televisión, esta divertida dinámica pone a competir a los estudiantes para adivinar las respuestas más populares sobre cultura general, vida institucional, ingeniería y hábitos estudiantiles. ¡Pon a prueba el ingenio, la rapidez mental y el buen humor de tu equipo!",
-    lugares: 70,
+    lugares: 100,
   },
   {
     id: "ajedrez",

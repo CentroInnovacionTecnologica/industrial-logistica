@@ -1,34 +1,10 @@
 /* ---------- Conferencias ---------- */
 
-/**
- * CAMPOS OPCIONALES
- * ------------------------------------------------------------------
- * Todo campo marcado con "?" se puede dejar vacío u omitir: la tarjeta no
- * muestra ni el dato ni su ícono (tampoco un "Por confirmar"). Para que
- * aparezca, basta con llenarlo; p. ej. agrega  hora: "13:00"  o
- * lugar: "Auditorio"  y se mostrará en la fila de datos.
- *
- * Si una conferencia no tiene descripción, fecha, hora ni lugar, la tarjeta
- * muestra "Pronto compartiremos más detalles."
- */
+import { ordenarPorFecha } from "./eventos";
+import type { Evento } from "./eventos";
 
-export interface Conferencia {
-  id: number;
-  titulo: string;
-  ponente: string;
-  /** Sobrenombre del ponente. */
-  alias?: string;
-  /** Ej. "Conferencista y motivador". */
-  cargo?: string;
-  descripcion?: string;
-  /** Frase destacada. */
-  frase?: string;
-  /** Formato ISO, ej. "2026-11-24". */
-  fecha?: string;
-  /** Formato de 24 h, ej. "13:00". */
-  hora?: string;
-  lugar?: string;
-}
+// Campos opcionales y su comportamiento: ver src/data/eventos.ts
+export type Conferencia = Evento;
 
 export const conferencias: Conferencia[] = [
   {
@@ -57,30 +33,5 @@ export const conferencias: Conferencia[] = [
   },
 ];
 
-/** Valor del campo sin espacios, o `undefined` si está vacío. */
-export function valor(texto: string | undefined): string | undefined {
-  const limpio = texto?.trim();
-  return limpio ? limpio : undefined;
-}
-
 /** Primero las que tienen fecha (de la más próxima a la más lejana); al final las demás. */
-export const conferenciasOrdenadas: Conferencia[] = [...conferencias].sort((a, b) => {
-  const fa = valor(a.fecha);
-  const fb = valor(b.fecha);
-  if (fa && fb) return fa.localeCompare(fb);
-  if (fa) return -1;
-  if (fb) return 1;
-  return 0;
-});
-
-const formatoFecha = new Intl.DateTimeFormat("es-MX", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
-
-/** "2026-11-24" → "24 de noviembre de 2026". */
-export function formatearFecha(iso: string): string {
-  return formatoFecha.format(new Date(`${iso}T00:00:00Z`));
-}
+export const conferenciasOrdenadas: Conferencia[] = ordenarPorFecha(conferencias);

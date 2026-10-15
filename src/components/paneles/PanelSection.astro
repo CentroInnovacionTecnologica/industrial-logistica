@@ -1,0 +1,130 @@
+---
+/**
+ * Panel como sección amplia: chip, título, lema, fila de datos opcional y la
+ * cuadrícula de panelistas (iniciales, nombre y cargo).
+ */
+import { formatearFecha, valor } from "../../data/eventos";
+import { iniciales } from "../../data/paneles";
+import type { Panel } from "../../data/paneles";
+import CalendarIcon from "../icons/CalendarIcon.astro";
+import ClockIcon from "../icons/ClockIcon.astro";
+import PinIcon from "../icons/PinIcon.astro";
+import Card from "../ui/Card.astro";
+import CardFacts from "../ui/CardFacts.astro";
+import { tonos } from "../ui/tonos";
+
+interface Props {
+  panel: Panel;
+}
+
+const { panel } = Astro.props;
+
+// Los campos vacíos no se muestran (ni el dato ni su ícono).
+const lema = valor(panel.lema);
+const fecha = valor(panel.fecha);
+const hora = valor(panel.hora);
+const lugar = valor(panel.lugar);
+
+const tieneDatos = Boolean(fecha || hora || lugar);
+const tituloId = `${panel.id}-titulo`;
+const panelistasId = `${panel.id}-panelistas`;
+---
+
+<section aria-labelledby={tituloId}>
+  <Card stripe={tonos.industrial.stripe} padding="p-5 sm:p-8 lg:p-10">
+    <p
+      class:list={[
+        "self-start rounded-2xl px-3 py-1.5 text-[13px] font-medium leading-tight",
+        tonos.industrial.chip,
+      ]}
+    >
+      {panel.tipo}
+    </p>
+
+    <h2
+      id={tituloId}
+      class="mt-4 font-display text-2xl font-extrabold leading-tight tracking-tight text-navy lg:text-[2rem]"
+    >
+      {panel.titulo}
+    </h2>
+
+    {
+      lema && (
+        <p class="mt-2 text-base font-medium italic leading-relaxed text-guinda lg:text-lg">
+          “{lema}”
+        </p>
+      )
+    }
+
+    {
+      tieneDatos && (
+        <div class="mt-5 max-w-2xl">
+          <CardFacts>
+            {fecha && (
+              <li>
+                <CalendarIcon class="size-5 shrink-0 text-accent-red" />
+                <span>
+                  <span class="sr-only">Fecha:</span>
+                  <time datetime={fecha} class="text-sm font-bold">
+                    {formatearFecha(fecha)}
+                  </time>
+                </span>
+              </li>
+            )}
+            {hora && (
+              <li>
+                <ClockIcon class="size-5 shrink-0" />
+                <span>
+                  <span class="sr-only">Hora:</span>
+                  <time datetime={hora} class="text-sm font-bold">
+                    {hora}
+                  </time>
+                </span>
+              </li>
+            )}
+            {lugar && (
+              <li>
+                <PinIcon class="size-5 shrink-0 text-accent-red" />
+                <span>
+                  <span class="sr-only">Lugar:</span>
+                  <strong class="text-sm font-bold">{lugar}</strong>
+                </span>
+              </li>
+            )}
+          </CardFacts>
+        </div>
+      )
+    }
+
+    <div class="mt-6 border-t border-line pt-6 lg:mt-8 lg:pt-8">
+      <h3 id={panelistasId} class="font-display text-lg font-bold text-navy lg:text-xl">
+        Panelistas
+      </h3>
+
+      <ul
+        role="list"
+        aria-labelledby={panelistasId}
+        class="mt-4 grid gap-4 sm:grid-cols-2 lg:mt-5 lg:gap-5"
+      >
+        {
+          panel.panelistas.map((panelista) => (
+            <li class="flex items-start gap-4 rounded-lg border border-line bg-surface/50 p-4 lg:p-5">
+              <span
+                class="flex size-12 shrink-0 items-center justify-center rounded-full bg-navy font-display text-base font-bold tracking-wide text-white"
+                aria-hidden="true"
+              >
+                {iniciales(panelista.nombre)}
+              </span>
+              <p class="min-w-0 pt-0.5 text-[15px] leading-snug">
+                <strong class="block font-bold text-navy">{panelista.nombre}</strong>
+                <span class="mt-1 block text-[13px] leading-snug text-muted">
+                  {panelista.cargo}
+                </span>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Card>
+</section>
