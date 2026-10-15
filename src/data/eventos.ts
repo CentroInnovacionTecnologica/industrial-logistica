@@ -26,6 +26,7 @@ export interface Evento {
   alias?: string;
   /** Ej. "Conferencista y motivador". */
   cargo?: string;
+  /** El texto entre **dobles asteriscos** se muestra en negritas. */
   descripcion?: string;
   /** Lista de temas, debajo de la descripción. */
   puntos?: PuntoEvento[];
@@ -36,6 +37,10 @@ export interface Evento {
   /** Formato de 24 h, ej. "13:00". */
   hora?: string;
   lugar?: string;
+  /** Texto del chip, ej. "Conferencia magistral". Vacío: "Conferencia". Solo en conferencias. */
+  tipo?: string;
+  /** Ocupa el ancho completo de la cuadrícula y va primero. Solo en conferencias. */
+  destacada?: boolean;
 }
 
 /** Valor del campo sin espacios, o `undefined` si está vacío. */

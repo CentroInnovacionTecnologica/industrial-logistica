@@ -2,19 +2,29 @@
 import EventoCard from "../../components/eventos/EventoCard.astro";
 import Header from "../../components/Header.astro";
 import MessagesIcon from "../../components/icons/MessagesIcon.astro";
-import TicketIcon from "../../components/icons/TicketIcon.astro";
+import MicrophoneIcon from "../../components/icons/MicrophoneIcon.astro";
 import UserIcon from "../../components/icons/UserIcon.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import { tonos } from "../../components/ui/tonos";
-import { conferencias, conferenciasOrdenadas } from "../../data/conferencias";
+import {
+  conferencias,
+  conferenciasOrdenadas,
+  tipoDeConferencia,
+} from "../../data/conferencias";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const total = conferencias.length;
+const magistrales = conferencias.filter(
+  (conferencia) => tipoDeConferencia(conferencia) === "Conferencia magistral",
+).length;
 
 const stats = [
   { icon: MessagesIcon, text: `${total} ${total === 1 ? "conferencia" : "conferencias"}` },
   { icon: UserIcon, text: "Ponentes invitados" },
-  { icon: TicketIcon, text: "Entrada para estudiantes" },
+  {
+    icon: MicrophoneIcon,
+    text: `${magistrales} ${magistrales === 1 ? "conferencia magistral" : "conferencias magistrales"}`,
+  },
 ];
 ---
 
@@ -40,8 +50,12 @@ const stats = [
       <ul role="list" class="grid gap-5 md:grid-cols-2 lg:gap-6">
         {
           conferenciasOrdenadas.map((conferencia) => (
-            <li>
-              <EventoCard evento={conferencia} etiqueta="Conferencia" tono={tonos.industrial} />
+            <li class:list={[conferencia.destacada && "md:col-span-2"]}>
+              <EventoCard
+                evento={conferencia}
+                etiqueta={tipoDeConferencia(conferencia)}
+                tono={tonos.industrial}
+              />
             </li>
           ))
         }
