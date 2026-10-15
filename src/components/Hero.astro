@@ -6,9 +6,9 @@ import HeroPhoto from "./HeroPhoto.astro";
 import CalendarIcon from "./icons/CalendarIcon.astro";
 import HexNetworkIcon from "./icons/HexNetworkIcon.astro";
 import PinIcon from "./icons/PinIcon.astro";
-import RegistroDialog from "./RegistroDialog.astro";
 import UserIcon from "./icons/UserIcon.astro";
 import { registro } from "../data/registro";
+import { withBase } from "../data/site";
 
 const [careerOne, careerTwo] = featured.careers;
 ---
@@ -69,24 +69,19 @@ const [careerOne, careerTwo] = featured.careers;
         finishedMessage={featured.countdown.finished}
       />
 
-      <!-- Registro: abre la ventana con los días y horarios (src/data/registro.ts) -->
+      <!-- Registro: lleva a la página con los días y horarios (src/data/registro.ts) -->
       <div class="mt-4 lg:mt-5">
-        <button
-          type="button"
+        <a
+          href={withBase("/registro")}
           class="btn bg-gold-gradient shadow-[0_8px_18px_-10px_var(--color-gold-dark)] hover:brightness-105 hover:shadow-[0_12px_22px_-10px_var(--color-gold-dark)]"
-          aria-haspopup="dialog"
-          aria-controls="registro-dialogo"
-          data-abre-dialogo="registro-dialogo"
         >
           <UserIcon class="size-6" />
           {registro.boton}
-        </button>
+        </a>
       </div>
     </div>
   </div>
 </section>
-
-<RegistroDialog id="registro-dialogo" />
 
 <style>
   .hero-content {

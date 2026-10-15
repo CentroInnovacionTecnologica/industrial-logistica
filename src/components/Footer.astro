@@ -71,7 +71,7 @@ const realLogos = logos.filter((logo) => logo.image);
       </h2>
       <ul class="mt-2 text-[15px]">
         {
-          nav.items.map((item) => (
+          [...nav.items, ...nav.footerOnly].map((item) => (
             <li>
               <a
                 href={withBase(item.href)}

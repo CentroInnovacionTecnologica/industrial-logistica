@@ -1,0 +1,167 @@
+---
+import Header from "../components/Header.astro";
+import BuildingIcon from "../components/icons/BuildingIcon.astro";
+import CalendarIcon from "../components/icons/CalendarIcon.astro";
+import UserIcon from "../components/icons/UserIcon.astro";
+import PageHeader from "../components/PageHeader.astro";
+import HorarioSemanal from "../components/registro/HorarioSemanal.astro";
+import { registro, resumenRegistro } from "../data/registro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const stats = [
+  { icon: UserIcon, text: "Registro presencial" },
+  { icon: CalendarIcon, text: "Lunes a viernes" },
+  { icon: BuildingIcon, text: "Depto. de Ingeniería Industrial" },
+];
+
+const resumen = resumenRegistro();
+---
+
+<BaseLayout
+  title="Registro | Semana Académica ITD"
+  description="Días y horarios de registro presencial para la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD, del 24 al 27 de noviembre de 2026, en el Departamento de Ingeniería Industrial."
+>
+  <Header />
+
+  <main id="contenido">
+    <PageHeader title="Registro" breadcrumb={[{ label: "Registro" }]} stats={stats} />
+
+    <div class="site-container pb-10 pt-6 lg:pb-12 lg:pt-8">
+      <!-- Introducción -->
+      <p class="max-w-3xl text-[17px] leading-relaxed text-muted">
+        {registro.intro.antes}{" "}
+        <strong class="font-semibold text-navy">{registro.lugar}</strong>{registro.intro.despues}
+      </p>
+
+      {
+        registro.periodo && (
+          <p class="mt-3 inline-block rounded-lg border border-line bg-surface/60 px-4 py-2.5 font-display text-[15px] font-semibold text-navy">
+            {registro.periodo}
+          </p>
+        )
+      }
+
+      <div class="mt-6 grid gap-8 lg:mt-8 lg:grid-cols-[3fr_2fr] lg:items-start lg:gap-10">
+        <!-- Tabla semanal -->
+        <section aria-labelledby="horario-titulo">
+          <h2 id="horario-titulo" class="mb-3 font-display text-xl font-bold text-navy lg:text-2xl">
+            Horario semanal
+          </h2>
+          <HorarioSemanal />
+        </section>
+
+        <div>
+          <!-- Resumen por día (mismos datos que la tabla) -->
+          <section aria-labelledby="resumen-titulo">
+            <h2 id="resumen-titulo" class="mb-3 font-display text-xl font-bold text-navy lg:text-2xl">
+              Resumen por día
+            </h2>
+            <dl
+              class="resumen overflow-hidden rounded-xl border border-line bg-white shadow-[0_8px_20px_-14px_rgb(15_30_74/0.4)]"
+            >
+              {
+                resumen.map(({ dia, horarios }) => (
+                  <div class="resumen__fila">
+                    <dt class="font-display font-bold text-navy">{dia}</dt>
+                    <dd>
+                      <ul class="tabular-nums">
+                        {horarios.map((h) => (
+                          <li>{h}</li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                ))
+              }
+            </dl>
+          </section>
+
+          {
+            registro.requisitos.length > 0 && (
+              <section class="mt-6" aria-labelledby="requisitos-titulo">
+                <h2 id="requisitos-titulo" class="font-display text-lg font-bold text-navy">
+                  Qué debes llevar
+                </h2>
+                <ul class="mt-2 list-disc space-y-1 pl-5 text-muted marker:text-accent-red">
+                  {registro.requisitos.map((r) => (
+                    <li>{r}</li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
+
+          {
+            registro.formularioUrl && (
+              <a
+                href={registro.formularioUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-registro mt-6 bg-gold-gradient shadow-[0_8px_18px_-10px_var(--color-gold-dark)] hover:brightness-105"
+              >
+                {registro.enLinea}
+              </a>
+            )
+          }
+
+          <p class="mt-6 font-display text-lg font-bold text-navy">{registro.cierre}</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  /* ── Resumen: día a la izquierda, tramos a la derecha ──────────── */
+  .resumen__fila {
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .resumen__fila:nth-child(even) {
+    background: var(--color-surface);
+  }
+
+  .resumen__fila + .resumen__fila {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .resumen__fila dd {
+    color: var(--color-navy);
+    line-height: 1.6;
+  }
+
+  @media (width >= 40rem) {
+    .resumen__fila {
+      grid-template-columns: 10.5rem 1fr;
+      gap: 1rem;
+      padding: 0.875rem 1.125rem;
+    }
+  }
+
+  .btn-registro {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding-inline: 1.5rem;
+    border-radius: 0.625rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-navy);
+    transition: filter 200ms ease-out;
+  }
+
+  .btn-registro:active {
+    transform: scale(0.98);
+  }
+
+  @media (width >= 40rem) {
+    .btn-registro {
+      display: inline-flex;
+      width: auto;
+    }
+  }
+</style>

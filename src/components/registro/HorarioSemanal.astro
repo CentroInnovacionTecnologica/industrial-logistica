@@ -1,0 +1,215 @@
+---
+/**
+ * Tabla semanal de registro: una fila por hora (registro.rango) y una columna
+ * por día. Los bloques con registro van en ámbar con palomita; los bloques
+ * seguidos del mismo día se dibujan como un solo tramo.
+ */
+import { registro } from "../../data/registro";
+import CheckIcon from "../icons/CheckIcon.astro";
+
+const { desde, hasta } = registro.rango;
+const horas = Array.from({ length: hasta - desde + 1 }, (_, i) => desde + i);
+
+const etiquetaHora = (hora: number) => `${String(hora).padStart(2, "0")}:00`;
+const hayRegistro = (horasDia: number[], hora: number) => horasDia.includes(hora);
+---
+
+<div>
+  <div
+    class="overflow-hidden rounded-xl border border-line bg-white shadow-[0_8px_20px_-14px_rgb(15_30_74/0.4)]"
+  >
+    <table class="horario">
+      <caption class="sr-only">
+        Horario semanal de registro presencial, de lunes a viernes, de {desde}:00 a {hasta + 1}:00
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col" class="horario__esquina"><span class="sr-only">Hora</span></th>
+          {
+            registro.dias.map(({ dia, abrev, numero }) => (
+              <th scope="col" data-dia={numero}>
+                <span class="sm:hidden" aria-hidden="true">{abrev}</span>
+                <span class="max-sm:sr-only">{dia}</span>
+                <span class="horario__hoy">Hoy</span>
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+      <tbody>
+        {
+          horas.map((hora) => (
+            <tr>
+              <th scope="row">
+                <time datetime={etiquetaHora(hora)}>{etiquetaHora(hora)}</time>
+              </th>
+              {registro.dias.map(({ dia, horas: horasDia }) =>
+                hayRegistro(horasDia, hora) ? (
+                  <td>
+                    <span
+                      class:list={[
+                        "horario__bloque",
+                        hayRegistro(horasDia, hora - 1) && "horario__bloque--viene",
+                        hayRegistro(horasDia, hora + 1) && "horario__bloque--sigue",
+                      ]}
+                    >
+                      <CheckIcon class="size-4.5 sm:size-5" />
+                      <span class="sr-only">
+                        {dia} de {hora}:00 a {hora + 1}:00: hay registro
+                      </span>
+                    </span>
+                  </td>
+                ) : (
+                  <td />
+                )
+              )}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Leyenda -->
+  <p class="mt-3 flex items-center gap-2 text-sm text-muted">
+    <span class="size-4 shrink-0 rounded-sm bg-gold-dark" aria-hidden="true"></span>
+    Horario de registro
+  </p>
+</div>
+
+<script>
+  // Marca la columna del día de hoy (lunes a viernes). Sin JavaScript la tabla
+  // se ve igual, solo sin la marca.
+  const hoy = new Date().getDay();
+  document
+    .querySelector<HTMLTableCellElement>(`.horario th[data-dia="${hoy}"]`)
+    ?.setAttribute("aria-current", "date");
+</script>
+
+<style>
+  .horario {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Encabezados de los días ───────────────────────────────────── */
+  .horario thead th {
+    padding: 0.625rem 0.125rem 0.375rem;
+    background: var(--color-navy);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    transition: background-color 200ms ease-out;
+  }
+
+  .horario thead th + th {
+    border-left: 1px solid rgb(255 255 255 / 0.14);
+  }
+
+  .horario__esquina {
+    width: 3.25rem;
+  }
+
+  /* Etiqueta "Hoy": su espacio queda reservado para que la tabla no salte */
+  .horario__hoy {
+    display: block;
+    width: fit-content;
+    margin: 0.25rem auto 0;
+    padding: 0 0.375rem;
+    border-radius: 999px;
+    background: var(--color-gold);
+    color: var(--color-navy);
+    font-size: 0.6875rem;
+    letter-spacing: 0.03em;
+    line-height: 1.45;
+    text-transform: uppercase;
+    visibility: hidden;
+  }
+
+  .horario thead th[aria-current="date"] {
+    background: var(--color-navy-700);
+    box-shadow: inset 0 -3px 0 var(--color-gold);
+  }
+
+  .horario th[aria-current="date"] .horario__hoy {
+    visibility: visible;
+  }
+
+  /* ── Horas y celdas ────────────────────────────────────────────── */
+  .horario tbody th,
+  .horario td {
+    height: 2.5rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .horario tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+
+  .horario tbody th {
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .horario td {
+    position: relative;
+    border-left: 1px solid var(--color-line);
+  }
+
+  /* Bloque ámbar dentro de la celda; los seguidos se funden en un tramo */
+  .horario__bloque {
+    position: absolute;
+    inset: 3px 3px;
+    display: grid;
+    place-items: center;
+    border-radius: 0.375rem;
+    background: var(--color-gold-dark);
+    color: var(--color-navy);
+  }
+
+  @media (width >= 40rem) {
+    .horario thead th {
+      padding-top: 0.75rem;
+      font-size: 0.9375rem;
+    }
+
+    .horario__esquina {
+      width: 4.5rem;
+    }
+
+    .horario tbody th,
+    .horario td {
+      height: 2.75rem;
+    }
+
+    .horario tbody th {
+      font-size: 0.8125rem;
+    }
+
+    .horario__bloque {
+      inset: 4px 6px;
+    }
+  }
+
+  /* Van después del media query para que su `top`/`bottom` prevalezca */
+  .horario__bloque--viene {
+    top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  /* Cubre también la línea inferior de la celda: sin divisoria en el tramo */
+  .horario__bloque--sigue {
+    bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+</style>

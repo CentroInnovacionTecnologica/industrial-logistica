@@ -82,6 +82,8 @@ export const nav = {
     },
     { label: "Galería", href: "/#galeria" },
   ] satisfies NavItem[],
+  /** Enlaces que solo aparecen en el pie de página (no en el menú superior). */
+  footerOnly: [{ label: "Registro", href: "/registro" }] satisfies NavLink[],
 };
 
 /** Antepone la base del sitio (astro.config `base`) a una ruta interna. */
