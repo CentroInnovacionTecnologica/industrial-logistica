@@ -56,6 +56,29 @@ export const charlas: Charla[] = [
     hora: "",
     lugar: "",
   },
+  {
+    id: 4,
+    titulo: "Del aula al mundo real: lo que nadie te dice del ingeniero industrial",
+    ponente: "Dr. Juan Manuel Esquivel Rueda",
+    cargo: "CEO de CRECE Consultor, auditor de sistemas de gestión y capacitador",
+    descripcion:
+      "Una charla directa, sin rodeos. Casos reales, retos actuales y una ruta clara para convertirte en el ingeniero que las empresas quieren contratar. Liderazgo y resultados: lo que se vive en el piso de producción, no en los libros.",
+    frase: "Tu título dice lo que estudiaste. Lo que resuelves dice quién eres.",
+    fecha: "",
+    hora: "",
+    lugar: "",
+  },
+  {
+    id: 5,
+    titulo: "ISO versión 2026: las nuevas reglas del juego para la gestión",
+    ponente: "Mtro. Oscar Alfredo Lara Rodríguez",
+    cargo: "Docente ITD · Auditor",
+    descripcion:
+      "Las normas cambian porque el mundo cambia, y con ellas el perfil que buscan las empresas. Calidad, ambiente, seguridad y auditoría ya no son lo que eran. Aquí entenderás qué viene, cómo te afecta y cómo sacarle ventaja desde ahora. ¿Estás listo para las nuevas reglas?",
+    fecha: "",
+    hora: "",
+    lugar: "",
+  },
 ];
 
 /** Primero las que tienen fecha (de la más próxima a la más lejana); al final las demás. */
