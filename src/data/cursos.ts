@@ -179,13 +179,13 @@ export const cursos: Curso[] = [
   },
   {
     id: 10,
-    nombre: "Gestión Logística Integral: Del Almacén al Cliente",
+    nombre: "Cadena de Suministro: Globalización e Innovación",
     tema: "Logística",
     descripcion:
-      "Gestión de inventarios, layout de almacenes, picking y KPI logísticos.",
+      "Gestión de la cadena de suministro en un entorno global: abastecimiento, logística internacional, tecnologías emergentes y prácticas innovadoras para mejorar la eficiencia y la competitividad de las organizaciones.",
     carrera: "logistica",
     abiertoAOtraCarrera: true,
-    semestres: [5, 6],
+    semestres: [5, 6, 7],
     duracionHoras: 8,
     lugares: 20,
   },

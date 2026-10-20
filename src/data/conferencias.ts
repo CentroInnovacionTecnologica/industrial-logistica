@@ -14,7 +14,7 @@ export const conferencias: Conferencia[] = [
     destacada: true,
     ponente: "Carlos Luna Gallegos",
     cargo: "Gerente General de Yazaki",
-    descripcion: "",
+    descripcion: "En una industria automotriz caracterizada por altos estándares de calidad, competitividad e innovación tecnológica, la integración de las áreas funcionales constituye un factor estratégico para alcanzar los objetivos del negocio. En esta conferencia se explorará la importancia de la colaboración interfuncional, la mejora de procesos, la innovación y la gestión eficiente de los recursos como elementos clave para fortalecer el desempeño organizacional y afrontar los retos de la manufactura moderna en el mercado global.",
     frase: "",
     fecha: "",
     hora: "",
