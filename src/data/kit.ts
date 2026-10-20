@@ -50,7 +50,7 @@ export const kit = {
   etiqueta: "Semana Académica NEXUS 2026",
   titulo: "Kit del evento",
   texto:
-    "Al registrarte recibes el kit oficial de la Semana Académica. Esto es lo que incluye:",
+    "Al registrarte, tienes derecho al kit oficial de la Semana Académica, que se entrega durante el evento. Esto es lo que incluye:",
   boton: { label: "¿Cómo me registro?", href: "/registro" },
   articulos: [
     item("pluma", "Pluma"),
