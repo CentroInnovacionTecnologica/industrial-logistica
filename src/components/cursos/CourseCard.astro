@@ -2,7 +2,9 @@
 import { carreraLabels, formatSemestres } from "../../data/cursos";
 import type { Curso } from "../../data/cursos";
 import ClockIcon from "../icons/ClockIcon.astro";
+import DownloadIcon from "../icons/DownloadIcon.astro";
 import GraduationCapIcon from "../icons/GraduationCapIcon.astro";
+import LaptopIcon from "../icons/LaptopIcon.astro";
 import UsersIcon from "../icons/UsersIcon.astro";
 import Card from "../ui/Card.astro";
 import CardFacts from "../ui/CardFacts.astro";
@@ -21,6 +23,9 @@ const openTo =
   curso.abiertoAOtraCarrera && curso.carrera !== "ambas"
     ? `Abierto a ${carreraLabels[curso.carrera === "industrial" ? "logistica" : "industrial"]}`
     : null;
+
+const requisitos = curso.requisitos ?? [];
+const requisitosId = `requisitos-${curso.id}`;
 ---
 
 <Card stripe={tone.stripe}>
@@ -54,6 +59,40 @@ const openTo =
   <p class="mt-2 pb-5 text-[15px] leading-relaxed text-muted">
     {curso.descripcion}
   </p>
+
+  {
+    requisitos.length > 0 && (
+      <section
+        class="mb-5 rounded-lg bg-surface px-4 py-3 text-sm leading-snug text-navy"
+        aria-labelledby={requisitosId}
+      >
+        <h4
+          id={requisitosId}
+          class="flex items-center gap-1.5 text-[13px] font-bold"
+        >
+          <LaptopIcon class="size-4 shrink-0" />
+          Requisitos
+        </h4>
+        <ul class="mt-1.5 list-disc space-y-1 pl-5 marker:text-navy/50">
+          {requisitos.map((requisito) => (
+            <li>{requisito}</li>
+          ))}
+        </ul>
+        {curso.enlace && (
+          <a
+            href={curso.enlace.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="requisitos-enlace mt-1.5 inline-flex min-h-11 items-center gap-1.5 rounded-sm font-semibold underline decoration-navy/40 underline-offset-4 transition-colors hover:decoration-navy"
+          >
+            <DownloadIcon class="size-4 shrink-0" />
+            {curso.enlace.texto}
+            <span class="sr-only">(se abre en una pestaña nueva)</span>
+          </a>
+        )}
+      </section>
+    )
+  }
 
   <!-- Datos del curso, pegados al fondo de la tarjeta -->
   <CardFacts>
@@ -101,3 +140,10 @@ const openTo =
   </CardFacts>
 </Card>
 
+
+<style>
+  .requisitos-enlace:focus-visible {
+    outline: 2px solid var(--color-navy);
+    outline-offset: 2px;
+  }
+</style>

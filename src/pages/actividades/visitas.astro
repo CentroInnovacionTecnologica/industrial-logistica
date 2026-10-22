@@ -14,11 +14,15 @@ const stats = [
   { icon: ClockIcon, text: `Salida ${visitasInfo.salida}` },
   { icon: UsersIcon, text: "Cupo limitado" },
 ];
+
+const empresas = new Intl.ListFormat("es", { type: "conjunction" }).format(
+  visitas.map((visita) => visita.empresa),
+);
 ---
 
 <BaseLayout
   title="Visitas | Semana Académica ITD"
-  description={`Conoce las ${visitas.length} visitas a empresas de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD: Grupo Armas, Yazaki, Hulmaq y Arca Continental.`}
+  description={`Conoce las ${visitas.length} visitas a empresas de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD: ${empresas}.`}
 >
   <Header />
 

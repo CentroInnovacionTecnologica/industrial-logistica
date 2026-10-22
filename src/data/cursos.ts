@@ -28,6 +28,10 @@ export interface Curso {
   duracionHoras: number | null;
   /** `null` = por confirmar. */
   lugares: number | null;
+  /** Lo que el estudiante necesita para tomar el curso. */
+  requisitos?: string[];
+  /** Enlace de apoyo que se muestra debajo de los requisitos (p. ej. descargas). */
+  enlace?: { texto: string; url: string };
 }
 
 /** Cursos que se muestran por página en la cuadrícula. */
@@ -114,6 +118,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2, 3],
     duracionHoras: 8,
     lugares: 20,
+    requisitos: ["Se imparte en laboratorio; no necesitas traer laptop."],
   },
   {
     id: 5,
@@ -151,6 +156,7 @@ export const cursos: Curso[] = [
     semestres: [4, 5, 6],
     duracionHoras: 8,
     lugares: 20,
+    requisitos: ["Laptop con Microsoft Office (Excel)", "Conocimientos básicos de Excel"],
   },
   {
     id: 8,
@@ -200,6 +206,7 @@ export const cursos: Curso[] = [
     semestres: [6, 7],
     duracionHoras: 8,
     lugares: 20,
+    requisitos: ["Laptop"],
   },
   {
     id: 12,
@@ -236,6 +243,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 10,
+    requisitos: ["Laptop"],
   },
   {
     id: 15,
@@ -273,6 +281,7 @@ export const cursos: Curso[] = [
     semestres: [8, 9, 10],
     duracionHoras: 8,
     lugares: 15,
+    requisitos: ["Laptop"],
   },
   {
     id: 18,
@@ -297,6 +306,11 @@ export const cursos: Curso[] = [
     semestres: [5, 6, 7, 8, 9],
     duracionHoras: 8,
     lugares: 25,
+    requisitos: ["Laptop con JAMOVI, SPSS y Minitab instalados"],
+    enlace: {
+      texto: "Descargar el software",
+      url: "https://drive.google.com/drive/folders/1FqrmUP1v4vphUZTpQpWc1GHTX3X_9B6S?usp=sharing",
+    },
   },
   {
     id: 20,
@@ -310,6 +324,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9, 10],
     duracionHoras: 8,
     lugares: 20,
+    requisitos: ["Laptop con Microsoft Office (Excel)", "Conocimientos intermedios de Excel"],
   },
   {
     id: 21,

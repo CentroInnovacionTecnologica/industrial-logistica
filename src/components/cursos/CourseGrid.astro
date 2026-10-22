@@ -28,7 +28,7 @@ const { cursos } = Astro.props;
           data-carreras={carrerasDelCurso(curso).join(",")}
           data-tema={curso.tema}
           data-texto={normalizar(
-            `${curso.nombre} ${curso.tema} ${curso.descripcion}`,
+            `${curso.nombre} ${curso.tema} ${curso.descripcion} ${(curso.requisitos ?? []).join(" ")}`,
           )}
           data-oculto={index >= CURSOS_POR_PAGINA ? "" : undefined}
         >

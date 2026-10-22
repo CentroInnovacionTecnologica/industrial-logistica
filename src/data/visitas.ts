@@ -12,6 +12,9 @@ import type { Carrera } from "./cursos";
  *   Yazaki ............. yazaki.png
  *   Hulmaq ............. hulmaq.jpg
  *   Arca Continental ... arca-continental.png
+ *   Termoeléctrica ..... termoelectrica.png
+ *   Forestal Alfa ...... forestal-alfa.png
+ *   SIR ................ sir.png
  *
  * Si un archivo no existe, la tarjeta muestra las iniciales de la empresa y
  * el build NO falla. Los logos nunca se amplían por encima de su tamaño
@@ -26,7 +29,8 @@ export interface Visita {
   /** Nombre del archivo dentro de src/assets/visitas/. */
   logo: string;
   carrera: CarreraVisita;
-  descripcion: string;
+  /** Si falta o está vacía, la tarjeta dice "Pronto compartiremos más detalles.". */
+  descripcion?: string;
   lugares: number;
 }
 
@@ -55,7 +59,7 @@ export const visitas: Visita[] = [
     id: "yazaki",
     empresa: "Yazaki",
     logo: "yazaki.png",
-    carrera: "logistica",
+    carrera: "ambas",
     descripcion:
       "Filial de una corporación global de origen japonés y líder mundial en la manufactura de componentes eléctricos para la industria automotriz, destacando en la producción de arneses y sistemas de distribución eléctrica vehicular. Su planta en Durango cuenta con una amplia infraestructura de manufactura avanzada, lo que la convierte en un escenario ideal para analizar complejos sistemas de logística internacional, control de inventarios, líneas de ensamble de alto volumen y gestión de la cadena de suministro.",
     lugares: 25,
@@ -76,6 +80,27 @@ export const visitas: Visita[] = [
     carrera: "ambas",
     descripcion:
       "La segunda embotelladora de productos Coca-Cola más grande de América Latina y una de las empresas líderes en la industria de bebidas y alimentos a nivel global. En su centro operativo y de distribución en Durango, gestiona procesos masivos de producción, almacenamiento, control de calidad y una compleja red de distribución y logística comercial de última milla, siendo un referente en eficiencia operativa y sustentabilidad.",
+    lugares: 25,
+  },
+  {
+    id: "termoelectrica",
+    empresa: "Termoeléctrica",
+    logo: "termoelectrica.png",
+    carrera: "ambas",
+    lugares: 25,
+  },
+  {
+    id: "forestal-alfa",
+    empresa: "Forestal Alfa",
+    logo: "forestal-alfa.png",
+    carrera: "ambas",
+    lugares: 25,
+  },
+  {
+    id: "sir",
+    empresa: "SIR",
+    logo: "sir.png",
+    carrera: "ambas",
     lugares: 25,
   },
 ];

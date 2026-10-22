@@ -17,7 +17,7 @@ export interface DatosTarjeta {
   semestres: string[];
   carreras: string[];
   tema: string;
-  /** Nombre, tema y descripción ya normalizados. */
+  /** Nombre, tema, descripción y requisitos ya normalizados. */
   texto: string;
 }
 
