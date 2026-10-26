@@ -5,6 +5,7 @@ import ClockIcon from "../../components/icons/ClockIcon.astro";
 import FactoryIcon from "../../components/icons/FactoryIcon.astro";
 import UsersIcon from "../../components/icons/UsersIcon.astro";
 import PageHeader from "../../components/PageHeader.astro";
+import CuposActualizados from "../../components/ui/CuposActualizados.astro";
 import VisitaCard from "../../components/visitas/VisitaCard.astro";
 import { visitas, visitasInfo } from "../../data/visitas";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -38,6 +39,8 @@ const empresas = new Intl.ListFormat("es", { type: "conjunction" }).format(
       aria-labelledby="visitas-titulo"
     >
       <h2 id="visitas-titulo" class="sr-only">Empresas que se visitarán</h2>
+
+      <CuposActualizados class="mb-4" />
 
       <p
         class="flex items-start gap-3 rounded-xl border border-gold-dark/60 bg-gold/15 px-4 py-3 text-[15px] font-medium leading-snug text-navy"

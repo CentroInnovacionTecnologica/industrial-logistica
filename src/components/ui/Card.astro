@@ -8,13 +8,18 @@ interface Props {
   stripe: string;
   /** Relleno del contenido; por defecto "p-5". */
   padding?: string;
+  /** Atenúa la tarjeta (p. ej. cupo lleno). 0.88 mantiene el texto gris en AA. */
+  atenuada?: boolean;
 }
 
-const { stripe, padding = "p-5" } = Astro.props;
+const { stripe, padding = "p-5", atenuada = false } = Astro.props;
 ---
 
 <article
-  class="flex h-full flex-col overflow-hidden rounded-xl border border-line bg-white shadow-[0_8px_20px_-14px_rgb(15_30_74/0.4)]"
+  class:list={[
+    "flex h-full flex-col overflow-hidden rounded-xl border border-line bg-white shadow-[0_8px_20px_-14px_rgb(15_30_74/0.4)]",
+    atenuada && "opacity-[0.88]",
+  ]}
 >
   <div class:list={["h-2 shrink-0", stripe]} aria-hidden="true"></div>
 

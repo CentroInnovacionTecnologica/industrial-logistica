@@ -1,0 +1,20 @@
+---
+/** Nota con la fecha del último corte de inscritos (src/data/site.ts). */
+import { cuposActualizados } from "../../data/site";
+import ClockIcon from "../icons/ClockIcon.astro";
+import { formatearFecha } from "./cupo";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<p class:list={["flex items-center gap-1.5 text-[13px] text-muted", className]}>
+  <ClockIcon class="size-4 shrink-0" />
+  <span>
+    Cupos actualizados al{" "}
+    <time datetime={cuposActualizados}>{formatearFecha(cuposActualizados)}</time>.
+  </span>
+</p>

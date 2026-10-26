@@ -5,9 +5,10 @@ import ClockIcon from "../icons/ClockIcon.astro";
 import DownloadIcon from "../icons/DownloadIcon.astro";
 import GraduationCapIcon from "../icons/GraduationCapIcon.astro";
 import LaptopIcon from "../icons/LaptopIcon.astro";
-import UsersIcon from "../icons/UsersIcon.astro";
 import Card from "../ui/Card.astro";
 import CardFacts from "../ui/CardFacts.astro";
+import CupoInfo from "../ui/CupoInfo.astro";
+import { calcularCupo } from "../ui/cupo";
 import { tonos } from "../ui/tonos";
 
 interface Props {
@@ -26,9 +27,14 @@ const openTo =
 
 const requisitos = curso.requisitos ?? [];
 const requisitosId = `requisitos-${curso.id}`;
+
+const cupo = { capacidad: curso.lugares, inscritos: curso.inscritos };
+const lleno =
+  curso.lugares !== null &&
+  calcularCupo(curso.lugares, curso.inscritos).estado === "lleno";
 ---
 
-<Card stripe={tone.stripe}>
+<Card stripe={tone.stripe} atenuada={lleno}>
   <div class="flex items-start justify-between gap-3">
     <p
       class:list={[
@@ -49,6 +55,7 @@ const requisitosId = `requisitos-${curso.id}`;
         <span class="sr-only">Carrera:</span>
         {carreraLabels[curso.carrera]}
       </p>
+      <CupoInfo parte="etiqueta" {...cupo} />
       {openTo && <p class="text-xs font-medium text-muted">{openTo}</p>}
     </div>
   </div>
@@ -121,23 +128,9 @@ const requisitosId = `requisitos-${curso.id}`;
         }
       </span>
     </li>
-    <li>
-      <UsersIcon class="size-5 shrink-0" />
-      <span>
-        <span class="sr-only">Cupo:</span>
-        {
-          curso.lugares === null ? (
-            <span class="font-medium text-muted">{PENDING}</span>
-          ) : (
-            <>
-              <strong class="block text-sm font-bold">{curso.lugares}</strong>
-              lugares
-            </>
-          )
-        }
-      </span>
-    </li>
+    <CupoInfo parte="dato" {...cupo} />
   </CardFacts>
+  <CupoInfo parte="barra" {...cupo} />
 </Card>
 
 

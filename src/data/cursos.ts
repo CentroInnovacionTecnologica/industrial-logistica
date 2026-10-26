@@ -28,6 +28,8 @@ export interface Curso {
   duracionHoras: number | null;
   /** `null` = por confirmar. */
   lugares: number | null;
+  /** Estudiantes inscritos (los disponibles se calculan, ver cupo.ts). */
+  inscritos: number;
   /** Lo que el estudiante necesita para tomar el curso. */
   requisitos?: string[];
   /** Enlace de apoyo que se muestra debajo de los requisitos (p. ej. descargas). */
@@ -82,6 +84,7 @@ export const cursos: Curso[] = [
     semestres: [1],
     duracionHoras: 8,
     lugares: 25,
+    inscritos: 0,
   },
   {
     id: 2,
@@ -94,6 +97,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2],
     duracionHoras: 8,
     lugares: 25,
+    inscritos: 6,
   },
   {
     id: 3,
@@ -106,6 +110,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 1,
   },
   {
     id: 4,
@@ -118,6 +123,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2, 3],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 1,
     requisitos: ["Se imparte en laboratorio; no necesitas traer laptop."],
   },
   {
@@ -132,6 +138,7 @@ export const cursos: Curso[] = [
     semestres: [2, 3, 4],
     duracionHoras: 8,
     lugares: 25,
+    inscritos: 4,
   },
   {
     id: 6,
@@ -144,6 +151,7 @@ export const cursos: Curso[] = [
     semestres: [3, 4],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 6,
   },
   {
     id: 7,
@@ -156,6 +164,7 @@ export const cursos: Curso[] = [
     semestres: [4, 5, 6],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 7,
     requisitos: ["Laptop con Microsoft Office (Excel)", "Conocimientos básicos de Excel"],
   },
   {
@@ -170,6 +179,7 @@ export const cursos: Curso[] = [
     semestres: [4, 5],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 8,
   },
   {
     id: 9,
@@ -182,6 +192,7 @@ export const cursos: Curso[] = [
     semestres: [5, 6],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 5,
   },
   {
     id: 10,
@@ -194,6 +205,7 @@ export const cursos: Curso[] = [
     semestres: [5, 6, 7],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 0,
   },
   {
     id: 11,
@@ -206,6 +218,7 @@ export const cursos: Curso[] = [
     semestres: [6, 7],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 0,
     requisitos: ["Laptop"],
   },
   {
@@ -219,6 +232,7 @@ export const cursos: Curso[] = [
     semestres: [6, 7],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 3,
   },
   {
     id: 13,
@@ -231,6 +245,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 3,
   },
   {
     id: 14,
@@ -243,6 +258,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 10,
+    inscritos: 4,
     requisitos: ["Laptop"],
   },
   {
@@ -257,6 +273,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 25,
+    inscritos: 3,
   },
   {
     id: 16,
@@ -269,6 +286,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 0,
   },
   {
     id: 17,
@@ -281,6 +299,7 @@ export const cursos: Curso[] = [
     semestres: [8, 9, 10],
     duracionHoras: 8,
     lugares: 15,
+    inscritos: 0,
     requisitos: ["Laptop"],
   },
   {
@@ -294,6 +313,7 @@ export const cursos: Curso[] = [
     semestres: [8, 9, 10],
     duracionHoras: 8,
     lugares: 25,
+    inscritos: 1,
   },
   {
     id: 19,
@@ -306,6 +326,7 @@ export const cursos: Curso[] = [
     semestres: [5, 6, 7, 8, 9],
     duracionHoras: 8,
     lugares: 25,
+    inscritos: 3,
     requisitos: ["Laptop con JAMOVI, SPSS y Minitab instalados"],
     enlace: {
       texto: "Descargar el software",
@@ -324,6 +345,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9, 10],
     duracionHoras: 8,
     lugares: 20,
+    inscritos: 2,
     requisitos: ["Laptop con Microsoft Office (Excel)", "Conocimientos intermedios de Excel"],
   },
   {
@@ -337,5 +359,6 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9, 10],
     duracionHoras: 8,
     lugares: 15,
+    inscritos: 3,
   },
 ];

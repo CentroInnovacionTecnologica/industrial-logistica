@@ -5,6 +5,7 @@ import TicketIcon from "../../components/icons/TicketIcon.astro";
 import TrophyIcon from "../../components/icons/TrophyIcon.astro";
 import UsersIcon from "../../components/icons/UsersIcon.astro";
 import PageHeader from "../../components/PageHeader.astro";
+import CuposActualizados from "../../components/ui/CuposActualizados.astro";
 import { deportivas, totalLugaresDeportivas } from "../../data/deportivas";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -33,6 +34,8 @@ const stats = [
       aria-labelledby="deportivas-titulo"
     >
       <h2 id="deportivas-titulo" class="sr-only">Actividades disponibles</h2>
+
+      <CuposActualizados class="mb-4" />
 
       <ul role="list" class="grid gap-5 md:grid-cols-2 lg:gap-6">
         {

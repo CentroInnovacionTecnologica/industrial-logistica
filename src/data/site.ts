@@ -12,6 +12,11 @@ export const site = {
   skipLink: "Saltar al contenido",
 };
 
+/* ---------- Cupos ---------- */
+
+/** Fecha (AAAA-MM-DD) del último corte de inscritos en cursos, visitas y deportivas. */
+export const cuposActualizados = "2026-10-26";
+
 /* ---------- Logos del encabezado ---------- */
 
 export interface Logo {

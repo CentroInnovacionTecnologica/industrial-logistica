@@ -1,0 +1,99 @@
+---
+/**
+ * Disponibilidad de lugares de un curso, visita o actividad deportiva.
+ * Se usa en tres puntos de la tarjeta, según `parte`:
+ *   - "etiqueta": aviso junto al chip ("¡Últimos lugares!" o "Cupo lleno").
+ *   - "dato":     <li> para CardFacts ("12 disponibles / de 15 lugares").
+ *   - "barra":    barra de ocupación debajo de la fila de datos.
+ * Con capacidad `null` (por confirmar) solo "dato" muestra algo.
+ */
+import UsersIcon from "../icons/UsersIcon.astro";
+import { calcularCupo } from "./cupo";
+
+interface Props {
+  parte: "etiqueta" | "dato" | "barra";
+  /** Lugares totales; `null` = por confirmar. */
+  capacidad: number | null;
+  inscritos: number;
+}
+
+const { parte, capacidad, inscritos } = Astro.props;
+const cupo = capacidad === null ? null : calcularCupo(capacidad, inscritos);
+
+const plural = (n: number, uno: string, varios: string) => (n === 1 ? uno : varios);
+
+const etiquetas = {
+  pocos: { texto: "¡Últimos lugares!", clase: "bg-amber-soft text-amber-dark" },
+  lleno: { texto: "Cupo lleno", clase: "bg-guinda text-white" },
+};
+
+const colorBarra = {
+  normal: "bg-navy",
+  pocos: "bg-amber",
+  lleno: "bg-guinda",
+};
+
+const etiqueta = cupo && cupo.estado !== "normal" ? etiquetas[cupo.estado] : null;
+---
+
+{
+  parte === "etiqueta" && etiqueta && (
+    <p
+      class:list={[
+        "shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-bold leading-tight",
+        etiqueta.clase,
+      ]}
+    >
+      {etiqueta.texto}
+    </p>
+  )
+}
+
+{
+  parte === "dato" && (
+    <li>
+      <UsersIcon class="size-5 shrink-0" />
+      <span>
+        <span class="sr-only">Cupo:</span>
+        {cupo === null ? (
+          <span class="font-medium text-muted">Por confirmar</span>
+        ) : (
+          <>
+            <strong
+              class:list={[
+                "block text-sm font-bold tabular-nums",
+                cupo.estado === "lleno" && "text-guinda-dark",
+              ]}
+            >
+              {cupo.estado === "lleno"
+                ? "Sin lugares disponibles"
+                : `${cupo.disponibles} ${plural(cupo.disponibles, "disponible", "disponibles")}`}
+            </strong>{" "}
+            <span class="mt-0.5 block text-xs tabular-nums text-muted">
+              de {cupo.capacidad} {plural(cupo.capacidad, "lugar", "lugares")}
+            </span>
+          </>
+        )}
+      </span>
+    </li>
+  )
+}
+
+{
+  parte === "barra" && cupo && (
+    <div
+      class="mt-4 h-1.5 overflow-hidden rounded-full bg-line"
+      role="progressbar"
+      aria-valuemin={0}
+      aria-valuemax={cupo.capacidad}
+      aria-valuenow={cupo.capacidad - cupo.disponibles}
+      aria-valuetext={`${cupo.capacidad - cupo.disponibles} de ${cupo.capacidad} lugares ocupados`}
+      aria-label={`${cupo.disponibles} de ${cupo.capacidad} lugares disponibles`}
+    >
+      <div
+        class:list={["h-full rounded-full", colorBarra[cupo.estado]]}
+        style={`width: ${cupo.ocupado}%`}
+      />
+    </div>
+  )
+}

@@ -20,6 +20,11 @@
   --color-muted: #56637f; /* texto secundario (gris azulado) */
   --color-focus: #1d4ed8;
 
+  /* Disponibilidad de lugares (ver CupoInfo.astro) */
+  --color-amber: #d97706; /* barra "¡Últimos lugares!" (3.2:1 sobre blanco) */
+  --color-amber-dark: #92400e; /* texto de la etiqueta ámbar */
+  --color-amber-soft: #fef3c7; /* fondo de la etiqueta ámbar */
+
   /* Tipografía (autoalojada con Fontsource, ver BaseLayout.astro) */
   --font-display: "Montserrat Variable", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;

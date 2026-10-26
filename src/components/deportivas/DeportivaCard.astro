@@ -4,9 +4,10 @@ import ChessPawnIcon from "../icons/ChessPawnIcon.astro";
 import FlagIcon from "../icons/FlagIcon.astro";
 import MessagesIcon from "../icons/MessagesIcon.astro";
 import SoccerBallIcon from "../icons/SoccerBallIcon.astro";
-import UsersIcon from "../icons/UsersIcon.astro";
 import Card from "../ui/Card.astro";
 import CardFacts from "../ui/CardFacts.astro";
+import CupoInfo from "../ui/CupoInfo.astro";
+import { calcularCupo } from "../ui/cupo";
 import { tonos } from "../ui/tonos";
 
 interface Props {
@@ -23,19 +24,24 @@ const iconos: Record<IconoDeportiva, typeof FlagIcon> = {
 };
 
 const Icono = iconos[actividad.icono];
+
+const cupo = { capacidad: actividad.lugares, inscritos: actividad.inscritos };
+const lleno =
+  calcularCupo(actividad.lugares, actividad.inscritos).estado === "lleno";
 ---
 
-<Card stripe={tonos.ambas.stripe}>
-  <div class="flex items-center gap-3">
+<Card stripe={tonos.ambas.stripe} atenuada={lleno}>
+  <div class="flex flex-wrap items-center gap-3">
     <span
       class="grid size-11 shrink-0 place-items-center rounded-lg bg-navy/8 text-navy"
       aria-hidden="true"
     >
       <Icono class="size-6" />
     </span>
-    <h3 class="font-display text-lg font-bold leading-snug text-navy">
+    <h3 class="flex-1 font-display text-lg font-bold leading-snug text-navy">
       {actividad.nombre}
     </h3>
+    <CupoInfo parte="etiqueta" {...cupo} />
   </div>
 
   <p class="mt-3 pb-5 text-[15px] leading-relaxed text-muted">
@@ -43,12 +49,7 @@ const Icono = iconos[actividad.icono];
   </p>
 
   <CardFacts>
-    <li>
-      <UsersIcon class="size-5 shrink-0" />
-      <span>
-        <span class="sr-only">Cupo:</span>
-        <strong class="text-sm font-bold">{actividad.lugares}</strong>{" "}lugares
-      </span>
-    </li>
+    <CupoInfo parte="dato" {...cupo} />
   </CardFacts>
+  <CupoInfo parte="barra" {...cupo} />
 </Card>
