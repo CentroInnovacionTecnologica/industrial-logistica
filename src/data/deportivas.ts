@@ -21,7 +21,7 @@ export const deportivas: ActividadDeportiva[] = [
     descripcion:
       "¡Pon a prueba tu agilidad, trabajo en equipo y destreza mental! Una competencia dinámica en la que formarás equipos para superar una serie de retos físicos, dinámicas de integración y acertijos a lo largo de un circuito de estaciones. Es la actividad ideal para estrechar lazos, fomentar el liderazgo y vivir el espíritu universitario al máximo.",
     lugares: 100,
-    inscritos: 13,
+    inscritos: 14,
   },
   {
     id: "futbol",

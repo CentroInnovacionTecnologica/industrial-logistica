@@ -56,7 +56,7 @@ export const visitas: Visita[] = [
     descripcion:
       "Empresa proveedora del sector automotriz e industrial establecida en Ciudad Industrial, Durango. Está especializada en la fabricación de intercambiadores de calor, sistemas de aire acondicionado para automóviles y piezas moldeadas de polietileno. Es una excelente opción para que los estudiantes observen procesos de manufactura especializada, control de calidad y manufactura esbelta en la industria automotriz local.",
     lugares: 25,
-    inscritos: 14,
+    inscritos: 25,
   },
   {
     id: "yazaki",
@@ -66,7 +66,7 @@ export const visitas: Visita[] = [
     descripcion:
       "Filial de una corporación global de origen japonés y líder mundial en la manufactura de componentes eléctricos para la industria automotriz, destacando en la producción de arneses y sistemas de distribución eléctrica vehicular. Su planta en Durango cuenta con una amplia infraestructura de manufactura avanzada, lo que la convierte en un escenario ideal para analizar complejos sistemas de logística internacional, control de inventarios, líneas de ensamble de alto volumen y gestión de la cadena de suministro.",
     lugares: 25,
-    inscritos: 11,
+    inscritos: 18,
   },
   {
     id: "hulmaq",
@@ -76,7 +76,7 @@ export const visitas: Visita[] = [
     descripcion:
       "Empresa familiar duranguense fundada en 1980, con más de cuatro décadas de trayectoria en la transformación de acero y la fabricación de maquinaria para la industria forestal y de la construcción. Cuenta con tecnología de vanguardia que incluye centros de mecanizado CNC, tornos verticales, dobladoras de placas y cabinas de granallado (shot blast). Es una visita clave para conocer de cerca procesos metalmecánicos pesados y de precisión.",
     lugares: 8,
-    inscritos: 5,
+    inscritos: 8,
   },
   {
     id: "arca-continental",
@@ -94,7 +94,7 @@ export const visitas: Visita[] = [
     logo: "termoelectrica.png",
     carrera: "ambas",
     lugares: 25,
-    inscritos: 3,
+    inscritos: 25,
   },
   {
     id: "forestal-alfa",
@@ -102,7 +102,7 @@ export const visitas: Visita[] = [
     logo: "forestal-alfa.png",
     carrera: "ambas",
     lugares: 25,
-    inscritos: 0,
+    inscritos: 10,
   },
   {
     id: "sir",
@@ -110,7 +110,7 @@ export const visitas: Visita[] = [
     logo: "sir.png",
     carrera: "ambas",
     lugares: 25,
-    inscritos: 0,
+    inscritos: 2,
   },
 ];
 

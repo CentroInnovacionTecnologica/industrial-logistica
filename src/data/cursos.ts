@@ -84,7 +84,7 @@ export const cursos: Curso[] = [
     semestres: [1],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 0,
+    inscritos: 3,
   },
   {
     id: 2,
@@ -97,7 +97,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 6,
+    inscritos: 7,
   },
   {
     id: 3,
@@ -123,7 +123,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2, 3],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 1,
+    inscritos: 11,
     requisitos: ["Se imparte en laboratorio; no necesitas traer laptop."],
   },
   {
@@ -138,7 +138,7 @@ export const cursos: Curso[] = [
     semestres: [2, 3, 4],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 4,
+    inscritos: 6,
   },
   {
     id: 6,
@@ -151,7 +151,7 @@ export const cursos: Curso[] = [
     semestres: [3, 4],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 6,
+    inscritos: 19,
   },
   {
     id: 7,
@@ -164,7 +164,7 @@ export const cursos: Curso[] = [
     semestres: [4, 5, 6],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 7,
+    inscritos: 12,
     requisitos: ["Laptop con Microsoft Office (Excel)", "Conocimientos básicos de Excel"],
   },
   {
@@ -179,7 +179,7 @@ export const cursos: Curso[] = [
     semestres: [4, 5],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 8,
+    inscritos: 17,
   },
   {
     id: 9,
@@ -192,7 +192,7 @@ export const cursos: Curso[] = [
     semestres: [5, 6],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 5,
+    inscritos: 6,
   },
   {
     id: 10,
@@ -205,7 +205,7 @@ export const cursos: Curso[] = [
     semestres: [5, 6, 7],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 0,
+    inscritos: 11,
   },
   {
     id: 11,
@@ -218,7 +218,7 @@ export const cursos: Curso[] = [
     semestres: [6, 7],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 0,
+    inscritos: 2,
     requisitos: ["Laptop"],
   },
   {
@@ -245,7 +245,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 3,
+    inscritos: 5,
   },
   {
     id: 14,
@@ -258,7 +258,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 10,
-    inscritos: 4,
+    inscritos: 5,
     requisitos: ["Laptop"],
   },
   {
@@ -273,7 +273,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 3,
+    inscritos: 1,
   },
   {
     id: 16,
@@ -313,7 +313,7 @@ export const cursos: Curso[] = [
     semestres: [8, 9, 10],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 1,
+    inscritos: 3,
   },
   {
     id: 19,
@@ -345,7 +345,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9, 10],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 2,
+    inscritos: 4,
     requisitos: ["Laptop con Microsoft Office (Excel)", "Conocimientos intermedios de Excel"],
   },
   {
@@ -359,6 +359,6 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9, 10],
     duracionHoras: 8,
     lugares: 15,
-    inscritos: 3,
+    inscritos: 6,
   },
 ];
