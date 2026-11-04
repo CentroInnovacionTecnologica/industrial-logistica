@@ -5,6 +5,7 @@ import ClockIcon from "../icons/ClockIcon.astro";
 import DownloadIcon from "../icons/DownloadIcon.astro";
 import GraduationCapIcon from "../icons/GraduationCapIcon.astro";
 import LaptopIcon from "../icons/LaptopIcon.astro";
+import PinIcon from "../icons/PinIcon.astro";
 import Card from "../ui/Card.astro";
 import CardFacts from "../ui/CardFacts.astro";
 import CupoInfo from "../ui/CupoInfo.astro";
@@ -24,6 +25,8 @@ const openTo =
   curso.abiertoAOtraCarrera && curso.carrera !== "ambas"
     ? `Abierto a ${carreraLabels[curso.carrera === "industrial" ? "logistica" : "industrial"]}`
     : null;
+
+const aulaPendiente = curso.aula === PENDING;
 
 const requisitos = curso.requisitos ?? [];
 const requisitosId = `requisitos-${curso.id}`;
@@ -101,35 +104,49 @@ const lleno =
     )
   }
 
-  <!-- Datos del curso, pegados al fondo de la tarjeta -->
-  <CardFacts>
-    <li>
-      <GraduationCapIcon class="size-5 shrink-0" />
-      <span>
-        <span class="sr-only">Semestres:</span>
-        <strong class="block whitespace-nowrap text-sm font-bold">
-          {formatSemestres(curso.semestres)}
-        </strong>
-        semestre
+  <!-- Aula y datos del curso, pegados al fondo de la tarjeta -->
+  <div class="mt-auto">
+    <p
+      class:list={[
+        "mb-3 flex items-start gap-1.5 text-[13px] font-semibold leading-snug",
+        aulaPendiente ? "text-muted" : "text-navy",
+      ]}
+    >
+      <PinIcon class="mt-px size-4 shrink-0" />
+      <span class="min-w-0 break-words">
+        <span class="sr-only">Aula:</span>
+        {curso.aula}
       </span>
-    </li>
-    <li>
-      <ClockIcon class="size-5 shrink-0" />
-      <span>
-        <span class="sr-only">Duración:</span>
-        {
-          curso.duracionHoras === null ? (
-            <span class="font-medium text-muted">{PENDING}</span>
-          ) : (
-            <strong class="text-sm font-bold">
-              {curso.duracionHoras}&nbsp;h
-            </strong>
-          )
-        }
-      </span>
-    </li>
-    <CupoInfo parte="dato" {...cupo} />
-  </CardFacts>
+    </p>
+    <CardFacts>
+      <li>
+        <GraduationCapIcon class="size-5 shrink-0" />
+        <span>
+          <span class="sr-only">Semestres:</span>
+          <strong class="block whitespace-nowrap text-sm font-bold">
+            {formatSemestres(curso.semestres)}
+          </strong>
+          semestre
+        </span>
+      </li>
+      <li>
+        <ClockIcon class="size-5 shrink-0" />
+        <span>
+          <span class="sr-only">Duración:</span>
+          {
+            curso.duracionHoras === null ? (
+              <span class="font-medium text-muted">{PENDING}</span>
+            ) : (
+              <strong class="text-sm font-bold">
+                {curso.duracionHoras}&nbsp;h
+              </strong>
+            )
+          }
+        </span>
+      </li>
+      <CupoInfo parte="dato" {...cupo} />
+    </CardFacts>
+  </div>
   <CupoInfo parte="barra" {...cupo} />
 </Card>
 

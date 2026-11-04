@@ -30,6 +30,8 @@ export interface Curso {
   lugares: number | null;
   /** Estudiantes inscritos (los disponibles se calculan, ver cupo.ts). */
   inscritos: number;
+  /** Dónde se imparte; "Por confirmar" si aún no se asigna. */
+  aula: string;
   /** Lo que el estudiante necesita para tomar el curso. */
   requisitos?: string[];
   /** Enlace de apoyo que se muestra debajo de los requisitos (p. ej. descargas). */
@@ -85,6 +87,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 11,
+    aula: "Aula I-1",
   },
   {
     id: 2,
@@ -98,6 +101,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 12,
+    aula: "Aula I-2",
   },
   {
     id: 3,
@@ -111,6 +115,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 1,
+    aula: "Aula I-3",
   },
   {
     id: 4,
@@ -124,7 +129,8 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 18,
-    requisitos: ["Se imparte en laboratorio; no necesitas traer laptop."],
+    aula: "Aula I-4",
+    requisitos: ["Laptop con Microsoft Office (Excel)"],
   },
   {
     id: 5,
@@ -139,6 +145,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 12,
+    aula: "CIT",
   },
   {
     id: 6,
@@ -152,6 +159,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 20,
+    aula: "Aula I-6",
   },
   {
     id: 7,
@@ -165,6 +173,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 20,
+    aula: "Aula I-5",
     requisitos: ["Laptop con Microsoft Office (Excel)", "Conocimientos básicos de Excel"],
   },
   {
@@ -180,6 +189,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 20,
+    aula: "Aula I-7",
   },
   {
     id: 9,
@@ -193,6 +203,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 12,
+    aula: "Aula I-8",
   },
   {
     id: 10,
@@ -206,6 +217,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 18,
+    aula: "CIT",
   },
   {
     id: 11,
@@ -219,6 +231,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 3,
+    aula: "Laboratorio de Ingeniería Industrial",
     requisitos: ["Laptop"],
   },
   {
@@ -233,6 +246,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 3,
+    aula: "Hemeroteca",
   },
   {
     id: 13,
@@ -246,6 +260,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 9,
+    aula: "Excelencia Operativa",
   },
   {
     id: 14,
@@ -259,6 +274,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 10,
     inscritos: 6,
+    aula: "CIT",
     requisitos: ["Laptop"],
   },
   {
@@ -274,6 +290,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 2,
+    aula: "Aula I-10",
   },
   {
     id: 16,
@@ -287,6 +304,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 2,
+    aula: "Aula I-9",
   },
   {
     id: 17,
@@ -300,6 +318,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 15,
     inscritos: 0,
+    aula: "Laboratorio del CIT",
     requisitos: ["Laptop"],
   },
   {
@@ -314,6 +333,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 5,
+    aula: "Aula I-11",
   },
   {
     id: 19,
@@ -327,6 +347,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 3,
+    aula: "Laboratorio del CIT",
     requisitos: ["Laptop con JAMOVI, SPSS y Minitab instalados"],
     enlace: {
       texto: "Descargar el software",
@@ -346,6 +367,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 5,
+    aula: "Por confirmar",
     requisitos: ["Laptop con Microsoft Office (Excel)", "Conocimientos intermedios de Excel"],
   },
   {
@@ -360,5 +382,6 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 15,
     inscritos: 10,
+    aula: "Laboratorio de Robótica",
   },
 ];
