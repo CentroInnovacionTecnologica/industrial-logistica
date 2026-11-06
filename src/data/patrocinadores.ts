@@ -25,7 +25,7 @@ export const patrocinadoresInfo = {
 };
 
 export const patrocinadores: Patrocinador[] = [
-  { empresa: "Logmine", logo: "patrocinadores/logmine.jpeg" },
+  { empresa: "Logmine", logo: "patrocinadores/logmine.png" },
   { empresa: "Naturgy", logo: "patrocinadores/naturgy.png" },
   { empresa: "Arca Continental", logo: "visitas/arca-continental.jpeg" },
   { empresa: "Forestal Alfa", logo: "visitas/forestal-alfa.png" },
