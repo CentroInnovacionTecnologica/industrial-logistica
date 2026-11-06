@@ -11,7 +11,7 @@ import type { Carrera } from "./cursos";
  *   Grupo Armas ........ grupo-armas.png
  *   Yazaki ............. yazaki.png
  *   Hulmaq ............. hulmaq.jpg
- *   Arca Continental ... arca-continental.png
+ *   Arca Continental ... arca-continental.jpeg
  *   Termoeléctrica ..... termoelectrica.png
  *   Forestal Alfa ...... forestal-alfa.png
  *   SIR ................ sir.png
@@ -81,7 +81,7 @@ export const visitas: Visita[] = [
   {
     id: "arca-continental",
     empresa: "Arca Continental",
-    logo: "arca-continental.png",
+    logo: "arca-continental.jpeg",
     carrera: "ambas",
     descripcion:
       "La segunda embotelladora de productos Coca-Cola más grande de América Latina y una de las empresas líderes en la industria de bebidas y alimentos a nivel global. En su centro operativo y de distribución en Durango, gestiona procesos masivos de producción, almacenamiento, control de calidad y una compleja red de distribución y logística comercial de última milla, siendo un referente en eficiencia operativa y sustentabilidad.",

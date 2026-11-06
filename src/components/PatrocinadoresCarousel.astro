@@ -1,0 +1,175 @@
+---
+import { Image } from "astro:assets";
+import { patrocinadoresConLogo, patrocinadoresInfo } from "../data/patrocinadores";
+
+const logos = patrocinadoresConLogo();
+
+// Tope del archivo generado: nítido en pantallas de alta densidad sin servir
+// originales enormes. Nunca supera el ancho original del logo.
+const LOGO_MAX_WIDTH = 480;
+
+// La lista se pinta dos veces: la segunda copia solo sirve para cerrar el bucle.
+const copias = [false, true];
+---
+
+{
+  logos.length > 0 && (
+    <section class="bg-white" aria-labelledby="patrocinadores-titulo">
+      <div class="py-12 lg:py-16">
+        <header class="site-container">
+          <div class="max-w-2xl">
+            <h2
+              id="patrocinadores-titulo"
+              class="font-display text-[1.75rem] font-extrabold leading-tight tracking-tight text-navy sm:text-4xl"
+            >
+              {patrocinadoresInfo.titulo}
+            </h2>
+            <p class="mt-3 text-base leading-relaxed text-muted lg:text-lg">
+              {patrocinadoresInfo.texto}
+            </p>
+          </div>
+        </header>
+
+        <div class="marquee mt-8 lg:mt-10">
+          <div class="marquee-track">
+            {copias.map((esCopia) => (
+              <ul class="marquee-list" aria-hidden={esCopia ? "true" : undefined}>
+                {logos.map(({ empresa, imagen }) => (
+                  <li class="logo-card">
+                    <Image
+                      src={imagen}
+                      alt={esCopia ? "" : empresa}
+                      width={Math.min(imagen.width, LOGO_MAX_WIDTH)}
+                      loading="eager"
+                      decoding="async"
+                      class="logo-img"
+                    />
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .marquee {
+    --card-w: 9rem;
+    --card-h: 4.5rem; /* 72 px */
+    --card-pad: 0.75rem;
+    --gap: 1rem;
+    --fade: 2rem;
+
+    overflow: hidden;
+    /* Aire arriba y abajo para que no se recorten los bordes de las tarjetas */
+    padding-block: 2px;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--fade),
+      #000 calc(100% - var(--fade)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--fade),
+      #000 calc(100% - var(--fade)),
+      transparent 100%
+    );
+  }
+
+  @media (width >= 48rem) {
+    .marquee {
+      --card-w: 12rem;
+      --card-h: 6rem; /* 96 px */
+      --card-pad: 1rem;
+      --gap: 1.5rem;
+      --fade: 5rem;
+    }
+  }
+
+  @media (width >= 80rem) {
+    .marquee {
+      --gap: 2rem;
+      --fade: 8rem;
+    }
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 36s linear infinite;
+  }
+
+  /* Pausa al pasar el cursor o al recibir el foco */
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .marquee-list {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--gap);
+    /* El mismo espacio al final de cada copia mantiene el bucle sin saltos */
+    padding-inline-end: var(--gap);
+  }
+
+  .logo-card {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: var(--card-w);
+    height: var(--card-h);
+    padding: var(--card-pad);
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    background: #fff;
+  }
+
+  .logo-img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Sin movimiento: cuadrícula centrada en varias filas */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      -webkit-mask-image: none;
+      mask-image: none;
+      margin-inline: auto;
+      max-width: var(--container-site);
+      padding-inline: 1rem;
+    }
+
+    .marquee-track {
+      width: auto;
+      animation: none;
+    }
+
+    .marquee-list {
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      padding-inline-end: 0;
+    }
+
+    .marquee-list[aria-hidden="true"] {
+      display: none;
+    }
+  }
+</style>
