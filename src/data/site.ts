@@ -76,10 +76,11 @@ export const nav = {
       // ruta (p. ej. "/actividades/conferencias"). El encabezado marcará "Actividades"
       // como activo al estar en cualquiera de ellas.
       children: [
-        { label: "Inauguración", href: "#" },
+        { label: "Inauguración", href: "/actividades/inauguracion" },
         { label: "Conferencias", href: "/actividades/conferencias" },
         { label: "Entrega de Certificaciones", href: "#" },
         { label: "Paneles", href: "/actividades/paneles" },
+        { label: "Foro", href: "/actividades/foro" },
         { label: "Visitas", href: "/actividades/visitas" },
         { label: "Charlas", href: "/actividades/charlas" },
         { label: "Actividades Deportivas", href: "/actividades/deportivas" },

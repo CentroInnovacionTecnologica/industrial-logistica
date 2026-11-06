@@ -21,7 +21,8 @@ export interface PuntoEvento {
 export interface Evento {
   id: number;
   titulo: string;
-  ponente: string;
+  /** Vacío u omitido: la tarjeta muestra "Ponente por confirmar". */
+  ponente?: string;
   /** Sobrenombre del ponente. */
   alias?: string;
   /** Ej. "Conferencista y motivador". */

@@ -14,7 +14,8 @@ export interface Panelista {
   cargo: string;
 }
 
-export interface Panel {
+/** Datos comunes a paneles y foros (todo menos la lista de integrantes). */
+export interface SeccionActividad {
   id: string;
   /** Texto del chip, p. ej. "Panel de expertos". */
   tipo: string;
@@ -26,6 +27,9 @@ export interface Panel {
   /** Formato de 24 h, ej. "13:00". */
   hora?: string;
   lugar?: string;
+}
+
+export interface Panel extends SeccionActividad {
   panelistas: Panelista[];
 }
 

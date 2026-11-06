@@ -1,0 +1,45 @@
+---
+import Header from "../../components/Header.astro";
+import CalendarIcon from "../../components/icons/CalendarIcon.astro";
+import HexNetworkIcon from "../../components/icons/HexNetworkIcon.astro";
+import MessagesIcon from "../../components/icons/MessagesIcon.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import PanelSection from "../../components/paneles/PanelSection.astro";
+import { foros } from "../../data/foros";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const total = foros.length;
+
+const stats = [
+  { icon: MessagesIcon, text: `${total} ${total === 1 ? "foro" : "foros"}` },
+  { icon: HexNetworkIcon, text: "Semana Académica NEXUS" },
+  { icon: CalendarIcon, text: "24 al 27 de noviembre" },
+];
+---
+
+<BaseLayout
+  title="Foro | Semana Académica ITD"
+  description="Conoce el Encuentro de Ingenieras Egresadas, foro de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD, del 24 al 27 de noviembre de 2026."
+>
+  <Header />
+
+  <main id="contenido">
+    <PageHeader
+      title="Foro"
+      breadcrumb={[{ label: "Actividades" }, { label: "Foro" }]}
+      stats={stats}
+    />
+
+    <div class="site-container space-y-6 pb-10 pt-5 lg:space-y-8 lg:pb-12 lg:pt-6">
+      {
+        foros.map((foro) => (
+          <PanelSection
+            panel={foro}
+            integrantes={foro.participantes}
+            tituloIntegrantes="Participantes"
+          />
+        ))
+      }
+    </div>
+  </main>
+</BaseLayout>

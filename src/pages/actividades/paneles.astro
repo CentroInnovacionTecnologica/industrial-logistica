@@ -34,7 +34,15 @@ const stats = [
     />
 
     <div class="site-container space-y-6 pb-10 pt-5 lg:space-y-8 lg:pb-12 lg:pt-6">
-      {paneles.map((panel) => <PanelSection panel={panel} />)}
+      {
+        paneles.map((panel) => (
+          <PanelSection
+            panel={panel}
+            integrantes={panel.panelistas}
+            tituloIntegrantes="Panelistas"
+          />
+        ))
+      }
     </div>
   </main>
 </BaseLayout>

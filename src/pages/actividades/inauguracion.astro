@@ -1,0 +1,197 @@
+---
+import { Image } from "astro:assets";
+import Header from "../../components/Header.astro";
+import CalendarIcon from "../../components/icons/CalendarIcon.astro";
+import ClockIcon from "../../components/icons/ClockIcon.astro";
+import PinIcon from "../../components/icons/PinIcon.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Card from "../../components/ui/Card.astro";
+import { tonos } from "../../components/ui/tonos";
+import {
+  formatearDiaMes,
+  formatearFechaLarga,
+  formatearHora,
+  inauguracion,
+} from "../../data/inauguracion";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const hora = formatearHora(inauguracion.hora);
+
+const stats = [
+  { icon: CalendarIcon, text: formatearDiaMes(inauguracion.fecha) },
+  { icon: ClockIcon, text: hora },
+  { icon: PinIcon, text: inauguracion.lugar },
+];
+
+const datos = [
+  {
+    icon: CalendarIcon,
+    label: "Fecha",
+    texto: formatearFechaLarga(inauguracion.fecha),
+    datetime: inauguracion.fecha,
+  },
+  { icon: ClockIcon, label: "Hora", texto: hora, datetime: inauguracion.hora },
+  { icon: PinIcon, label: "Lugar", texto: inauguracion.lugar },
+];
+
+// Nunca se genera una versión más ancha que la foto original.
+const imagen = inauguracion.imagen;
+const anchos = [360, 480, imagen.width].filter((ancho) => ancho <= imagen.width);
+---
+
+<BaseLayout
+  title="Inauguración | Semana Académica ITD"
+  description="Ceremonia de Inauguración de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD: martes 24 de noviembre de 2026, 9:00 a. m., en el Teatro Ricardo Castro."
+>
+  <Header />
+
+  <main id="contenido">
+    <PageHeader
+      title="Inauguración"
+      breadcrumb={[{ label: "Actividades" }, { label: "Inauguración" }]}
+      stats={stats}
+    />
+
+    <div class="site-container pb-10 pt-5 lg:pb-12 lg:pt-6">
+      <section aria-labelledby="inauguracion-titulo">
+        <Card stripe={tonos.industrial.stripe} padding="p-5 sm:p-8 lg:p-10">
+          <div class="grid items-center gap-8 md:grid-cols-[11fr_9fr] lg:gap-12">
+            <Image
+              src={imagen}
+              alt={inauguracion.imagenAlt}
+              widths={[...new Set(anchos)]}
+              sizes="(min-width: 80rem) 600px, (min-width: 48rem) 55vw, calc(100vw - 4.5rem)"
+              quality={90}
+              loading="eager"
+              class="aspect-[4/3] w-full rounded-xl object-cover shadow-[0_18px_36px_-20px_rgb(15_30_74/0.55)]"
+            />
+
+            <div>
+              <h2
+                id="inauguracion-titulo"
+                class="font-display text-2xl font-extrabold leading-tight tracking-tight text-navy lg:text-[2rem]"
+              >
+                {inauguracion.titulo}
+              </h2>
+
+              <ul role="list" class="mt-6 flex flex-col gap-3 lg:mt-7">
+                {
+                  datos.map((dato) => (
+                    <li class="flex items-center gap-4">
+                      <span
+                        class="flex size-11 shrink-0 items-center justify-center rounded-lg bg-guinda/10 text-accent-red"
+                        aria-hidden="true"
+                      >
+                        <dato.icon class="size-5" />
+                      </span>
+                      <p class="min-w-0 text-base font-bold leading-snug text-navy lg:text-lg">
+                        <span class="sr-only">{dato.label}:</span>
+                        {dato.datetime ? (
+                          <time datetime={dato.datetime}>{dato.texto}</time>
+                        ) : (
+                          dato.texto
+                        )}
+                      </p>
+                    </li>
+                  ))
+                }
+              </ul>
+
+              <a
+                href={inauguracion.mapa}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-mapa mt-7"
+              >
+                <PinIcon class="size-5 shrink-0" />
+                Ver ubicación en Google Maps
+                <svg
+                  class="hidden size-4 shrink-0 sm:block"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"
+                  ></path>
+                </svg>
+                <span class="sr-only">(se abre en una pestaña nueva)</span>
+              </a>
+            </div>
+          </div>
+        </Card>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Botón secundario: todos los estados se definen aquí (sin utilidades
+     hover:), así el texto nunca queda del mismo color que el fondo. */
+  .btn-mapa {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding-inline: 0.75rem;
+    border: 2px solid var(--color-navy);
+    border-radius: 0.625rem;
+    background-color: #fff;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    transition:
+      background-color 200ms ease-out,
+      border-color 200ms ease-out,
+      color 200ms ease-out,
+      transform 150ms ease-out;
+  }
+
+  .btn-mapa:hover {
+    background-color: var(--color-navy);
+    color: #fff;
+  }
+
+  .btn-mapa:active {
+    border-color: var(--color-navy-900);
+    background-color: var(--color-navy-900);
+    color: #fff;
+    transform: scale(0.98);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-mapa {
+      transition: none;
+    }
+
+    .btn-mapa:active {
+      transform: none;
+    }
+  }
+
+  /* En celular el texto cabe en una sola línea */
+  @media (width >= 24rem) {
+    .btn-mapa {
+      padding-inline: 1rem;
+      font-size: 0.9375rem;
+    }
+  }
+
+  @media (width >= 40rem) {
+    .btn-mapa {
+      width: auto;
+      gap: 0.625rem;
+      padding-inline: 1.25rem;
+      font-size: 1rem;
+    }
+  }
+</style>
