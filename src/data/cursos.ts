@@ -227,12 +227,11 @@ export const cursos: Curso[] = [
       "Croquis, extrusiones, operaciones básicas, ensambles sencillos y planos.",
     carrera: "industrial",
     abiertoAOtraCarrera: false,
-    semestres: [6, 7],
+    semestres: [3, 4, 5, 6, 7],
     duracionHoras: 8,
     lugares: 20,
     inscritos: 3,
     aula: "Laboratorio de Ingeniería Industrial",
-    requisitos: ["Laptop"],
   },
   {
     id: 12,
