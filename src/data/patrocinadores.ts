@@ -15,7 +15,7 @@ import type { ImageMetadata } from "astro";
 
 export interface Patrocinador {
   empresa: string;
-  /** Ruta dentro de src/assets/, p. ej. "patrocinadores/logmine.jpeg". */
+  /** Ruta dentro de src/assets/, p. ej. "patrocinadores/logmine.png". */
   logo: string;
 }
 
@@ -27,6 +27,9 @@ export const patrocinadoresInfo = {
 export const patrocinadores: Patrocinador[] = [
   { empresa: "Logmine", logo: "patrocinadores/logmine.png" },
   { empresa: "Naturgy", logo: "patrocinadores/naturgy.png" },
+  { empresa: "Mónica Gutiérrez", logo: "patrocinadores/monica-gutierrez.png" },
+  { empresa: "Smart Kaisen", logo: "patrocinadores/smart-kaisen.png" },
+  { empresa: "Solving Services Inc.", logo: "patrocinadores/solving.png" },
   { empresa: "Arca Continental", logo: "visitas/arca-continental.jpeg" },
   { empresa: "Forestal Alfa", logo: "visitas/forestal-alfa.png" },
   { empresa: "Grupo Armas", logo: "visitas/grupo-armas.png" },
