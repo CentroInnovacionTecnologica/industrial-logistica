@@ -109,8 +109,8 @@ export const visitas: Visita[] = [
     empresa: "SIR",
     logo: "sir.png",
     carrera: "ambas",
-    lugares: 25,
-    inscritos: 25,
+    lugares: 40,
+    inscritos: 29,
   },
 ];
 

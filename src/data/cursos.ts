@@ -86,7 +86,7 @@ export const cursos: Curso[] = [
     semestres: [1],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 11,
+    inscritos: 21,
     aula: "Aula I-1",
   },
   {
@@ -100,7 +100,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 12,
+    inscritos: 13,
     aula: "Aula I-2",
   },
   {
@@ -128,7 +128,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2, 3],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 18,
+    inscritos: 20,
     aula: "Aula I-4",
     requisitos: ["Laptop con Microsoft Office (Excel)"],
   },
@@ -216,7 +216,7 @@ export const cursos: Curso[] = [
     semestres: [5, 6, 7],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 18,
+    inscritos: 20,
     aula: "CIT",
   },
   {
@@ -230,7 +230,7 @@ export const cursos: Curso[] = [
     semestres: [3, 4, 5, 6, 7],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 3,
+    inscritos: 5,
     aula: "Laboratorio de Ingeniería Industrial",
   },
   {
@@ -244,7 +244,7 @@ export const cursos: Curso[] = [
     semestres: [6, 7],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 3,
+    inscritos: 5,
     aula: "Hemeroteca",
   },
   {
@@ -272,7 +272,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 10,
-    inscritos: 6,
+    inscritos: 9,
     aula: "CIT",
     requisitos: ["Laptop"],
   },
@@ -288,7 +288,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 2,
+    inscritos: 6,
     aula: "Aula I-10",
   },
   {
@@ -302,7 +302,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 2,
+    inscritos: 3,
     aula: "Aula I-9",
   },
   {
@@ -345,7 +345,7 @@ export const cursos: Curso[] = [
     semestres: [5, 6, 7, 8, 9],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 3,
+    inscritos: 4,
     aula: "Laboratorio del CIT",
     requisitos: ["Laptop con JAMOVI, SPSS y Minitab instalados"],
     enlace: {
@@ -365,7 +365,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9, 10],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 5,
+    inscritos: 8,
     aula: "Por confirmar",
     requisitos: ["Laptop con Microsoft Office (Excel)", "Conocimientos intermedios de Excel"],
   },
@@ -380,7 +380,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9, 10],
     duracionHoras: 8,
     lugares: 15,
-    inscritos: 10,
+    inscritos: 13,
     aula: "Laboratorio de Robótica",
   },
 ];
