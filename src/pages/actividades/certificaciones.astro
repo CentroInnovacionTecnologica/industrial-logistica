@@ -1,0 +1,100 @@
+---
+import Header from "../../components/Header.astro";
+import AwardIcon from "../../components/icons/AwardIcon.astro";
+import CalendarIcon from "../../components/icons/CalendarIcon.astro";
+import ClockIcon from "../../components/icons/ClockIcon.astro";
+import GraduationCapIcon from "../../components/icons/GraduationCapIcon.astro";
+import PinIcon from "../../components/icons/PinIcon.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Card from "../../components/ui/Card.astro";
+import DatosEvento from "../../components/ui/DatosEvento.astro";
+import type { DatoEvento } from "../../components/ui/DatosEvento.astro";
+import { tonos } from "../../components/ui/tonos";
+import { certificaciones } from "../../data/certificaciones";
+import { valor } from "../../data/eventos";
+import { formatearFechaLarga, formatearRangoHoras } from "../../data/formato";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const fecha = valor(certificaciones.fecha);
+const lugar = valor(certificaciones.lugar);
+const horario = formatearRangoHoras(certificaciones.horaInicio, certificaciones.horaFin);
+const lista = certificaciones.certificaciones;
+const total = lista.length;
+
+const stats = [
+  { icon: AwardIcon, text: `${total} ${total === 1 ? "certificación" : "certificaciones"}` },
+  { icon: ClockIcon, text: horario },
+  { icon: GraduationCapIcon, text: "Semana Académica NEXUS" },
+];
+
+const datos: DatoEvento[] = [
+  fecha
+    ? { icon: CalendarIcon, label: "Fecha", texto: formatearFechaLarga(fecha), datetime: fecha }
+    : { icon: CalendarIcon, label: "Fecha", texto: "Fecha por confirmar", pendiente: true },
+  { icon: ClockIcon, label: "Hora", texto: horario },
+  lugar
+    ? { icon: PinIcon, label: "Lugar", texto: lugar }
+    : { icon: PinIcon, label: "Lugar", texto: "Lugar por confirmar", pendiente: true },
+];
+---
+
+<BaseLayout
+  title="Entrega de Certificaciones | Semana Académica ITD"
+  description={`Entrega de certificados de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD, de ${horario}: ${lista.join(", ")}.`}
+>
+  <Header />
+
+  <main id="contenido">
+    <PageHeader
+      title="Entrega de Certificaciones"
+      breadcrumb={[{ label: "Actividades" }, { label: "Entrega de Certificaciones" }]}
+      stats={stats}
+    />
+
+    <div class="site-container pb-10 pt-5 lg:pb-12 lg:pt-6">
+      <section aria-labelledby="certificaciones-titulo">
+        <Card stripe={tonos.industrial.stripe} padding="p-5 sm:p-8 lg:p-10">
+          <h2
+            id="certificaciones-titulo"
+            class="font-display text-2xl font-extrabold leading-tight tracking-tight text-navy lg:text-[2rem]"
+          >
+            {certificaciones.titulo}
+          </h2>
+
+          <DatosEvento datos={datos} />
+
+          <div class="mt-8 border-t border-line pt-7 lg:mt-10 lg:pt-8">
+            <h3
+              id="certificaciones-lista"
+              class="font-display text-lg font-bold leading-snug text-navy lg:text-xl"
+            >
+              Certificaciones que se entregan
+            </h3>
+
+            <ul
+              role="list"
+              aria-labelledby="certificaciones-lista"
+              class="mt-5 grid gap-3 sm:grid-cols-2 sm:gap-4"
+            >
+              {
+                lista.map((nombre) => (
+                  <li class="flex items-center gap-4 rounded-xl border border-line bg-surface/60 p-4">
+                    <span
+                      class="flex size-11 shrink-0 items-center justify-center rounded-lg bg-guinda/10 text-guinda"
+                      aria-hidden="true"
+                    >
+                      <AwardIcon class="size-6" />
+                    </span>
+                    <span class="min-w-0 font-display text-base font-bold leading-snug text-navy lg:text-lg">
+                      {nombre}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </Card>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

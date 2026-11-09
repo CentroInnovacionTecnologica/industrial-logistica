@@ -57,7 +57,7 @@ export const conferencias: Conferencia[] = [
       "La inteligencia artificial ya no es una tendencia, es una herramienta clave de competitividad. Esta conferencia explora su impacto en la ingeniería industrial y responde una pregunta necesaria: **¿puede un profesionista seguir siendo competitivo sin dominarla?**",
     frase: "",
     fecha: "2026-11-24",
-    hora: "",
+    hora: "16:00",
     lugar: "",
   },
 ];

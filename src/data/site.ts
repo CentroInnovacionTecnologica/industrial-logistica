@@ -78,7 +78,7 @@ export const nav = {
       children: [
         { label: "Inauguración", href: "/actividades/inauguracion" },
         { label: "Conferencias", href: "/actividades/conferencias" },
-        { label: "Entrega de Certificaciones", href: "#" },
+        { label: "Entrega de Certificaciones", href: "/actividades/certificaciones" },
         { label: "Paneles", href: "/actividades/paneles" },
         { label: "Foro", href: "/actividades/foro" },
         { label: "Visitas", href: "/actividades/visitas" },

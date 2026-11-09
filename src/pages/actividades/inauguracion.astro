@@ -6,13 +6,15 @@ import ClockIcon from "../../components/icons/ClockIcon.astro";
 import PinIcon from "../../components/icons/PinIcon.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import Card from "../../components/ui/Card.astro";
+import DatosEvento from "../../components/ui/DatosEvento.astro";
+import type { DatoEvento } from "../../components/ui/DatosEvento.astro";
 import { tonos } from "../../components/ui/tonos";
 import {
   formatearDiaMes,
   formatearFechaLarga,
   formatearHora,
-  inauguracion,
-} from "../../data/inauguracion";
+} from "../../data/formato";
+import { inauguracion } from "../../data/inauguracion";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const hora = formatearHora(inauguracion.hora);
@@ -23,7 +25,7 @@ const stats = [
   { icon: PinIcon, text: inauguracion.lugar },
 ];
 
-const datos = [
+const datos: DatoEvento[] = [
   {
     icon: CalendarIcon,
     label: "Fecha",
@@ -74,28 +76,7 @@ const anchos = [360, 480, imagen.width].filter((ancho) => ancho <= imagen.width)
                 {inauguracion.titulo}
               </h2>
 
-              <ul role="list" class="mt-6 flex flex-col gap-3 lg:mt-7">
-                {
-                  datos.map((dato) => (
-                    <li class="flex items-center gap-4">
-                      <span
-                        class="flex size-11 shrink-0 items-center justify-center rounded-lg bg-guinda/10 text-accent-red"
-                        aria-hidden="true"
-                      >
-                        <dato.icon class="size-5" />
-                      </span>
-                      <p class="min-w-0 text-base font-bold leading-snug text-navy lg:text-lg">
-                        <span class="sr-only">{dato.label}:</span>
-                        {dato.datetime ? (
-                          <time datetime={dato.datetime}>{dato.texto}</time>
-                        ) : (
-                          dato.texto
-                        )}
-                      </p>
-                    </li>
-                  ))
-                }
-              </ul>
+              <DatosEvento datos={datos} />
 
               <a
                 href={inauguracion.mapa}

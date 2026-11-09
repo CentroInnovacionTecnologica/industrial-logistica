@@ -4,6 +4,7 @@
  * descripción, lista de temas, frase y fila de datos (fecha, hora, lugar).
  */
 import { formatearFecha, valor } from "../../data/eventos";
+import { formatearHora } from "../../data/formato";
 import type { Evento } from "../../data/eventos";
 import CalendarIcon from "../icons/CalendarIcon.astro";
 import ClockIcon from "../icons/ClockIcon.astro";
@@ -122,7 +123,7 @@ const sinDetalles = !descripcion && puntos.length === 0 && !tieneDatos;
             <span>
               <span class="sr-only">Hora:</span>
               <time datetime={hora} class="text-sm font-bold">
-                {hora}
+                {formatearHora(hora)}
               </time>
             </span>
           </li>

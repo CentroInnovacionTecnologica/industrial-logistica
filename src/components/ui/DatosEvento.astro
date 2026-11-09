@@ -1,0 +1,50 @@
+---
+/**
+ * Lista de datos de un evento (fecha, hora, lugar) con ícono en recuadro
+ * guinda. La etiqueta solo la leen los lectores de pantalla. Un dato
+ * `pendiente` se muestra en gris (p. ej. "Fecha por confirmar").
+ */
+export interface DatoEvento {
+  /** Componente de ícono (src/components/icons). */
+  icon: (props: { class?: string }) => any;
+  label: string;
+  texto: string;
+  /** Si se indica, el texto va en <time datetime>. */
+  datetime?: string;
+  pendiente?: boolean;
+}
+
+interface Props {
+  datos: DatoEvento[];
+}
+
+const { datos } = Astro.props;
+---
+
+<ul role="list" class="mt-6 flex flex-col gap-3 lg:mt-7">
+  {
+    datos.map((dato) => (
+      <li class="flex items-center gap-4">
+        <span
+          class="flex size-11 shrink-0 items-center justify-center rounded-lg bg-guinda/10 text-accent-red"
+          aria-hidden="true"
+        >
+          <dato.icon class="size-5" />
+        </span>
+        <p
+          class:list={[
+            "min-w-0 text-base font-bold leading-snug lg:text-lg",
+            dato.pendiente ? "text-muted" : "text-navy",
+          ]}
+        >
+          <span class="sr-only">{dato.label}:</span>
+          {dato.datetime ? (
+            <time datetime={dato.datetime}>{dato.texto}</time>
+          ) : (
+            dato.texto
+          )}
+        </p>
+      </li>
+    ))
+  }
+</ul>
