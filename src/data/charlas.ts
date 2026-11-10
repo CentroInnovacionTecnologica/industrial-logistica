@@ -20,9 +20,9 @@ export const charlas: Charla[] = [
       { texto: "Desarrollo sostenible" },
       { texto: "Talento que transforma" },
     ],
-    fecha: "",
-    hora: "",
-    lugar: "",
+    fecha: "2026-11-25",
+    hora: "13:00",
+    lugar: "Centro de Innovación Tecnológica",
   },
   {
     id: 2,
@@ -36,9 +36,9 @@ export const charlas: Charla[] = [
       { titulo: "Almacenamiento", texto: "El resguardo estratégico." },
       { titulo: "Distribución", texto: "La entrega que salva vidas." },
     ],
-    fecha: "",
-    hora: "",
-    lugar: "",
+    fecha: "2026-11-25",
+    hora: "17:00",
+    lugar: "Centro de Innovación Tecnológica",
   },
   {
     id: 3,
@@ -52,9 +52,9 @@ export const charlas: Charla[] = [
       { titulo: "CV", texto: "Estructura, contenido y errores que debes evitar." },
       { titulo: "LinkedIn", texto: "Optimización de perfil, redes y estrategia de búsqueda." },
     ],
-    fecha: "",
-    hora: "",
-    lugar: "",
+    fecha: "2026-11-25",
+    hora: "13:00",
+    lugar: "Sala de Usos Múltiples",
   },
   {
     id: 4,
@@ -64,9 +64,9 @@ export const charlas: Charla[] = [
     descripcion:
       "Una charla directa, sin rodeos. Casos reales, retos actuales y una ruta clara para convertirte en el ingeniero que las empresas quieren contratar. Liderazgo y resultados: lo que se vive en el piso de producción, no en los libros.",
     frase: "Tu título dice lo que estudiaste. Lo que resuelves dice quién eres.",
-    fecha: "",
-    hora: "",
-    lugar: "",
+    fecha: "2026-11-26",
+    hora: "13:00",
+    lugar: "Sala de Usos Múltiples",
   },
   {
     id: 5,
@@ -75,9 +75,9 @@ export const charlas: Charla[] = [
     cargo: "Docente ITD · Auditor",
     descripcion:
       "Las normas cambian porque el mundo cambia, y con ellas el perfil que buscan las empresas. Calidad, ambiente, seguridad y auditoría ya no son lo que eran. Aquí entenderás qué viene, cómo te afecta y cómo sacarle ventaja desde ahora. ¿Estás listo para las nuevas reglas?",
-    fecha: "",
-    hora: "",
-    lugar: "",
+    fecha: "2026-11-26",
+    hora: "13:00",
+    lugar: "Centro de Innovación Tecnológica",
   },
 ];
 

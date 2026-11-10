@@ -41,9 +41,23 @@ export function formatearHora(hora: string): string {
 
 /** "17:30", "18:30" → "5:30 a 6:30 p. m."; "11:00", "13:00" → "11:00 a. m. a 1:00 p. m.". */
 export function formatearRangoHoras(inicio: string, fin: string): string {
+  const { desde, hasta } = partesRangoHoras(inicio, fin);
+  return `${desde} a ${hasta}`;
+}
+
+/**
+ * Los dos extremos de un rango, para mostrarlos en elementos <time> separados.
+ * "09:00", "10:00" → { desde: "9:00", hasta: "10:00 a. m." };
+ * "11:00", "13:00" → { desde: "11:00 a. m.", hasta: "1:00 p. m." }.
+ */
+export function partesRangoHoras(
+  inicio: string,
+  fin: string,
+): { desde: string; hasta: string } {
   const a = partesHora(inicio);
   const b = partesHora(fin);
-  return a.sufijo === b.sufijo
-    ? `${a.texto} a ${b.texto} ${b.sufijo}`
-    : `${a.texto} ${a.sufijo} a ${b.texto} ${b.sufijo}`;
+  return {
+    desde: a.sufijo === b.sufijo ? a.texto : `${a.texto} ${a.sufijo}`,
+    hasta: `${b.texto} ${b.sufijo}`,
+  };
 }

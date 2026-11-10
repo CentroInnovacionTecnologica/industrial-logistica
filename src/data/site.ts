@@ -69,6 +69,7 @@ export const nav = {
   items: [
     { label: "Inicio", href: "/" },
     { label: "Cursos", href: "/cursos" },
+    { label: "Programa", href: "/programa" },
     {
       label: "Actividades",
       href: "/#actividades",

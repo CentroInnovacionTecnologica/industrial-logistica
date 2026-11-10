@@ -16,9 +16,9 @@ export const conferencias: Conferencia[] = [
     cargo: "Gerente General de Yazaki",
     descripcion: "En una industria automotriz caracterizada por altos estándares de calidad, competitividad e innovación tecnológica, la integración de las áreas funcionales constituye un factor estratégico para alcanzar los objetivos del negocio. En esta conferencia se explorará la importancia de la colaboración interfuncional, la mejora de procesos, la innovación y la gestión eficiente de los recursos como elementos clave para fortalecer el desempeño organizacional y afrontar los retos de la manufactura moderna en el mercado global.",
     frase: "",
-    fecha: "",
-    hora: "",
-    lugar: "",
+    fecha: "2026-11-24",
+    hora: "10:00",
+    lugar: "Teatro Ricardo Castro",
   },
   {
     id: 2,
@@ -31,8 +31,8 @@ export const conferencias: Conferencia[] = [
       "Tema de motivación personal orientado a eliminar el ‘no puedo’, fortalecer la confianza, reconocer el valor del aprendizaje en el error y animar a las personas a arriesgarse para alcanzar sus metas.",
     frase: "",
     fecha: "2026-11-24",
-    hora: "",
-    lugar: "",
+    hora: "12:30",
+    lugar: "Teatro Ricardo Castro",
   },
   {
     id: 4,
@@ -43,9 +43,9 @@ export const conferencias: Conferencia[] = [
     descripcion:
       "México tiene todo para convertirse en una potencia logística global. Esta conferencia analiza las oportunidades del sector en el ámbito nacional e internacional, y ofrece una visión estratégica sobre el futuro de la logística en nuestro país.",
     frase: "",
-    fecha: "",
-    hora: "",
-    lugar: "",
+    fecha: "2026-11-24",
+    hora: "11:00",
+    lugar: "Teatro Ricardo Castro",
   },
   {
     id: 3,
@@ -58,7 +58,7 @@ export const conferencias: Conferencia[] = [
     frase: "",
     fecha: "2026-11-24",
     hora: "16:00",
-    lugar: "",
+    lugar: "Centro de Innovación Tecnológica",
   },
 ];
 

@@ -1,0 +1,462 @@
+---
+import Header from "../components/Header.astro";
+import ArrowRightIcon from "../components/icons/ArrowRightIcon.astro";
+import CalendarIcon from "../components/icons/CalendarIcon.astro";
+import ListIcon from "../components/icons/ListIcon.astro";
+import PinIcon from "../components/icons/PinIcon.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { formatearFechaLarga, partesRangoHoras } from "../data/formato";
+import { diasPrograma, programa, tonoDeTipo } from "../data/programa";
+import type { ActividadPrograma } from "../data/programa";
+import { withBase } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const totalDias = diasPrograma.length;
+const totalActividades = programa.length;
+
+const stats = [
+  { icon: CalendarIcon, text: `${totalDias} días` },
+  { icon: ListIcon, text: `${totalActividades} actividades` },
+  { icon: PinIcon, text: "Teatro Ricardo Castro y CIT" },
+];
+
+const fecha = (iso: string) => new Date(`${iso}T00:00:00Z`);
+const diaSemana = (iso: string, weekday: "long" | "short") => {
+  const texto = new Intl.DateTimeFormat("es-MX", { weekday, timeZone: "UTC" })
+    .format(fecha(iso))
+    .replace(".", "");
+  return texto.charAt(0).toLocaleUpperCase("es-MX") + texto.slice(1);
+};
+
+const dias = diasPrograma.map(({ dia, bloques }) => {
+  const numero = fecha(dia).getUTCDate();
+  const total = bloques.reduce((suma, b) => suma + b.actividades.length, 0);
+  return {
+    dia,
+    bloques,
+    corto: `${diaSemana(dia, "short")} ${numero}`, // "Mar 24"
+    largo: `${diaSemana(dia, "long")} ${numero}`, // "Martes 24"
+    titulo: formatearFechaLarga(dia).replace(/ de \d{4}$/, ""), // "Martes 24 de noviembre"
+    total: `${total} ${total === 1 ? "actividad" : "actividades"}`,
+    tabId: `tab-${dia}`,
+    panelId: `dia-${dia}`,
+  };
+});
+
+const esReceso = (a: ActividadPrograma) => a.tipo === "Receso";
+---
+
+<BaseLayout
+  title="Programa | Semana Académica ITD"
+  description="Programa día por día de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD, del 24 al 27 de noviembre de 2026: horarios y lugares de conferencias, charlas, paneles, cursos y más."
+>
+  <Header />
+
+  <main id="contenido">
+    <PageHeader title="Programa" breadcrumb={[{ label: "Programa" }]} stats={stats} />
+
+    <div class="site-container pb-10 pt-4 lg:pb-14 lg:pt-6" data-programa>
+      <!-- Selector de día: oculto sin JavaScript (entonces se ven los cuatro días) -->
+      <div
+        class="sticky top-(--header-height) z-30 -mx-4 bg-white/95 px-4 py-3 backdrop-blur-sm sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0"
+        data-tabs
+        hidden
+      >
+        <div
+          role="tablist"
+          aria-label="Días del programa"
+          class="flex gap-2 overflow-x-auto scrollbar-none"
+          data-tablist
+        >
+          {
+            dias.map((d) => (
+              <button
+                type="button"
+                role="tab"
+                id={d.tabId}
+                aria-controls={d.panelId}
+                aria-selected="false"
+                aria-label={d.titulo}
+                tabindex="-1"
+                class="chip"
+                data-tab
+              >
+                <span class="sm:hidden">{d.corto}</span>
+                <span class="hidden sm:inline">{d.largo}</span>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="space-y-12 lg:space-y-14">
+        {
+          dias.map((d) => (
+            <section
+              id={d.panelId}
+              aria-labelledby={`${d.panelId}-titulo`}
+              class="dia pt-3 lg:pt-5"
+              data-panel
+              data-dia={d.dia}
+            >
+              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h2
+                  id={`${d.panelId}-titulo`}
+                  class="font-display text-xl font-extrabold leading-tight tracking-tight text-navy sm:text-2xl"
+                >
+                  {d.titulo}
+                </h2>
+                <p class="text-sm text-muted">{d.total}</p>
+              </div>
+
+              <ol role="list" class="mt-5 lg:mt-7">
+                {d.bloques.map((bloque) => {
+                  const horas = partesRangoHoras(bloque.inicio, bloque.fin);
+                  const simultaneas = bloque.actividades.length > 1;
+                  const receso = bloque.actividades.every(esReceso);
+                  return (
+                    <li
+                      class:list={[
+                        "bloque relative grid sm:grid-cols-[9.5rem_minmax(0,1fr)] sm:gap-x-5 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-x-8",
+                        receso && "bloque--receso",
+                      ]}
+                    >
+                      <p
+                        class:list={[
+                          "hora font-display leading-snug",
+                          receso
+                            ? "pb-1 text-[13px] font-semibold text-muted sm:pb-0 sm:pt-2 sm:text-sm"
+                            : "pb-2.5 text-[15px] font-bold text-navy sm:pb-0 sm:pt-3.5 sm:text-base",
+                        ]}
+                      >
+                        <time datetime={`${d.dia}T${bloque.inicio}`}>{horas.desde}</time>{" "}
+                        a{" "}
+                        <time datetime={`${d.dia}T${bloque.fin}`} class="whitespace-nowrap">
+                          {horas.hasta}
+                        </time>
+                      </p>
+
+                      <div class="riel relative">
+                        {simultaneas && (
+                          <p class="mb-2 pt-1 text-xs font-semibold uppercase tracking-wide text-muted">
+                            Actividades simultáneas
+                          </p>
+                        )}
+
+                        <div
+                          class:list={[
+                            "grid gap-3",
+                            simultaneas && "md:grid-cols-2 md:gap-4",
+                          ]}
+                        >
+                          {bloque.actividades.map((a) => {
+                            const datosAhora = {
+                              "data-actividad": "",
+                              "data-dia": a.dia,
+                              "data-inicio": a.inicio,
+                              "data-fin": a.fin,
+                            };
+                            const etiquetaAhora = (
+                              <span
+                                class="ahora inline-flex items-center gap-1.5 rounded-2xl bg-guinda px-2.5 py-1 text-xs font-bold leading-none text-white"
+                                data-ahora
+                                hidden
+                              >
+                                <span class="size-1.5 rounded-full bg-white" aria-hidden="true" />
+                                Ahora
+                              </span>
+                            );
+
+                            if (esReceso(a)) {
+                              return (
+                                <div class="receso flex items-center gap-3 py-2" {...datosAhora}>
+                                  <span class="h-px flex-1 border-t border-dashed border-line" aria-hidden="true" />
+                                  <h3 class="font-display text-sm font-semibold text-muted">{a.titulo}</h3>
+                                  {etiquetaAhora}
+                                  <span class="h-px flex-1 border-t border-dashed border-line" aria-hidden="true" />
+                                </div>
+                              );
+                            }
+
+                            const Tag = a.enlace ? "a" : "div";
+                            return (
+                              <Tag
+                                href={a.enlace ? withBase(a.enlace) : undefined}
+                                class:list={[
+                                  "tarjeta group flex items-start gap-3 rounded-xl border border-line bg-white p-4 shadow-[0_1px_2px_rgb(15_30_74/0.06)] sm:p-5",
+                                  a.enlace && "tarjeta--enlace",
+                                ]}
+                                {...datosAhora}
+                              >
+                                <div class="min-w-0 flex-1">
+                                  <div class="flex flex-wrap items-center gap-2">
+                                    <span
+                                      class:list={[
+                                        "rounded-2xl px-2.5 py-1 text-xs font-semibold leading-none",
+                                        tonoDeTipo(a.tipo),
+                                      ]}
+                                    >
+                                      {a.tipo}
+                                    </span>
+                                    {etiquetaAhora}
+                                  </div>
+
+                                  <h3 class="mt-2.5 font-display text-base font-bold leading-snug text-navy sm:text-[17px]">
+                                    {a.titulo}
+                                  </h3>
+
+                                  {a.detalle && (
+                                    <p class="mt-1 text-sm italic leading-snug text-muted">{a.detalle}</p>
+                                  )}
+
+                                  {a.lugar && (
+                                    <p class="mt-3 flex items-start gap-1.5 text-sm font-medium leading-snug text-navy">
+                                      <PinIcon class="mt-px size-4 shrink-0 text-accent-red" />
+                                      <span>
+                                        <span class="sr-only">Lugar:</span>
+                                        {a.lugar}
+                                      </span>
+                                    </p>
+                                  )}
+                                </div>
+
+                                {a.enlace && (
+                                  <ArrowRightIcon class="flecha size-5 shrink-0 self-center text-muted" />
+                                )}
+                              </Tag>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
+          ))
+        }
+      </div>
+
+      <p class="mt-10 border-t border-line pt-5 text-sm text-muted lg:mt-12">
+        El programa puede cambiar. Consulta esta página antes de cada actividad.
+      </p>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Línea de tiempo: riel vertical con un punto por bloque de horario.
+     En móvil la hora va arriba de la tarjeta (dentro del riel) para dejarle
+     todo el ancho; desde 640 px la hora pasa a una columna a la izquierda. */
+  .bloque {
+    padding-left: 1.125rem;
+    padding-bottom: 1.5rem;
+    border-left: 2px solid var(--color-line);
+  }
+
+  .bloque::before,
+  .riel::before {
+    content: "";
+    position: absolute;
+    width: 0.75rem;
+    height: 0.75rem;
+    border: 2px solid var(--color-navy);
+    border-radius: 999px;
+    background: #fff;
+  }
+
+  .bloque::before {
+    top: 0.25rem;
+    left: calc(-0.4375rem - 1px);
+  }
+
+  .riel::before {
+    display: none;
+  }
+
+  .bloque--receso {
+    padding-bottom: 1rem;
+  }
+
+  .bloque--receso::before,
+  .bloque--receso .riel::before {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-color: var(--color-line);
+    background: var(--color-line);
+  }
+
+  .bloque--receso::before {
+    left: calc(-0.3125rem - 1px);
+  }
+
+  .bloque:last-child {
+    padding-bottom: 0;
+  }
+
+  @media (width >= 40rem) {
+    .bloque,
+    .bloque--receso {
+      padding: 0;
+      border-left: 0;
+    }
+
+    .bloque::before {
+      display: none;
+    }
+
+    .riel {
+      padding-left: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-left: 2px solid var(--color-line);
+    }
+
+    .riel::before {
+      display: block;
+      top: 1.125rem;
+      left: calc(-0.4375rem - 1px);
+    }
+
+    .bloque--receso .riel {
+      padding-bottom: 1rem;
+    }
+
+    .bloque--receso .riel::before {
+      top: 0.875rem;
+      left: calc(-0.3125rem - 1px);
+    }
+
+    .bloque:last-child .riel {
+      padding-bottom: 0;
+    }
+  }
+
+  /* Tarjeta con enlace: toda la tarjeta es clicable */
+  .tarjeta {
+    transition:
+      border-color 200ms ease-out,
+      box-shadow 200ms ease-out;
+  }
+
+  .tarjeta--enlace:hover {
+    border-color: color-mix(in srgb, var(--color-navy) 35%, transparent);
+    box-shadow:
+      0 2px 6px rgb(15 30 74 / 0.08),
+      0 12px 24px -14px rgb(15 30 74 / 0.3);
+  }
+
+  .tarjeta--enlace :global(.flecha) {
+    transition:
+      translate 200ms ease-out,
+      color 200ms ease-out;
+  }
+
+  .tarjeta--enlace:is(:hover, :focus-visible) :global(.flecha) {
+    translate: 3px 0;
+    color: var(--color-navy);
+  }
+
+  /* Actividad en curso */
+  .tarjeta[data-en-curso] {
+    border-color: var(--color-guinda);
+    box-shadow: 0 0 0 1px var(--color-guinda);
+  }
+
+  .bloque:has([data-en-curso])::before,
+  .bloque:has([data-en-curso]) .riel::before {
+    border-color: var(--color-guinda);
+    background: var(--color-guinda);
+  }
+
+  /* Con pestañas, el título de cada día queda más cerca del selector */
+  [data-programa].con-pestanas .dia {
+    padding-top: 0.75rem;
+  }
+</style>
+
+<script>
+  const raiz = document.querySelector<HTMLElement>("[data-programa]");
+  const barra = raiz?.querySelector<HTMLElement>("[data-tabs]");
+  const lista = raiz?.querySelector<HTMLElement>("[data-tablist]");
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const hoyIso = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  };
+  const horaActual = () => {
+    const d = new Date();
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
+
+  if (raiz && barra && lista) {
+    const tabs = [...lista.querySelectorAll<HTMLButtonElement>("[data-tab]")];
+    const paneles = [...raiz.querySelectorAll<HTMLElement>("[data-panel]")];
+
+    // Mejora progresiva: se convierten las secciones en paneles de pestañas
+    for (const [i, panel] of paneles.entries()) {
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("aria-labelledby", tabs[i].id);
+    }
+    raiz.classList.add("con-pestanas");
+    barra.hidden = false;
+
+    const seleccionar = (indice: number, { foco = false, desplazar = false } = {}) => {
+      tabs.forEach((tab, i) => {
+        const activa = i === indice;
+        tab.setAttribute("aria-selected", String(activa));
+        tab.tabIndex = activa ? 0 : -1;
+        paneles[i].hidden = !activa;
+      });
+
+      const tab = tabs[indice];
+      if (foco) tab.focus();
+      // Pestaña visible dentro de la fila desplazable (sin mover la página)
+      const izquierda = tab.offsetLeft - lista.offsetLeft;
+      if (izquierda < lista.scrollLeft || izquierda + tab.offsetWidth > lista.scrollLeft + lista.clientWidth) {
+        lista.scrollLeft = izquierda - 16;
+      }
+
+      // Si la página ya bajó más allá del inicio del programa, vuelve al principio del día
+      if (desplazar) {
+        const alto = document.querySelector("header")?.offsetHeight ?? 0;
+        const tope = raiz.getBoundingClientRect().top + window.scrollY - alto;
+        if (window.scrollY > tope) window.scrollTo({ top: tope });
+      }
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => seleccionar(i, { desplazar: true }));
+      tab.addEventListener("keydown", (event) => {
+        const destino =
+          event.key === "ArrowRight" ? (i + 1) % tabs.length
+          : event.key === "ArrowLeft" ? (i - 1 + tabs.length) % tabs.length
+          : event.key === "Home" ? 0
+          : event.key === "End" ? tabs.length - 1
+          : -1;
+        if (destino < 0) return;
+        event.preventDefault();
+        seleccionar(destino, { foco: true, desplazar: true });
+      });
+    });
+
+    // Día inicial: hoy, si cae dentro del programa; si no, el primero
+    const hoy = paneles.findIndex((panel) => panel.dataset.dia === hoyIso());
+    seleccionar(Math.max(hoy, 0));
+  }
+
+  // Etiqueta "Ahora" en la actividad en curso (se revisa cada minuto)
+  const marcarAhora = () => {
+    const hoy = hoyIso();
+    const hora = horaActual();
+    for (const el of document.querySelectorAll<HTMLElement>("[data-actividad]")) {
+      const { dia, inicio = "", fin = "" } = el.dataset;
+      const enCurso = dia === hoy && inicio <= hora && hora < fin;
+      el.toggleAttribute("data-en-curso", enCurso);
+      const etiqueta = el.querySelector<HTMLElement>("[data-ahora]");
+      if (etiqueta) etiqueta.hidden = !enCurso;
+    }
+  };
+  marcarAhora();
+  window.setInterval(marcarAhora, 60_000);
+</script>

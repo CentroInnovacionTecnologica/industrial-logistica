@@ -5,6 +5,7 @@
  * integrantes, en lugar de la cuadrícula se muestra `sinIntegrantes`.
  */
 import { formatearFecha, valor } from "../../data/eventos";
+import { formatearHora } from "../../data/formato";
 import { iniciales } from "../../data/paneles";
 import type { Panelista, SeccionActividad } from "../../data/paneles";
 import CalendarIcon from "../icons/CalendarIcon.astro";
@@ -88,7 +89,7 @@ const panelistasId = `${panel.id}-panelistas`;
                 <span>
                   <span class="sr-only">Hora:</span>
                   <time datetime={hora} class="text-sm font-bold">
-                    {hora}
+                    {formatearHora(hora)}
                   </time>
                 </span>
               </li>

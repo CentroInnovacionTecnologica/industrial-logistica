@@ -99,7 +99,7 @@
     border-color: color-mix(in srgb, var(--color-navy) 45%, transparent);
   }
 
-  .chip[aria-pressed="true"] {
+  .chip:is([aria-pressed="true"], [aria-selected="true"]) {
     border-color: var(--color-navy);
     background: var(--color-navy);
     color: #fff;

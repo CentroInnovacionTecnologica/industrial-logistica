@@ -21,9 +21,9 @@ export const foros: Foro[] = [
     tipo: "Foro",
     titulo: "Encuentro de Ingenieras Egresadas",
     lema: "Construyendo camino en la industria",
-    fecha: "",
-    hora: "",
-    lugar: "",
+    fecha: "2026-11-25",
+    hora: "16:00",
+    lugar: "Centro de Innovación Tecnológica",
     participantes: [],
   },
 ];

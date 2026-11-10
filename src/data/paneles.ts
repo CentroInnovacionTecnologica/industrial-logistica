@@ -39,9 +39,9 @@ export const paneles: Panel[] = [
     tipo: "Panel de expertos",
     titulo: "Panel de expertos",
     lema: "Conectando experiencias, optimizando el futuro",
-    fecha: "",
-    hora: "",
-    lugar: "",
+    fecha: "2026-11-24",
+    hora: "13:30",
+    lugar: "Teatro Ricardo Castro",
     panelistas: [
       {
         nombre: "Nallely Talamantes",
