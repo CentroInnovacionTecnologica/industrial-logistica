@@ -49,8 +49,8 @@ export const paneles: Panel[] = [
           "Directora de SHITSU / Presidenta del Clúster de Innovación y Tecnología XIXIM",
       },
       {
-        nombre: "Alfredo Herrera Deras",
-        cargo: "Gerente General Industrial, Hulmaq",
+        nombre: "Ing. Agustín Diaz Campillo",
+        cargo: "Gerente de Recursos Humanos BIO PAPPEL",
       },
       {
         nombre: "Roberto Macias",
