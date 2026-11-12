@@ -15,6 +15,7 @@ import type { Carrera } from "./cursos";
  *   Termoeléctrica ..... termoelectrica.png
  *   Forestal Alfa ...... forestal-alfa.png
  *   SIR ................ sir.png
+ *   Arauco ............. arauco.png
  *
  * Si un archivo no existe, la tarjeta muestra las iniciales de la empresa y
  * el build NO falla. Los logos nunca se amplían por encima de su tamaño
@@ -69,6 +70,16 @@ export const visitas: Visita[] = [
     inscritos: 25,
   },
   {
+    id: "yazaki-planta-1",
+    empresa: "Yazaki Planta 1",
+    logo: "yazaki.png",
+    carrera: "ambas",
+    descripcion:
+      "Filial de una corporación global de origen japonés y líder mundial en la manufactura de componentes eléctricos para la industria automotriz, destacando en la producción de arneses y sistemas de distribución eléctrica vehicular. Su planta en Durango cuenta con una amplia infraestructura de manufactura avanzada, lo que la convierte en un escenario ideal para analizar complejos sistemas de logística internacional, control de inventarios, líneas de ensamble de alto volumen y gestión de la cadena de suministro.",
+    lugares: 25,
+    inscritos: 0,
+  },
+  {
     id: "hulmaq",
     empresa: "Hulmaq",
     logo: "hulmaq.jpg",
@@ -93,7 +104,7 @@ export const visitas: Visita[] = [
     empresa: "Termoeléctrica",
     logo: "termoelectrica.png",
     carrera: "ambas",
-    lugares: 25,
+    lugares: 40,
     inscritos: 25,
   },
   {
@@ -111,6 +122,14 @@ export const visitas: Visita[] = [
     carrera: "ambas",
     lugares: 40,
     inscritos: 29,
+  },
+  {
+    id: "arauco",
+    empresa: "Arauco",
+    logo: "arauco.png",
+    carrera: "ambas",
+    lugares: 25,
+    inscritos: 0,
   },
 ];
 
