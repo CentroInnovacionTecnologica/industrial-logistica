@@ -18,6 +18,8 @@ export type Carrera = "industrial" | "logistica" | "ambas";
 export interface Curso {
   id: number;
   nombre: string;
+  /** Nombre con el que se anunció antes; se muestra como nota bajo el título. */
+  nombreAnterior?: string;
   tema: Tema;
   descripcion: string;
   carrera: Carrera;
@@ -76,11 +78,11 @@ export function carrerasDelCurso(curso: Curso): Exclude<Carrera, "ambas">[] {
 export const cursos: Curso[] = [
   {
     id: 1,
-    nombre:
-      "Ingeniería Industrial en la Práctica: Procesos, Productividad y Campo Profesional",
+    nombre: "Introducción al Monitoreo y Control Industrial con IoT",
+    nombreAnterior: "Ingeniería Industrial en la Práctica",
     tema: "Introducción a la carrera",
     descripcion:
-      "Simulación de una línea de producción por rondas (tiempos, cuellos de botella y mejora), perfil de egreso, especialidades del ITD y testimonio de un egresado.",
+      "Implementa un prototipo básico de Internet de las Cosas (IoT) para una aplicación industrial: simulación de circuitos en Wokwi, conexión y programación de una tarjeta ESP32 e integración con Arduino Cloud para monitorear sensores y controlar actuadores desde un panel remoto.",
     carrera: "industrial",
     abiertoAOtraCarrera: false,
     semestres: [1],

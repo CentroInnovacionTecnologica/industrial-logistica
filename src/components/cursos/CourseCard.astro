@@ -4,6 +4,7 @@ import type { Curso } from "../../data/cursos";
 import ClockIcon from "../icons/ClockIcon.astro";
 import DownloadIcon from "../icons/DownloadIcon.astro";
 import GraduationCapIcon from "../icons/GraduationCapIcon.astro";
+import HistoryIcon from "../icons/HistoryIcon.astro";
 import LaptopIcon from "../icons/LaptopIcon.astro";
 import PinIcon from "../icons/PinIcon.astro";
 import Card from "../ui/Card.astro";
@@ -66,6 +67,14 @@ const lleno =
   <h3 class="mt-4 font-display text-lg font-bold leading-snug text-navy">
     {curso.nombre}
   </h3>
+  {
+    curso.nombreAnterior && (
+      <p class="mt-1 flex items-start gap-1.5 text-[13px] leading-snug text-muted">
+        <HistoryIcon class="mt-px size-3.5 shrink-0" />
+        <span>Antes: {curso.nombreAnterior}</span>
+      </p>
+    )
+  }
   <p class="mt-2 pb-5 text-[15px] leading-relaxed text-muted">
     {curso.descripcion}
   </p>
