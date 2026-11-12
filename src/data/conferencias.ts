@@ -38,7 +38,7 @@ export const conferencias: Conferencia[] = [
     id: 4,
     titulo: "México conectado: oportunidades en logística nacional e internacional",
     tipo: "Conectividad",
-    ponente: "",
+    ponente: "Víctor Eduardo Casillas Ríos",
     cargo: "",
     descripcion:
       "México tiene todo para convertirse en una potencia logística global. Esta conferencia analiza las oportunidades del sector en el ámbito nacional e internacional, y ofrece una visión estratégica sobre el futuro de la logística en nuestro país.",

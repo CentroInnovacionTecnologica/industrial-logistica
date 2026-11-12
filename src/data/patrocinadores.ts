@@ -40,6 +40,7 @@ export const patrocinadores: Patrocinador[] = [
   { empresa: "Hulmaq", logo: "visitas/hulmaq.jpg" },
   { empresa: "SIR", logo: "visitas/sir.png" },
   { empresa: "Yazaki", logo: "visitas/yazaki.png" },
+  { empresa: "Arauco", logo: "visitas/arauco.png" },
 ];
 
 // Vite resuelve este patrón en el build: solo incluye los archivos que existen,

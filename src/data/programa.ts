@@ -41,7 +41,7 @@ export const programa: ActividadPrograma[] = [
   { dia: "2026-11-25", inicio: "13:00", fin: "15:00", tipo: "Charla", titulo: "El talento que México va a necesitar hacia 2030", lugar: CIT, enlace: "/actividades/charlas" },
   { dia: "2026-11-25", inicio: "13:00", fin: "15:00", tipo: "Charla", titulo: "CV 2.0: tu marca personal", lugar: SUM, enlace: "/actividades/charlas" },
   { dia: "2026-11-25", inicio: "16:00", fin: "17:00", tipo: "Foro", titulo: "Encuentro de Ingenieras Egresadas", detalle: "“Construyendo camino en la industria”", lugar: CIT, enlace: "/actividades/foro" },
-  { dia: "2026-11-25", inicio: "17:00", fin: "18:00", tipo: "Charla", titulo: "La logística salva vidas: el viaje al paciente", lugar: CIT, enlace: "/actividades/charlas" },
+  { dia: "2026-11-25", inicio: "17:00", fin: "18:00", tipo: "Charla", titulo: "La logística salva vidas: el viaje al paciente", lugar: SUM, enlace: "/actividades/charlas" },
 
   /* Jueves 26 */
   { dia: "2026-11-26", inicio: "09:00", fin: "13:00", tipo: "Cursos", titulo: "Cursos y talleres", enlace: "/cursos" },
