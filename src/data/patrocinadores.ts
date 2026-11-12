@@ -32,6 +32,8 @@ export const patrocinadores: Patrocinador[] = [
   { empresa: "Solving Services Inc.", logo: "patrocinadores/solving.png" },
   { empresa: "Ing. Claudia Hilda Campos Mendoza", logo: "patrocinadores/claudia-hilda.png" },
   { empresa: "Lobmaq Metalmecánica", logo: "patrocinadores/lobmaq.png" },
+  { empresa: "Kaf Koala", logo: "patrocinadores/kaf-koala.png" },
+  { empresa: "Tim Hortons", logo: "patrocinadores/tim-hortons.png" },
   { empresa: "Arca Continental", logo: "visitas/arca-continental.jpeg" },
   { empresa: "Forestal Alfa", logo: "visitas/forestal-alfa.png" },
   { empresa: "Grupo Armas", logo: "visitas/grupo-armas.png" },
