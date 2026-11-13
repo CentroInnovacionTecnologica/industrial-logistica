@@ -24,6 +24,29 @@ export const foros: Foro[] = [
     fecha: "2026-11-25",
     hora: "16:00",
     lugar: "Centro de Innovación Tecnológica",
-    participantes: [],
+    participantes: [
+      {
+        nombre: "Alma Julissa García Almanza",
+        cargo: "Gerente de Operaciones, Solving Services Durango – Current",
+      },
+      {
+        nombre: "Luz Elena De León Estala",
+        cargo:
+          "Especialista en Manufactura Digital y Supervisora de Producción, Hulmaq",
+      },
+      {
+        nombre: "Imelda Elisa Rubio Valles",
+        cargo: "Especialista en Manufactura Digital, Essex Weld Solutions",
+      },
+      {
+        nombre: "María Antonia Rivera López",
+        cargo: "Gerenta de Recursos Humanos, SIR",
+      },
+    ],
   },
 ];
+
+export const totalParticipantes = foros.reduce(
+  (total, foro) => total + foro.participantes.length,
+  0,
+);
