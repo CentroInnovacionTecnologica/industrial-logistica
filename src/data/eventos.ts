@@ -38,7 +38,7 @@ export interface Evento {
   /** Formato de 24 h, ej. "13:00". */
   hora?: string;
   lugar?: string;
-  /** Texto del chip, ej. "Conferencia magistral". Vacío: "Conferencia". Solo en conferencias. */
+  /** Texto del chip, ej. "Conferencia magistral". Vacío: "Conferencia" (o "Charla" en charlas). */
   tipo?: string;
   /** Ocupa el ancho completo de la cuadrícula y va primero. Solo en conferencias. */
   destacada?: boolean;

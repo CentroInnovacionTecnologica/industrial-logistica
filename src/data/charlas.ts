@@ -1,6 +1,6 @@
 /* ---------- Charlas ---------- */
 
-import { ordenarPorFecha } from "./eventos";
+import { ordenarPorFecha, valor } from "./eventos";
 import type { Evento } from "./eventos";
 
 // Campos opcionales y su comportamiento: ver src/data/eventos.ts
@@ -79,7 +79,34 @@ export const charlas: Charla[] = [
     hora: "13:00",
     lugar: "Centro de Innovación Tecnológica",
   },
+  {
+    id: 6,
+    titulo: "Ingenieros que inspiran: comunicación, liderazgo e influencia",
+    tipo: "Charla transformacional",
+    ponente: "Alejandra Ruiz",
+    descripcion:
+      "Fomentar en los participantes el desarrollo de habilidades de comunicación, liderazgo e influencia, destacando la importancia de saber comunicar soluciones, coordinar equipos de trabajo y transmitir decisiones técnicas de manera clara, efectiva y estratégica.",
+    fecha: "2026-11-26",
+    hora: "16:00",
+    lugar: "Sala de Usos Múltiples",
+  },
+  {
+    id: 7,
+    titulo: "¿Quieres o debes? ¡Tu actitud determina tu altitud!",
+    tipo: "Charla motivacional",
+    ponente: "Alejandro Enríquez",
+    descripcion:
+      "Hacer las cosas por convicción, no por obligación. Despertar la conciencia, transformar hábitos y trabajar en equipo para construir un mejor entorno y alcanzar una mayor productividad.",
+    fecha: "2026-11-26",
+    hora: "17:00",
+    lugar: "Sala de Usos Múltiples",
+  },
 ];
+
+/** Texto del chip: el campo `tipo` o, si está vacío, "Charla". */
+export function tipoDeCharla(charla: Charla): string {
+  return valor(charla.tipo) ?? "Charla";
+}
 
 /** Primero las que tienen fecha (de la más próxima a la más lejana); al final las demás. */
 export const charlasOrdenadas: Charla[] = ordenarPorFecha(charlas);

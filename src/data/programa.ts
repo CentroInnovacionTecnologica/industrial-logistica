@@ -47,6 +47,8 @@ export const programa: ActividadPrograma[] = [
   { dia: "2026-11-26", inicio: "09:00", fin: "13:00", tipo: "Cursos", titulo: "Cursos y talleres", enlace: "/cursos" },
   { dia: "2026-11-26", inicio: "13:00", fin: "15:00", tipo: "Charla", titulo: "ISO versión 2026: las nuevas reglas del juego para la gestión", lugar: CIT, enlace: "/actividades/charlas" },
   { dia: "2026-11-26", inicio: "13:00", fin: "15:00", tipo: "Charla", titulo: "Del aula al mundo real: lo que nadie te dice del ingeniero industrial", lugar: SUM, enlace: "/actividades/charlas" },
+  { dia: "2026-11-26", inicio: "16:00", fin: "17:00", tipo: "Charla", titulo: "Ingenieros que inspiran: comunicación, liderazgo e influencia", detalle: "Transformacional", lugar: SUM, enlace: "/actividades/charlas" },
+  { dia: "2026-11-26", inicio: "17:00", fin: "18:00", tipo: "Charla", titulo: "¿Quieres o debes? ¡Tu actitud determina tu altitud!", detalle: "Motivacional", lugar: SUM, enlace: "/actividades/charlas" },
 
   /* Viernes 27 */
   { dia: "2026-11-27", inicio: "09:00", fin: "10:00", tipo: "Visitas", titulo: "Visitas a empresas", enlace: "/actividades/visitas" },

@@ -6,7 +6,7 @@ import HexNetworkIcon from "../../components/icons/HexNetworkIcon.astro";
 import MessagesIcon from "../../components/icons/MessagesIcon.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import { tonos } from "../../components/ui/tonos";
-import { charlas, charlasOrdenadas } from "../../data/charlas";
+import { charlas, charlasOrdenadas, tipoDeCharla } from "../../data/charlas";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const total = charlas.length;
@@ -41,7 +41,7 @@ const stats = [
         {
           charlasOrdenadas.map((charla) => (
             <li>
-              <EventoCard evento={charla} etiqueta="Charla" tono={tonos.ambas} />
+              <EventoCard evento={charla} etiqueta={tipoDeCharla(charla)} tono={tonos.ambas} />
             </li>
           ))
         }
