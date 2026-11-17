@@ -38,7 +38,7 @@ export const charlas: Charla[] = [
     ],
     fecha: "2026-11-25",
     hora: "17:00",
-    lugar: "Sala de Usos Múltiples",
+    lugar: "Centro de Innovación Tecnológica",
   },
   {
     id: 3,
