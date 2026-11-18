@@ -5,6 +5,7 @@ import PageHeader from "../components/PageHeader.astro";
 import Pagination from "../components/cursos/Pagination.astro";
 import { totalPaginas } from "../components/cursos/filtros";
 import Header from "../components/Header.astro";
+import CalendarIcon from "../components/icons/CalendarIcon.astro";
 import ClockIcon from "../components/icons/ClockIcon.astro";
 import GraduationCapIcon from "../components/icons/GraduationCapIcon.astro";
 import UsersIcon from "../components/icons/UsersIcon.astro";
@@ -16,6 +17,12 @@ const sorted = cursos.toSorted((a, b) => a.id - b.id);
 const stats = [
   { icon: GraduationCapIcon, text: `${sorted.length} cursos` },
   { icon: ClockIcon, text: "8 horas por curso" },
+  {
+    icon: CalendarIcon,
+    // Espacios de no separación para que "a. m." y "p. m." no se partan.
+    text: "De 8:00 a. m. a 1:00 p. m.",
+    srText: "Todos los cursos son de 8:00 a. m. a 1:00 p. m.",
+  },
   { icon: UsersIcon, text: "Cupo limitado" },
 ];
 ---

@@ -85,7 +85,7 @@ export const cursos: Curso[] = [
       "Implementa un prototipo básico de Internet de las Cosas (IoT) para una aplicación industrial: simulación de circuitos en Wokwi, conexión y programación de una tarjeta ESP32 e integración con Arduino Cloud para monitorear sensores y controlar actuadores desde un panel remoto.",
     carrera: "industrial",
     abiertoAOtraCarrera: false,
-    semestres: [1],
+    semestres: [1, 2, 3, 4],
     duracionHoras: 8,
     lugares: 25,
     inscritos: 21,

@@ -9,6 +9,8 @@ export interface PageStat {
   /** Componente de ícono (src/components/icons). */
   icon: (props: { class?: string }) => any;
   text: string;
+  /** Texto completo para lectores de pantalla; sustituye a `text` si se da. */
+  srText?: string;
 }
 
 interface Props {
@@ -18,7 +20,7 @@ interface Props {
    * enlace si tienen `href` y texto si no (p. ej. "Actividades").
    */
   breadcrumb: { label: string; href?: string }[];
-  /** Fila de tres datos con ícono. */
+  /** Fila de datos con ícono. */
   stats: PageStat[];
 }
 
@@ -95,18 +97,27 @@ const crumbs = [{ label: "Inicio", href: home }, ...breadcrumb];
       }
     </p>
 
-    <ul
-      class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 font-display text-[15px] font-bold text-navy sm:gap-x-0 sm:text-base lg:mt-6 lg:text-lg"
-    >
-      {
-        stats.map((stat) => (
-          <li class="stat flex items-center gap-2.5 sm:gap-3">
-            <stat.icon class="size-6 shrink-0 text-accent-red sm:size-7 lg:size-8" />
-            {stat.text}
-          </li>
-        ))
-      }
-    </ul>
+    <div class="stats-wrap mt-5 lg:mt-6">
+      <ul
+        class="stats flex flex-wrap items-center gap-x-5 gap-y-3 font-display text-[15px] font-bold text-navy sm:text-base lg:text-lg"
+      >
+        {
+          stats.map((stat) => (
+            <li class="stat flex items-center gap-2.5 sm:gap-3">
+              <stat.icon class="size-6 shrink-0 text-accent-red sm:size-7 lg:size-8" />
+              {stat.srText ? (
+                <>
+                  <span aria-hidden="true">{stat.text}</span>
+                  <span class="sr-only">{stat.srText}</span>
+                </>
+              ) : (
+                stat.text
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -123,19 +134,33 @@ const crumbs = [{ label: "Inicio", href: home }, ...breadcrumb];
     display: none;
   }
 
-  /* Líneas verticales finas entre los datos */
+  /*
+   * Líneas verticales finas entre los datos. Cada dato lleva su línea a la
+   * izquierda y la lista se corre a la izquierda lo mismo que mide esa línea
+   * más su relleno; el contenedor recorta lo que sobresale. Así, el primer
+   * dato de cada renglón (también cuando la fila se parte en dos) queda sin
+   * línea visible y alineado con el título.
+   */
   @media (width >= 40rem) {
-    .stat + .stat {
-      margin-left: 1.75rem;
-      padding-left: 1.75rem;
+    .stats-wrap {
+      overflow: hidden;
+    }
+
+    .stats {
+      --stat-space: 1.75rem;
+      column-gap: var(--stat-space);
+      margin-left: calc(-1 * var(--stat-space) - 1px);
+    }
+
+    .stat {
+      padding-left: var(--stat-space);
       border-left: 1px solid var(--color-line);
     }
   }
 
   @media (width >= 64rem) {
-    .stat + .stat {
-      margin-left: 3rem;
-      padding-left: 3rem;
+    .stats {
+      --stat-space: 3rem;
     }
 
     .gears {
