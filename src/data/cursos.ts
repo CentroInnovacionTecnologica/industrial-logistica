@@ -104,6 +104,7 @@ export const cursos: Curso[] = [
     lugares: 25,
     inscritos: 13,
     aula: "Aula I-2",
+    requisitos: ["Laptop"],
   },
   {
     id: 3,
