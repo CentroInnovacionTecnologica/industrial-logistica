@@ -53,10 +53,6 @@ export const paneles: Panel[] = [
         cargo: "Gerente de Recursos Humanos BIO PAPPEL",
       },
       {
-        nombre: "Roberto Macias",
-        cargo: "Operations Manager, Johnson Controls BE Operations México",
-      },
-      {
         nombre: "Gerardo Mar Rodríguez",
         cargo: "Materials Manager, Yazaki Componentes de México",
       },

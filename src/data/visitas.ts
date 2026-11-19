@@ -77,7 +77,7 @@ export const visitas: Visita[] = [
     descripcion:
       "Filial de una corporación global de origen japonés y líder mundial en la manufactura de componentes eléctricos para la industria automotriz, destacando en la producción de arneses y sistemas de distribución eléctrica vehicular. Su planta en Durango cuenta con una amplia infraestructura de manufactura avanzada, lo que la convierte en un escenario ideal para analizar complejos sistemas de logística internacional, control de inventarios, líneas de ensamble de alto volumen y gestión de la cadena de suministro.",
     lugares: 25,
-    inscritos: 0,
+    inscritos: 23,
   },
   {
     id: "hulmaq",
@@ -105,7 +105,7 @@ export const visitas: Visita[] = [
     logo: "termoelectrica.png",
     carrera: "ambas",
     lugares: 40,
-    inscritos: 25,
+    inscritos: 29,
   },
   {
     id: "forestal-alfa",
@@ -121,7 +121,7 @@ export const visitas: Visita[] = [
     logo: "sir.png",
     carrera: "ambas",
     lugares: 40,
-    inscritos: 29,
+    inscritos: 31,
   },
   {
     id: "arauco",
@@ -129,7 +129,7 @@ export const visitas: Visita[] = [
     logo: "arauco.png",
     carrera: "ambas",
     lugares: 25,
-    inscritos: 0,
+    inscritos: 15,
   },
 ];
 

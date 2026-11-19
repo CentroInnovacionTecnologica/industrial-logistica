@@ -30,7 +30,7 @@ export const deportivas: ActividadDeportiva[] = [
     descripcion:
       "¡Demuestra tu talento en la cancha! Prepárate para una jornada llena de pasión, deportividad y estrategia en nuestro torneo de futbol. Convive con tus compañeros, defiende la camiseta de tu carrera y vive la emoción del deporte en un ambiente de sana competencia y juego limpio.",
     lugares: 70,
-    inscritos: 12,
+    inscritos: 15,
   },
   {
     id: "100-ingenieros-dijeron",
@@ -39,7 +39,7 @@ export const deportivas: ActividadDeportiva[] = [
     descripcion:
       "Basada en el famoso formato de los concursos de televisión, esta divertida dinámica pone a competir a los estudiantes para adivinar las respuestas más populares sobre cultura general, vida institucional, ingeniería y hábitos estudiantiles. ¡Pon a prueba el ingenio, la rapidez mental y el buen humor de tu equipo!",
     lugares: 100,
-    inscritos: 7,
+    inscritos: 8,
   },
   {
     id: "ajedrez",
@@ -48,7 +48,7 @@ export const deportivas: ActividadDeportiva[] = [
     descripcion:
       "El arte de la estrategia, la concentración y el análisis táctico en su máxima expresión. Te invitamos a participar en el torneo de ajedrez, un espacio diseñado para que pongas a prueba tus habilidades mentales, planeación y toma de decisiones partida a partida ante los mejores estrategas del instituto.",
     lugares: 20,
-    inscritos: 6,
+    inscritos: 7,
   },
 ];
 

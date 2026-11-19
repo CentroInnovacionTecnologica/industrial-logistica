@@ -88,7 +88,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2, 3, 4],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 21,
+    inscritos: 25,
     aula: "Aula I-1",
   },
   {
@@ -102,7 +102,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 13,
+    inscritos: 25,
     aula: "Aula I-2",
     requisitos: ["Laptop"],
   },
@@ -117,7 +117,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 1,
+    inscritos: 5,
     aula: "Aula I-3",
   },
   {
@@ -147,7 +147,7 @@ export const cursos: Curso[] = [
     semestres: [2, 3, 4],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 12,
+    inscritos: 15,
     aula: "CIT",
   },
   {
@@ -205,7 +205,7 @@ export const cursos: Curso[] = [
     semestres: [5, 6],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 12,
+    inscritos: 14,
     aula: "Aula I-8",
   },
   {
@@ -233,7 +233,7 @@ export const cursos: Curso[] = [
     semestres: [3, 4, 5, 6, 7],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 5,
+    inscritos: 8,
     aula: "Laboratorio de Ingeniería Industrial",
   },
   {
@@ -247,7 +247,7 @@ export const cursos: Curso[] = [
     semestres: [6, 7],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 5,
+    inscritos: 12,
     aula: "Hemeroteca",
   },
   {
@@ -275,7 +275,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 10,
-    inscritos: 9,
+    inscritos: 11,
     aula: "CIT",
   },
   {
@@ -290,7 +290,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 6,
+    inscritos: 12,
     aula: "Aula I-10",
   },
   {
@@ -304,7 +304,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 3,
+    inscritos: 7,
     aula: "Aula I-9",
   },
   {
@@ -318,7 +318,7 @@ export const cursos: Curso[] = [
     semestres: [8, 9, 10],
     duracionHoras: 8,
     lugares: 15,
-    inscritos: 0,
+    inscritos: 1,
     aula: "Laboratorio del CIT",
     requisitos: ["Laptop"],
   },
@@ -333,7 +333,7 @@ export const cursos: Curso[] = [
     semestres: [8, 9, 10],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 5,
+    inscritos: 6,
     aula: "Aula I-11",
   },
   {
@@ -347,7 +347,7 @@ export const cursos: Curso[] = [
     semestres: [5, 6, 7, 8, 9],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 4,
+    inscritos: 6,
     aula: "Laboratorio del CIT",
     requisitos: ["Laptop con JAMOVI, SPSS y Minitab instalados"],
     enlace: {
@@ -367,7 +367,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9, 10],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 8,
+    inscritos: 9,
     aula: "Por confirmar",
     requisitos: ["Laptop con Microsoft Office (Excel)", "Conocimientos intermedios de Excel"],
   },
@@ -382,7 +382,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9, 10],
     duracionHoras: 8,
     lugares: 15,
-    inscritos: 13,
+    inscritos: 15,
     aula: "Laboratorio de Robótica",
   },
 ];
