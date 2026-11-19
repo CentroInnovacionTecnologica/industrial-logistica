@@ -56,6 +56,10 @@ export const paneles: Panel[] = [
         nombre: "Gerardo Mar Rodríguez",
         cargo: "Materials Manager, Yazaki Componentes de México",
       },
+      {
+        nombre: "Ing. Jesús Eduardo Rodríguez Gálvez",
+        cargo: "Gerente General, SIR",
+      },
     ],
   },
 ];
