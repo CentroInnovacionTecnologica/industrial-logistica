@@ -92,11 +92,11 @@ export const charlas: Charla[] = [
   },
   {
     id: 7,
-    titulo: "¿Quieres o debes? ¡Tu actitud determina tu altitud!",
+    titulo: "Líderes que inspiran, equipos que transforman",
     tipo: "Charla motivacional",
-    ponente: "Alejandro Enríquez",
+    ponente: "Isaac Cisneros",
     descripcion:
-      "Hacer las cosas por convicción, no por obligación. Despertar la conciencia, transformar hábitos y trabajar en equipo para construir un mejor entorno y alcanzar una mayor productividad.",
+      "Fortalecer las habilidades personales y profesionales de los estudiantes para formar líderes capaces de impulsar equipos de alto rendimiento y contribuir al éxito de las organizaciones.",
     fecha: "2026-11-26",
     hora: "17:00",
     lugar: "Sala de Usos Múltiples",
