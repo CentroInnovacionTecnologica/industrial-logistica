@@ -8,7 +8,7 @@ export const certificaciones = {
   horaInicio: "17:00",
   horaFin: "18:00",
   /** Vacío: "Lugar por confirmar". */
-  lugar: "Centro de Innovación Tecnológica",
+  lugar: "Centro de Innovación Tecnológica · Sala de Videoconferencias",
   /** Certificaciones que se entregan, en el orden en que se muestran. */
   certificaciones: [
     "SolidWorks Básico y Profesional",

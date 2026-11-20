@@ -58,7 +58,7 @@ export const conferencias: Conferencia[] = [
     frase: "",
     fecha: "2026-11-24",
     hora: "16:00",
-    lugar: "Centro de Innovación Tecnológica",
+    lugar: "Centro de Innovación Tecnológica · Sala de Videoconferencias",
   },
 ];
 

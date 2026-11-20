@@ -43,6 +43,6 @@ export const avisoKit: Aviso = {
   titulo: "Entrega del kit del evento",
   texto: "Recoge tu kit en el edificio de Ingeniería Industrial.",
   fecha: "2026-11-23",
-  hora: "10:00",
+  hora: "16:00",
   lugar: "Edificio de Ingeniería Industrial",
 };

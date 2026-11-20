@@ -23,7 +23,7 @@ export const foros: Foro[] = [
     lema: "Construyendo camino en la industria",
     fecha: "2026-11-25",
     hora: "16:00",
-    lugar: "Centro de Innovación Tecnológica",
+    lugar: "Centro de Innovación Tecnológica · Sala de Videoconferencias",
     participantes: [
       {
         nombre: "Alma Julissa García Almanza",

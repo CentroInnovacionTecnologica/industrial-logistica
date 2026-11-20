@@ -22,7 +22,7 @@ export const charlas: Charla[] = [
     ],
     fecha: "2026-11-25",
     hora: "13:00",
-    lugar: "Centro de Innovación Tecnológica",
+    lugar: "Centro de Innovación Tecnológica · Sala de Videoconferencias",
   },
   {
     id: 2,
@@ -38,7 +38,7 @@ export const charlas: Charla[] = [
     ],
     fecha: "2026-11-25",
     hora: "17:00",
-    lugar: "Centro de Innovación Tecnológica",
+    lugar: "Centro de Innovación Tecnológica · Sala de Videoconferencias",
   },
   {
     id: 3,
@@ -77,7 +77,7 @@ export const charlas: Charla[] = [
       "Las normas cambian porque el mundo cambia, y con ellas el perfil que buscan las empresas. Calidad, ambiente, seguridad y auditoría ya no son lo que eran. Aquí entenderás qué viene, cómo te afecta y cómo sacarle ventaja desde ahora. ¿Estás listo para las nuevas reglas?",
     fecha: "2026-11-26",
     hora: "13:00",
-    lugar: "Centro de Innovación Tecnológica",
+    lugar: "Centro de Innovación Tecnológica · Sala de Videoconferencias",
   },
   {
     id: 6,

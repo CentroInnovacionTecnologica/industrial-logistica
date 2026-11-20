@@ -109,7 +109,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 25,
-    aula: "Aula I-2",
+    aula: "CIT · Aula C3 (miércoles) y C1 (jueves)",
     requisitos: ["Laptop"],
   },
   {
@@ -282,7 +282,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 11,
     inscritos: 11,
-    aula: "CIT",
+    aula: "CIT · Aula de Impresión 3D",
   },
   {
     id: 15,
@@ -297,7 +297,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 13,
-    aula: "Aula I-10",
+    aula: "CIT · Aula C4",
   },
   {
     id: 16,
@@ -342,7 +342,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 7,
-    aula: "Aula I-11",
+    aula: "CIT · Sala de Cómputo",
   },
   {
     id: 19,
@@ -356,7 +356,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 6,
-    aula: "Laboratorio del CIT",
+    aula: "CIT · Sala de Cómputo",
     requisitos: ["Laptop con JAMOVI, SPSS y Minitab instalados"],
     enlace: {
       texto: "Descargar el software",
