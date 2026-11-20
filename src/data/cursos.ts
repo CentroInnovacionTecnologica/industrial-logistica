@@ -125,7 +125,6 @@ export const cursos: Curso[] = [
     lugares: 20,
     inscritos: 14,
     aula: "Aula I-3",
-    fusionadoCon: 9, // Riesgo Bajo Control: Seguridad con Normas STPS
   },
   {
     id: 4,
@@ -281,7 +280,7 @@ export const cursos: Curso[] = [
     abiertoAOtraCarrera: false,
     semestres: [7, 8, 9],
     duracionHoras: 8,
-    lugares: 10,
+    lugares: 11,
     inscritos: 11,
     aula: "CIT",
   },
@@ -313,6 +312,7 @@ export const cursos: Curso[] = [
     lugares: 20,
     inscritos: 8,
     aula: "Aula I-9",
+    fusionadoCon: 12, // Normas que Abren Puertas: ISO 9001, 14001 y 45001
   },
   {
     id: 17,
