@@ -253,13 +253,8 @@ export const cursos: Curso[] = [
     semestres: [6, 7],
     duracionHoras: 8,
     lugares: 20,
-<<<<<<< HEAD
-    inscritos: 12,
-    aula: "Aula I-10",
-=======
     inscritos: 13,
-    aula: "Hemeroteca",
->>>>>>> 7c037a402f2a4be5fa93a7ff944e7ec3f4724695
+    aula: "Aula I-10",
   },
   {
     id: 13,
@@ -272,13 +267,8 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 20,
-<<<<<<< HEAD
-    inscritos: 9,
-    aula: "Aula I-1",
-=======
     inscritos: 10,
-    aula: "Excelencia Operativa",
->>>>>>> 7c037a402f2a4be5fa93a7ff944e7ec3f4724695
+    aula: "Aula I-1",
   },
   {
     id: 14,
@@ -292,11 +282,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 11,
     inscritos: 11,
-<<<<<<< HEAD
     aula: "CIT · Área de Manufactura",
-=======
-    aula: "CIT · Aula de Impresión 3D",
->>>>>>> 7c037a402f2a4be5fa93a7ff944e7ec3f4724695
   },
   {
     id: 15,
