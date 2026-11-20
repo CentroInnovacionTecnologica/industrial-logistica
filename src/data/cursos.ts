@@ -123,7 +123,7 @@ export const cursos: Curso[] = [
     semestres: [1, 2],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 5,
+    inscritos: 14,
     aula: "Aula I-3",
     fusionadoCon: 9, // Riesgo Bajo Control: Seguridad con Normas STPS
   },
@@ -212,7 +212,7 @@ export const cursos: Curso[] = [
     semestres: [5, 6],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 14,
+    inscritos: 17,
     aula: "Aula I-8",
   },
   {
@@ -254,7 +254,7 @@ export const cursos: Curso[] = [
     semestres: [6, 7],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 12,
+    inscritos: 13,
     aula: "Hemeroteca",
   },
   {
@@ -268,7 +268,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 9,
+    inscritos: 10,
     aula: "Excelencia Operativa",
   },
   {
@@ -297,7 +297,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 12,
+    inscritos: 13,
     aula: "Aula I-10",
   },
   {
@@ -311,7 +311,7 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 7,
+    inscritos: 8,
     aula: "Aula I-9",
   },
   {
@@ -341,7 +341,7 @@ export const cursos: Curso[] = [
     semestres: [8, 9, 10],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 6,
+    inscritos: 7,
     aula: "Aula I-11",
   },
   {

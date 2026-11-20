@@ -15,7 +15,7 @@ export const site = {
 /* ---------- Cupos ---------- */
 
 /** Fecha (AAAA-MM-DD) del último corte de inscritos en cursos, visitas y deportivas. */
-export const cuposActualizados = "2026-11-18";
+export const cuposActualizados = "2026-11-20";
 
 /* ---------- Logos del encabezado ---------- */
 

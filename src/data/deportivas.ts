@@ -21,7 +21,7 @@ export const deportivas: ActividadDeportiva[] = [
     descripcion:
       "¡Pon a prueba tu agilidad, trabajo en equipo y destreza mental! Una competencia dinámica en la que formarás equipos para superar una serie de retos físicos, dinámicas de integración y acertijos a lo largo de un circuito de estaciones. Es la actividad ideal para estrechar lazos, fomentar el liderazgo y vivir el espíritu universitario al máximo.",
     lugares: 100,
-    inscritos: 38,
+    inscritos: 33,
   },
   {
     id: "futbol",
@@ -30,7 +30,7 @@ export const deportivas: ActividadDeportiva[] = [
     descripcion:
       "¡Demuestra tu talento en la cancha! Prepárate para una jornada llena de pasión, deportividad y estrategia en nuestro torneo de futbol. Convive con tus compañeros, defiende la camiseta de tu carrera y vive la emoción del deporte en un ambiente de sana competencia y juego limpio.",
     lugares: 70,
-    inscritos: 15,
+    inscritos: 12,
   },
   {
     id: "100-ingenieros-dijeron",
