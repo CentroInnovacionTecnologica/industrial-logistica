@@ -26,7 +26,7 @@ export const avisoInauguracion: Aviso = {
   etiqueta: "Asistencia obligatoria",
   titulo: "La Inauguración es obligatoria para todos los participantes",
   texto:
-    "Tu asistencia a la Ceremonia de Inauguración es indispensable para participar en las actividades de la Semana Académica.",
+    "Tu asistencia a la Ceremonia de Inauguración es indispensable dentro de las actividades de la Semana Académica.",
   // Se toman de src/data/inauguracion.ts para no duplicarlos.
   fecha: inauguracion.fecha,
   hora: inauguracion.hora,
@@ -43,6 +43,6 @@ export const avisoKit: Aviso = {
   titulo: "Entrega del kit del evento",
   texto: "Recoge tu kit en el edificio de Ingeniería Industrial.",
   fecha: "2026-11-23",
-  hora: "10:00",
+  hora: "16:00",
   lugar: "Edificio de Ingeniería Industrial",
 };

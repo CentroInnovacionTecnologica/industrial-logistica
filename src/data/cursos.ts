@@ -109,7 +109,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 25,
-    aula: "Aula I-2",
+    aula: "CIT · Aula C3 (miércoles) y C1 (jueves)",
     requisitos: ["Laptop"],
   },
   {
@@ -123,9 +123,8 @@ export const cursos: Curso[] = [
     semestres: [1, 2],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 5,
+    inscritos: 14,
     aula: "Aula I-3",
-    fusionadoCon: 9, // Riesgo Bajo Control: Seguridad con Normas STPS
   },
   {
     id: 4,
@@ -212,7 +211,7 @@ export const cursos: Curso[] = [
     semestres: [5, 6],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 14,
+    inscritos: 17,
     aula: "Aula I-8",
   },
   {
@@ -254,8 +253,13 @@ export const cursos: Curso[] = [
     semestres: [6, 7],
     duracionHoras: 8,
     lugares: 20,
+<<<<<<< HEAD
     inscritos: 12,
     aula: "Aula I-10",
+=======
+    inscritos: 13,
+    aula: "Hemeroteca",
+>>>>>>> 7c037a402f2a4be5fa93a7ff944e7ec3f4724695
   },
   {
     id: 13,
@@ -268,8 +272,13 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 20,
+<<<<<<< HEAD
     inscritos: 9,
     aula: "Aula I-1",
+=======
+    inscritos: 10,
+    aula: "Excelencia Operativa",
+>>>>>>> 7c037a402f2a4be5fa93a7ff944e7ec3f4724695
   },
   {
     id: 14,
@@ -281,9 +290,13 @@ export const cursos: Curso[] = [
     abiertoAOtraCarrera: false,
     semestres: [7, 8, 9],
     duracionHoras: 8,
-    lugares: 10,
+    lugares: 11,
     inscritos: 11,
+<<<<<<< HEAD
     aula: "CIT · Área de Manufactura",
+=======
+    aula: "CIT · Aula de Impresión 3D",
+>>>>>>> 7c037a402f2a4be5fa93a7ff944e7ec3f4724695
   },
   {
     id: 15,
@@ -297,8 +310,8 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 12,
-    aula: "Aula I-10",
+    inscritos: 13,
+    aula: "CIT · Aula C4",
   },
   {
     id: 16,
@@ -311,8 +324,9 @@ export const cursos: Curso[] = [
     semestres: [7, 8, 9],
     duracionHoras: 8,
     lugares: 20,
-    inscritos: 7,
+    inscritos: 8,
     aula: "Aula I-9",
+    fusionadoCon: 12, // Normas que Abren Puertas: ISO 9001, 14001 y 45001
   },
   {
     id: 17,
@@ -341,8 +355,8 @@ export const cursos: Curso[] = [
     semestres: [8, 9, 10],
     duracionHoras: 8,
     lugares: 25,
-    inscritos: 6,
-    aula: "Aula I-11",
+    inscritos: 7,
+    aula: "CIT · Sala de Cómputo",
   },
   {
     id: 19,
@@ -356,7 +370,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 6,
-    aula: "Laboratorio del CIT",
+    aula: "CIT · Sala de Cómputo",
     requisitos: ["Laptop con JAMOVI, SPSS y Minitab instalados"],
     enlace: {
       texto: "Descargar el software",

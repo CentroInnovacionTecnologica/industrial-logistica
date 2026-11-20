@@ -13,19 +13,20 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <Header />
 
   <main id="contenido">
-    <Hero />
-
-    <!-- Avisos importantes: mismo fondo que el carrusel; su relleno superior
-         da el espacio de abajo -->
-    <section class="bg-surface/60" aria-labelledby="avisos-titulo">
-      <div class="site-container pt-8 lg:pt-12">
+    <!-- Avisos importantes, arriba del hero. Fondo blanco como el inicio del
+         degradado del hero para que no se note el corte; el relleno inferior
+         separa los avisos de la foto del hero. -->
+    <section class="bg-white" aria-labelledby="avisos-titulo">
+      <div class="site-container pb-6 pt-5 sm:pt-6 lg:pb-8 lg:pt-7">
         <h2 id="avisos-titulo" class="sr-only">Avisos importantes</h2>
-        <div class="grid gap-5 lg:gap-6">
-          <Aviso aviso={avisoInauguracion} variante="urgente" nivel={3} />
-          <Aviso aviso={avisoKit} variante="importante" nivel={3} />
+        <div class="grid gap-4 lg:grid-cols-2 lg:gap-6">
+          <Aviso aviso={avisoInauguracion} variante="urgente" nivel={3} denso />
+          <Aviso aviso={avisoKit} variante="importante" nivel={3} denso />
         </div>
       </div>
     </section>
+
+    <Hero />
 
     <PatrocinadoresCarousel />
 

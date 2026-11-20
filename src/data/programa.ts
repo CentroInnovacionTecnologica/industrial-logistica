@@ -22,7 +22,7 @@ export interface ActividadPrograma {
 }
 
 const TEATRO = "Teatro Ricardo Castro";
-const CIT = "Centro de Innovación Tecnológica";
+const CIT = "Centro de Innovación Tecnológica · Sala de Videoconferencias";
 const SUM = "Sala de Usos Múltiples";
 
 export const programa: ActividadPrograma[] = [
