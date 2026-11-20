@@ -1,0 +1,19 @@
+---
+/** Dos caminos que se juntan en uno (cursos fusionados). */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d="m8 6 4-4 4 4"></path>
+  <path d="M12 2v10.3a4 4 0 0 1-1.17 2.83L4 22"></path>
+  <path d="m20 22-5-5"></path>
+</svg>

@@ -2,6 +2,10 @@
 /**
  * Tarjeta común a cursos, visitas y actividades deportivas: franja superior de
  * color, borde sutil y contenido en columna (los datos se pegan al fondo).
+ *
+ * El slot "aviso" reemplaza la franja de color (p. ej. curso fusionado); la
+ * tarjeta se vuelve `relative` para que el aviso pueda colocar elementos
+ * absolutos (la cinta de la esquina), recortados por `overflow-hidden`.
  */
 interface Props {
   /** Clase de fondo de la franja superior (ver tonos.ts). */
@@ -10,20 +14,44 @@ interface Props {
   padding?: string;
   /** Atenúa la tarjeta (p. ej. cupo lleno). 0.88 mantiene el texto gris en AA. */
   atenuada?: boolean;
+  /** Nombre accesible del <article>. */
+  ariaLabel?: string;
+  /** Clases extra del contenedor del contenido (no afectan al aviso). */
+  contenidoClass?: string;
 }
 
-const { stripe, padding = "p-5", atenuada = false } = Astro.props;
+const {
+  stripe,
+  padding = "p-5",
+  atenuada = false,
+  ariaLabel,
+  contenidoClass,
+} = Astro.props;
+// Se renderiza el slot para saber si trae contenido: un slot condicional
+// (`{cond && <Fragment slot="aviso">}`) cuenta como presente aunque quede vacío.
+const aviso = Astro.slots.has("aviso")
+  ? (await Astro.slots.render("aviso")).trim()
+  : "";
+const conAviso = aviso !== "";
 ---
 
 <article
   class:list={[
     "flex h-full flex-col overflow-hidden rounded-xl border border-line bg-white shadow-[0_8px_20px_-14px_rgb(15_30_74/0.4)]",
     atenuada && "opacity-[0.88]",
+    conAviso && "relative",
   ]}
+  aria-label={ariaLabel}
 >
-  <div class:list={["h-2 shrink-0", stripe]} aria-hidden="true"></div>
+  {
+    conAviso ? (
+      <Fragment set:html={aviso} />
+    ) : (
+      <div class:list={["h-2 shrink-0", stripe]} aria-hidden="true" />
+    )
+  }
 
-  <div class:list={["flex flex-1 flex-col", padding]}>
+  <div class:list={["flex flex-1 flex-col", padding, contenidoClass]}>
     <slot />
   </div>
 </article>

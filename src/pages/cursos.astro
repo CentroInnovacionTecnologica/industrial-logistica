@@ -12,10 +12,16 @@ import UsersIcon from "../components/icons/UsersIcon.astro";
 import { cursos, CURSOS_POR_PAGINA } from "../data/cursos";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const sorted = cursos.toSorted((a, b) => a.id - b.id);
+// Activos por id y, al final, los fusionados con otro curso (también por id).
+const esFusionado = (curso: (typeof cursos)[number]) => curso.fusionadoCon !== undefined;
+const sorted = cursos.toSorted(
+  (a, b) => Number(esFusionado(a)) - Number(esFusionado(b)) || a.id - b.id,
+);
+const activos = sorted.filter((curso) => !esFusionado(curso)).length;
+const fusionados = sorted.length - activos;
 
 const stats = [
-  { icon: GraduationCapIcon, text: `${sorted.length} cursos` },
+  { icon: GraduationCapIcon, text: `${activos} cursos` },
   { icon: ClockIcon, text: "8 horas por curso" },
   {
     icon: CalendarIcon,
@@ -29,7 +35,7 @@ const stats = [
 
 <BaseLayout
   title="Cursos | Semana Académica ITD"
-  description={`Consulta los ${sorted.length} cursos de actualización de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD y filtra por semestre, carrera y tema.`}
+  description={`Consulta los ${activos} cursos de actualización de la Semana Académica de Ingeniería Industrial e Ingeniería en Logística del ITD y filtra por semestre, carrera y tema.`}
 >
   <!-- Sin JavaScript no hay filtros ni páginas: se muestran todos los cursos -->
   <noscript slot="head">
@@ -58,7 +64,7 @@ const stats = [
       aria-labelledby="catalogo-titulo"
     >
       <h2 id="catalogo-titulo" class="sr-only">Catálogo de cursos</h2>
-      <CourseFilters totalCursos={sorted.length} />
+      <CourseFilters totalCursos={sorted.length} fusionados={fusionados} />
       <CourseGrid cursos={sorted} />
       <Pagination totalPages={totalPaginas(sorted.length, CURSOS_POR_PAGINA)} />
     </section>
@@ -110,7 +116,7 @@ const stats = [
           tema: element.dataset.tema ?? "",
           texto: element.dataset.texto ?? "",
         };
-        return { element, datos };
+        return { element, datos, fusionado: element.hasAttribute("data-fusionado") };
       },
     );
 
@@ -141,7 +147,16 @@ const stats = [
       }
 
       if (count) {
-        count.textContent = `Mostrando ${matches.length} ${matches.length === 1 ? "curso" : "cursos"}`;
+        const total = `Mostrando ${matches.length} ${matches.length === 1 ? "curso" : "cursos"}`;
+        const fusionados = matches.filter((card) => card.fusionado).length;
+        if (fusionados > 0) {
+          const nota = document.createElement("span");
+          nota.className = "text-muted";
+          nota.textContent = `(${fusionados} ${fusionados === 1 ? "fusionado" : "fusionados"})`;
+          count.replaceChildren(`${total} `, nota);
+        } else {
+          count.textContent = total;
+        }
       }
       if (list) list.hidden = matches.length === 0;
       if (empty) empty.hidden = matches.length > 0;
@@ -201,15 +216,51 @@ const stats = [
       applyFilters();
     });
 
-    grid.querySelector("[data-clear-filters]")?.addEventListener("click", () => {
+    const clearFilters = (): void => {
       Object.assign(state, FILTROS_INICIALES);
       setPressed(semestreChips, state.semestre, "filterSemestre");
       setPressed(carreraButtons, state.carrera, "filterCarrera");
       if (temaSelect) temaSelect.value = state.tema;
       if (searchInput) searchInput.value = state.busqueda;
       applyFilters();
+    };
+
+    grid.querySelector("[data-clear-filters]")?.addEventListener("click", () => {
+      clearFilters();
       // El botón desaparece con el mensaje: el foco vuelve al primer filtro
       semestreChips[0]?.focus();
+    });
+
+    // "Ver el curso" en un curso fusionado: quita filtros, va a la página del
+    // destino, lo lleva a la vista y lo resalta un momento con contorno ámbar.
+    let quitarResaltado: number | undefined;
+    grid.addEventListener("click", (event) => {
+      const link = (event.target as Element).closest<HTMLAnchorElement>(
+        "[data-ir-a-curso]",
+      );
+      if (!link) return;
+      const target = document.getElementById(`curso-${link.dataset.irACurso}`);
+      const index = cards.findIndex((card) => card.element === target);
+      if (!target || index === -1) return; // sin destino: el ancla sigue normal
+      event.preventDefault();
+
+      clearFilters();
+      page = Math.floor(index / perPage) + 1;
+      render();
+
+      // html define el scroll suave y lo desactiva con prefers-reduced-motion
+      target.scrollIntoView({ block: "center" });
+      // El foco pasa al destino para teclado y lectores de pantalla
+      target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+
+      for (const card of cards) card.element.removeAttribute("data-resaltado");
+      target.setAttribute("data-resaltado", "");
+      window.clearTimeout(quitarResaltado);
+      quitarResaltado = window.setTimeout(
+        () => target.removeAttribute("data-resaltado"),
+        2000,
+      );
     });
 
     prev?.addEventListener("click", () => goToPage(page - 1));

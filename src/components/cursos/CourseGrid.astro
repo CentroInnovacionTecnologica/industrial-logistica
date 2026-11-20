@@ -1,5 +1,5 @@
 ---
-import { carrerasDelCurso, CURSOS_POR_PAGINA } from "../../data/cursos";
+import { carrerasDelCurso, CURSOS_POR_PAGINA, fusionadosEn } from "../../data/cursos";
 import type { Curso } from "../../data/cursos";
 import CourseCard from "./CourseCard.astro";
 import { normalizar } from "./filtros";
@@ -23,14 +23,21 @@ const { cursos } = Astro.props;
     {
       cursos.map((curso, index) => (
         <li
+          id={`curso-${curso.id}`}
+          class="scroll-mt-4"
           data-course
           data-semestres={curso.semestres.join(",")}
           data-carreras={carrerasDelCurso(curso).join(",")}
           data-tema={curso.tema}
           data-texto={normalizar(
-            `${curso.nombre} ${curso.nombreAnterior ?? ""} ${curso.tema} ${curso.descripcion} ${curso.aula} ${(curso.requisitos ?? []).join(" ")}`,
+            // Incluye los nombres de los cursos que se le integran: buscar
+            // "zona segura" también encuentra su curso destino.
+            `${curso.nombre} ${curso.nombreAnterior ?? ""} ${curso.tema} ${curso.descripcion} ${curso.aula} ${(curso.requisitos ?? []).join(" ")} ${fusionadosEn(curso)
+              .map((c) => c.nombre)
+              .join(" ")}`,
           )}
           data-oculto={index >= CURSOS_POR_PAGINA ? "" : undefined}
+          data-fusionado={curso.fusionadoCon === undefined ? undefined : ""}
         >
           <CourseCard curso={curso} />
         </li>
@@ -60,5 +67,27 @@ const { cursos } = Astro.props;
   /* Sin "hidden": así <noscript> (ver cursos.astro) puede volver a mostrarlas */
   li[data-oculto] {
     display: none;
+  }
+
+  /* Destino de "Ver el curso" (curso fusionado): contorno ámbar breve. El
+     script de cursos.astro pone y quita data-resaltado. */
+  li > :global(article) {
+    transition: outline-color 300ms ease-out;
+    outline: 3px solid transparent;
+    outline-offset: 3px;
+  }
+
+  li[data-resaltado] > :global(article) {
+    outline-color: var(--color-amber);
+  }
+
+  li:focus {
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    li > :global(article) {
+      transition: none;
+    }
   }
 </style>

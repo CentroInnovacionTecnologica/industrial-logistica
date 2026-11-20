@@ -1,12 +1,20 @@
 ---
-import { carreraLabels, formatSemestres } from "../../data/cursos";
+import {
+  carreraLabels,
+  destinoDe,
+  formatSemestres,
+  fusionadosEn,
+} from "../../data/cursos";
 import type { Curso } from "../../data/cursos";
+import ArrowRightIcon from "../icons/ArrowRightIcon.astro";
 import ClockIcon from "../icons/ClockIcon.astro";
 import DownloadIcon from "../icons/DownloadIcon.astro";
 import GraduationCapIcon from "../icons/GraduationCapIcon.astro";
 import HistoryIcon from "../icons/HistoryIcon.astro";
 import LaptopIcon from "../icons/LaptopIcon.astro";
+import MergeIcon from "../icons/MergeIcon.astro";
 import PinIcon from "../icons/PinIcon.astro";
+import UsersIcon from "../icons/UsersIcon.astro";
 import Card from "../ui/Card.astro";
 import CardFacts from "../ui/CardFacts.astro";
 import CupoInfo from "../ui/CupoInfo.astro";
@@ -33,12 +41,59 @@ const requisitos = curso.requisitos ?? [];
 const requisitosId = `requisitos-${curso.id}`;
 
 const cupo = { capacidad: curso.lugares, inscritos: curso.inscritos };
+// Curso fusionado: se integra a `destino`. No muestra cupo (ni etiqueta, ni
+// barra, ni atenuado por lleno).
+const destino = destinoDe(curso);
+// Curso destino: los cursos que se le integran.
+const integrados = fusionadosEn(curso);
 const lleno =
+  !destino &&
   curso.lugares !== null &&
   calcularCupo(curso.lugares, curso.inscritos).estado === "lleno";
 ---
 
-<Card stripe={tone.stripe} atenuada={lleno}>
+<Card
+  stripe={tone.stripe}
+  atenuada={lleno}
+  ariaLabel={destino ? `Curso fusionado con ${destino.nombre}: ${curso.nombre}` : undefined}
+  contenidoClass={destino ? "fusionado-contenido" : undefined}
+>
+  {
+    destino && (
+      <Fragment slot="aviso">
+        <!-- Cinta diagonal: decorativa, el aviso de la franja ya lo dice -->
+        <div class="cinta" aria-hidden="true">
+          <span>Se fusiona</span>
+        </div>
+        <div class="franja-fusionado flex shrink-0 items-start gap-2.5 bg-amber py-4 pl-5 text-navy">
+          <MergeIcon class="mt-0.5 size-7 shrink-0" />
+          <div class="min-w-0">
+            <p class="font-display text-xl font-extrabold leading-tight">
+              Curso fusionado
+            </p>
+            <p class="mt-1.5 text-sm font-medium leading-snug">
+              Este curso se integra a <strong class="font-bold">«{destino.nombre}»</strong>,
+              que cubre temas muy similares. Si te inscribiste, acude al
+              Departamento de Ingeniería Industrial.
+            </p>
+            <!-- Sin JavaScript el ancla basta (se muestran todos los cursos);
+                 con JavaScript, cursos.astro quita filtros, cambia de página y
+                 resalta el destino. -->
+            <a
+              href={`#curso-${destino.id}`}
+              class="ver-curso mt-3 inline-flex min-h-11 items-center gap-2 rounded-[0.625rem] bg-navy px-4 font-display text-sm font-bold text-white transition-colors hover:bg-navy-700"
+              data-ir-a-curso={destino.id}
+            >
+              Ver el curso
+              <span class="sr-only">«{destino.nombre}»</span>
+              <ArrowRightIcon class="size-4 shrink-0" />
+            </a>
+          </div>
+        </div>
+      </Fragment>
+    )
+  }
+
   <div class="flex items-start justify-between gap-3">
     <p
       class:list={[
@@ -59,14 +114,27 @@ const lleno =
         <span class="sr-only">Carrera:</span>
         {carreraLabels[curso.carrera]}
       </p>
-      <CupoInfo parte="etiqueta" {...cupo} />
+      {!destino && <CupoInfo parte="etiqueta" {...cupo} />}
       {openTo && <p class="text-xs font-medium text-muted">{openTo}</p>}
     </div>
   </div>
 
-  <h3 class="mt-4 font-display text-lg font-bold leading-snug text-navy">
+  <h3
+    class:list={[
+      "mt-4 font-display text-lg font-bold leading-snug text-navy",
+      destino && "line-through decoration-2",
+    ]}
+  >
     {curso.nombre}
   </h3>
+  {
+    integrados.map((integrado) => (
+      <p class="mt-1 flex items-start gap-1.5 text-[13px] font-semibold leading-snug text-amber-dark">
+        <MergeIcon class="mt-px size-3.5 shrink-0" />
+        <span>Integra el curso «{integrado.nombre}»</span>
+      </p>
+    ))
+  }
   {
     curso.nombreAnterior && (
       <p class="mt-1 flex items-start gap-1.5 text-[13px] leading-snug text-muted">
@@ -153,14 +221,83 @@ const lleno =
           }
         </span>
       </li>
-      <CupoInfo parte="dato" {...cupo} />
+      {
+        destino ? (
+          <li>
+            <UsersIcon class="size-5 shrink-0" />
+            <span>
+              <span class="sr-only">Cupo:</span>
+              <strong class="text-sm font-bold">Sin inscripciones</strong>
+            </span>
+          </li>
+        ) : (
+          <CupoInfo parte="dato" {...cupo} />
+        )
+      }
     </CardFacts>
   </div>
-  <CupoInfo parte="barra" {...cupo} />
+  {!destino && <CupoInfo parte="barra" {...cupo} />}
 </Card>
 
 
 <style>
+  /* ---------- Curso fusionado ---------- */
+
+  /* Contenido atenuado: escala de grises y opacidad 0.6 (la franja y la cinta
+     quedan fuera, en el slot "aviso" de Card). */
+  :global(.fusionado-contenido) {
+    filter: grayscale(1);
+    opacity: 0.6;
+  }
+
+  /* Deja libre la esquina que ocupa la cinta */
+  .franja-fusionado {
+    padding-right: 6rem;
+  }
+
+  /* Cinta diagonal en la esquina superior derecha. La caja la recorta y la
+     banda cruza la esquina a 45°, con su centro sobre la diagonal. */
+  .cinta {
+    --caja: 8rem;
+    --ancho: 12rem;
+    --alto: 2.25rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    width: var(--caja);
+    height: var(--caja);
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .cinta span {
+    position: absolute;
+    top: calc(var(--caja) * 0.375 - var(--alto) / 2);
+    right: calc(var(--caja) * 0.375 - var(--ancho) / 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--ancho);
+    height: var(--alto);
+    transform: rotate(45deg);
+    /* Bordes marino: separan la cinta de la franja, del mismo ámbar */
+    border-block: 2px solid var(--color-navy);
+    background: var(--color-amber);
+    box-shadow: 0 4px 10px -2px rgb(15 30 74 / 0.55);
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ver-curso:focus-visible {
+    outline: 2px solid var(--color-navy);
+    outline-offset: 2px;
+  }
+
   .requisitos-enlace:focus-visible {
     outline: 2px solid var(--color-navy);
     outline-offset: 2px;

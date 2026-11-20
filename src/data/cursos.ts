@@ -38,6 +38,12 @@ export interface Curso {
   requisitos?: string[];
   /** Enlace de apoyo que se muestra debajo de los requisitos (p. ej. descargas). */
   enlace?: { texto: string; url: string };
+  /**
+   * Id del curso al que se integra este. La tarjeta muestra el aviso con un
+   * enlace al destino, se atenúa y se mueve al final de la lista; el destino
+   * muestra la nota "Integra el curso…". Quitar el campo lo devuelve a la normalidad.
+   */
+  fusionadoCon?: number;
 }
 
 /** Cursos que se muestran por página en la cuadrícula. */
@@ -119,6 +125,7 @@ export const cursos: Curso[] = [
     lugares: 20,
     inscritos: 5,
     aula: "Aula I-3",
+    fusionadoCon: 9, // Riesgo Bajo Control: Seguridad con Normas STPS
   },
   {
     id: 4,
@@ -321,6 +328,7 @@ export const cursos: Curso[] = [
     inscritos: 1,
     aula: "Laboratorio del CIT",
     requisitos: ["Laptop"],
+    fusionadoCon: 11, // Fundamentos de Diseño en SolidWorks
   },
   {
     id: 18,
@@ -386,3 +394,20 @@ export const cursos: Curso[] = [
     aula: "Laboratorio de Robótica",
   },
 ];
+
+/** Curso por id; falla en la compilación si el id no existe. */
+export function cursoPorId(id: number): Curso {
+  const curso = cursos.find((c) => c.id === id);
+  if (!curso) throw new Error(`No existe el curso con id ${id}`);
+  return curso;
+}
+
+/** Curso destino de un curso fusionado (o `undefined` si no está fusionado). */
+export function destinoDe(curso: Curso): Curso | undefined {
+  return curso.fusionadoCon === undefined ? undefined : cursoPorId(curso.fusionadoCon);
+}
+
+/** Cursos que se integran al curso indicado. */
+export function fusionadosEn(curso: Curso): Curso[] {
+  return cursos.filter((c) => c.fusionadoCon === curso.id);
+}
