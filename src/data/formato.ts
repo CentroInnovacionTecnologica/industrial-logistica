@@ -16,6 +16,18 @@ export function formatearFechaLarga(iso: string): string {
   return texto.charAt(0).toLocaleUpperCase("es-MX") + texto.slice(1);
 }
 
+/** "2026-11-23" → "lunes 23 de noviembre" (en minúscula, para usarse a mitad de frase). */
+export function formatearDiaSemana(iso: string): string {
+  return new Intl.DateTimeFormat("es-MX", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    timeZone: "UTC",
+  })
+    .format(new Date(`${iso}T00:00:00Z`))
+    .replace(",", "");
+}
+
 /** "2026-11-24" → "24 de noviembre". */
 export function formatearDiaMes(iso: string): string {
   return new Intl.DateTimeFormat("es-MX", {

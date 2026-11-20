@@ -1,9 +1,18 @@
 ---
 import { Image } from "astro:assets";
+import { avisoKit } from "../data/avisos";
 import { cantidadLabel, kit } from "../data/kit";
 import { withBase } from "../data/site";
+import Aviso from "./Aviso.astro";
 import DiagonalStripes from "./decor/DiagonalStripes.astro";
 import ArrowRightIcon from "./icons/ArrowRightIcon.astro";
+
+interface Props {
+  /** Versión de una línea del aviso de entrega, si el aviso completo ya está en la página. */
+  avisoCompacto?: boolean;
+}
+
+const { avisoCompacto = false } = Astro.props;
 ---
 
 <section
@@ -33,6 +42,14 @@ import ArrowRightIcon from "./icons/ArrowRightIcon.astro";
         {kit.texto}
       </p>
     </header>
+
+    {
+      avisoCompacto ? (
+        <Aviso aviso={avisoKit} variante="importante" compacto class="mt-6" />
+      ) : (
+        <Aviso aviso={avisoKit} variante="importante" nivel={3} class="mt-6 lg:mt-8" />
+      )
+    }
 
     <ul class="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:mt-10 lg:grid-cols-4 lg:gap-6">
       {

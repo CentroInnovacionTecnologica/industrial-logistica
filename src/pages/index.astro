@@ -1,8 +1,10 @@
 ---
+import Aviso from "../components/Aviso.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import KitSection from "../components/KitSection.astro";
 import PatrocinadoresCarousel from "../components/PatrocinadoresCarousel.astro";
+import { avisoInauguracion, avisoKit } from "../data/avisos";
 import { sections } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
@@ -13,9 +15,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <main id="contenido">
     <Hero />
 
+    <!-- Avisos importantes: mismo fondo que el carrusel; su relleno superior
+         da el espacio de abajo -->
+    <section class="bg-surface/60" aria-labelledby="avisos-titulo">
+      <div class="site-container pt-8 lg:pt-12">
+        <h2 id="avisos-titulo" class="sr-only">Avisos importantes</h2>
+        <div class="grid gap-5 lg:gap-6">
+          <Aviso aviso={avisoInauguracion} variante="urgente" nivel={3} />
+          <Aviso aviso={avisoKit} variante="importante" nivel={3} />
+        </div>
+      </div>
+    </section>
+
     <PatrocinadoresCarousel />
 
-    <KitSection />
+    <!-- El aviso del kit ya aparece completo arriba: aquí va compacto -->
+    <KitSection avisoCompacto />
 
     <!-- Ancla del enlace "Actividades" del pie de página.
          Tarea posterior: <section> con su título y la cuadrícula de tarjetas de eventos -->
