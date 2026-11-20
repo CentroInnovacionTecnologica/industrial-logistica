@@ -36,6 +36,8 @@ export const patrocinadores: Patrocinador[] = [
   { empresa: "Tim Hortons", logo: "patrocinadores/tim-hortons.png" },
   { empresa: "Rebasa", logo: "patrocinadores/rebasa.png" },
   { empresa: "SPS Solutions", logo: "patrocinadores/sps.png" },
+  { empresa: "Intenzo", logo: "patrocinadores/intenzo.png" },
+  { empresa: "XIXIM", logo: "patrocinadores/xixim.png" },
   { empresa: "Arca Continental", logo: "visitas/arca-continental.jpeg" },
   { empresa: "Forestal Alfa", logo: "visitas/forestal-alfa.png" },
   { empresa: "Grupo Armas", logo: "visitas/grupo-armas.png" },
