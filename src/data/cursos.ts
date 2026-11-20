@@ -95,7 +95,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 25,
-    aula: "Aula I-1",
+    aula: "Aula I-11",
   },
   {
     id: 2,
@@ -155,7 +155,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 25,
     inscritos: 15,
-    aula: "CIT",
+    aula: "CIT · Aula C4",
   },
   {
     id: 6,
@@ -227,7 +227,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 20,
-    aula: "CIT",
+    aula: "CIT · Aula C3",
   },
   {
     id: 11,
@@ -255,7 +255,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 12,
-    aula: "Hemeroteca",
+    aula: "Aula I-10",
   },
   {
     id: 13,
@@ -269,7 +269,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 9,
-    aula: "Excelencia Operativa",
+    aula: "Aula I-1",
   },
   {
     id: 14,
@@ -283,7 +283,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 10,
     inscritos: 11,
-    aula: "CIT",
+    aula: "CIT · Área de Manufactura",
   },
   {
     id: 15,
@@ -376,7 +376,7 @@ export const cursos: Curso[] = [
     duracionHoras: 8,
     lugares: 20,
     inscritos: 9,
-    aula: "Por confirmar",
+    aula: "LEO",
     requisitos: ["Laptop con Microsoft Office (Excel)", "Conocimientos intermedios de Excel"],
   },
   {
