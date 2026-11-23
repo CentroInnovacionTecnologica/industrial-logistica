@@ -8,6 +8,7 @@
  * - lugar: texto libre. Vacío = no se muestra.
  */
 import { inauguracion } from "./inauguracion";
+import { reglamentoVisitas } from "./reglamentoVisitas";
 
 export interface Aviso {
   /** Identificador único; se usa para los id del HTML. */
@@ -45,4 +46,20 @@ export const avisoKit: Aviso = {
   fecha: "2026-11-23",
   hora: "16:00",
   lugar: "Edificio de Ingeniería Industrial",
+};
+
+export const avisoSalidaVisitas: Aviso = {
+  id: "aviso-salida-visitas",
+  etiqueta: "Importante",
+  titulo: "Salida de las visitas",
+  // La fecha, la hora y el lugar ya van en el texto; no se repiten como datos.
+  // Espacios de no separación: "8:00 a. m." nunca se parte entre dos líneas.
+  texto: reglamentoVisitas.salida.replace("8:00 a. m.", "8:00 a. m."),
+  fecha: "",
+  hora: "",
+  lugar: "",
+  enlace: {
+    href: "#reglamento",
+    label: `Ver ${reglamentoVisitas.titulo.charAt(0).toLowerCase()}${reglamentoVisitas.titulo.slice(1)}`,
+  },
 };

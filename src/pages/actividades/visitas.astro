@@ -1,4 +1,5 @@
 ---
+import Aviso from "../../components/Aviso.astro";
 import Header from "../../components/Header.astro";
 import BusIcon from "../../components/icons/BusIcon.astro";
 import ClockIcon from "../../components/icons/ClockIcon.astro";
@@ -6,7 +7,9 @@ import FactoryIcon from "../../components/icons/FactoryIcon.astro";
 import UsersIcon from "../../components/icons/UsersIcon.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import CuposActualizados from "../../components/ui/CuposActualizados.astro";
+import ReglamentoVisitas from "../../components/visitas/ReglamentoVisitas.astro";
 import VisitaCard from "../../components/visitas/VisitaCard.astro";
+import { avisoSalidaVisitas } from "../../data/avisos";
 import { visitas, visitasInfo } from "../../data/visitas";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -34,6 +37,10 @@ const empresas = new Intl.ListFormat("es", { type: "conjunction" }).format(
       stats={stats}
     />
 
+    <div class="site-container pt-5 lg:pt-6">
+      <Aviso aviso={avisoSalidaVisitas} variante="importante" icono={BusIcon} />
+    </div>
+
     <section
       class="site-container pb-10 pt-5 lg:pb-12 lg:pt-6"
       aria-labelledby="visitas-titulo"
@@ -59,5 +66,7 @@ const empresas = new Intl.ListFormat("es", { type: "conjunction" }).format(
         }
       </ul>
     </section>
+
+    <ReglamentoVisitas />
   </main>
 </BaseLayout>

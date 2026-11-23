@@ -38,6 +38,8 @@ interface Props {
   nivel?: 2 | 3;
   /** Sufijo para los id cuando el mismo aviso aparece dos veces. */
   idSufijo?: string;
+  /** Reemplaza el ícono de la variante. */
+  icono?: typeof AlertIcon;
   class?: string;
 }
 
@@ -49,11 +51,12 @@ const {
   denso = false,
   nivel = 2,
   idSufijo = "",
+  icono,
   class: className,
 } = Astro.props;
 
 const Titulo = nivel === 3 ? "h3" : "h2";
-const Icono = variante === "urgente" ? AlertIcon : GiftIcon;
+const Icono = icono ?? (variante === "urgente" ? AlertIcon : GiftIcon);
 const tituloId = `${aviso.id}${idSufijo}-titulo`;
 
 // Solo los datos que tengan valor.
@@ -74,6 +77,10 @@ const datos = [
 ].filter((dato) => !!dato);
 
 const enlace = mostrarEnlace ? aviso.enlace : undefined;
+// Un ancla apunta a la página actual: no lleva la ruta base.
+const enlaceHref = enlace?.href.startsWith("#")
+  ? enlace.href
+  : enlace && withBase(enlace.href);
 ---
 
 {
@@ -138,7 +145,7 @@ const enlace = mostrarEnlace ? aviso.enlace : undefined;
       </div>
 
       {enlace && (
-        <a href={withBase(enlace.href)} class="aviso__btn">
+        <a href={enlaceHref} class="aviso__btn">
           {enlace.label}
           <ArrowRightIcon class="size-5 shrink-0" />
         </a>
@@ -430,6 +437,12 @@ const enlace = mostrarEnlace ? aviso.enlace : undefined;
     .aviso__btn {
       grid-column: 2;
       width: auto;
+    }
+
+    /* Con espacio de sobra, el texto del botón va en una sola línea */
+    .aviso:not(.aviso--denso) .aviso__btn {
+      max-width: none;
+      white-space: nowrap;
     }
   }
 
