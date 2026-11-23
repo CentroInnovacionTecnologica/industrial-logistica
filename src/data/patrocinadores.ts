@@ -17,6 +17,11 @@ export interface Patrocinador {
   empresa: string;
   /** Ruta dentro de src/assets/, p. ej. "patrocinadores/logmine.png". */
   logo: string;
+  /**
+   * Ancho / alto del área útil, para logos con mucho margen en blanco. El margen
+   * se quita solo en la copia generada (centrada); el archivo original no cambia.
+   */
+  proporcion?: number;
 }
 
 export const patrocinadoresInfo = {
@@ -39,6 +44,7 @@ export const patrocinadores: Patrocinador[] = [
   { empresa: "Intenzo", logo: "patrocinadores/intenzo.png" },
   { empresa: "XIXIM", logo: "patrocinadores/xixim.png" },
   { empresa: "UG Uniformes Escolares e Industriales", logo: "patrocinadores/uniformesg.jpeg" },
+  { empresa: "Urbatrac", logo: "patrocinadores/urbatrac.jpg", proporcion: 800 / 360 },
   { empresa: "Arca Continental", logo: "visitas/arca-continental.jpeg" },
   { empresa: "Forestal Alfa", logo: "visitas/forestal-alfa.png" },
   { empresa: "Grupo Armas", logo: "visitas/grupo-armas.png" },
@@ -56,9 +62,13 @@ const logos = import.meta.glob<{ default: ImageMetadata }>(
 );
 
 /** Patrocinadores cuyo archivo de logo existe, en el orden de la lista. */
-export function patrocinadoresConLogo(): { empresa: string; imagen: ImageMetadata }[] {
-  return patrocinadores.flatMap(({ empresa, logo }) => {
+export function patrocinadoresConLogo(): {
+  empresa: string;
+  imagen: ImageMetadata;
+  proporcion?: number;
+}[] {
+  return patrocinadores.flatMap(({ empresa, logo, proporcion }) => {
     const imagen = logos[`../assets/${logo}`]?.default;
-    return imagen ? [{ empresa, imagen }] : [];
+    return imagen ? [{ empresa, imagen, proporcion }] : [];
   });
 }

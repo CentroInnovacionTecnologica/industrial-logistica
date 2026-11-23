@@ -34,12 +34,19 @@ const copias = [false, true];
           <div class="marquee-track">
             {copias.map((esCopia) => (
               <ul class="marquee-list" aria-hidden={esCopia ? "true" : undefined}>
-                {logos.map(({ empresa, imagen }) => (
+                {logos.map(({ empresa, imagen, proporcion }) => (
                   <li class="logo-card">
                     <Image
                       src={imagen}
                       alt={esCopia ? "" : empresa}
                       width={Math.min(imagen.width, LOGO_MAX_WIDTH)}
+                      {...(proporcion && {
+                        height: Math.round(
+                          Math.min(imagen.width, LOGO_MAX_WIDTH) / proporcion,
+                        ),
+                        fit: "cover" as const,
+                        position: "center",
+                      })}
                       loading="eager"
                       decoding="async"
                       draggable="false"
