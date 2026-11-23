@@ -38,6 +38,7 @@ export const patrocinadores: Patrocinador[] = [
   { empresa: "SPS Solutions", logo: "patrocinadores/sps.png" },
   { empresa: "Intenzo", logo: "patrocinadores/intenzo.png" },
   { empresa: "XIXIM", logo: "patrocinadores/xixim.png" },
+  { empresa: "UG Uniformes Escolares e Industriales", logo: "patrocinadores/uniformesg.jpeg" },
   { empresa: "Arca Continental", logo: "visitas/arca-continental.jpeg" },
   { empresa: "Forestal Alfa", logo: "visitas/forestal-alfa.png" },
   { empresa: "Grupo Armas", logo: "visitas/grupo-armas.png" },
