@@ -1,0 +1,319 @@
+---
+import { getImage, Image } from "astro:assets";
+import Visor from "../components/galeria/Visor.astro";
+import Header from "../components/Header.astro";
+import CalendarIcon from "../components/icons/CalendarIcon.astro";
+import ImageIcon from "../components/icons/ImageIcon.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { formatearDiaSemana, formatearFechaLarga } from "../data/formato";
+import { diasGaleria, totalFotos } from "../data/galeria";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const totalDias = diasGaleria.length;
+
+const stats = [
+  { icon: ImageIcon, text: `${totalFotos} ${totalFotos === 1 ? "foto" : "fotos"}` },
+  { icon: CalendarIcon, text: `${totalDias} ${totalDias === 1 ? "día" : "días"} del evento` },
+];
+
+const diaSemana = (iso: string) => {
+  const texto = new Intl.DateTimeFormat("es-MX", { weekday: "short", timeZone: "UTC" })
+    .format(new Date(`${iso}T00:00:00Z`))
+    .replace(".", "");
+  return texto.charAt(0).toLocaleUpperCase("es-MX") + texto.slice(1);
+};
+
+// Miniaturas (~600 px) con <Image>; la versión grande del visor (1600 px) se
+// genera aquí y viaja en data-grande para cargarse solo al abrir la foto.
+const dias = await Promise.all(
+  diasGaleria.map(async ({ dia, fotos }) => {
+    const titulo = formatearFechaLarga(dia).replace(/ de \d{4}$/, ""); // "Martes 24 de noviembre"
+    const enFrase = formatearDiaSemana(dia); // "martes 24 de noviembre"
+    return {
+      dia,
+      titulo,
+      corto: `${diaSemana(dia)} ${Number(dia.slice(8))}`, // "Mar 24"
+      total: `${fotos.length} ${fotos.length === 1 ? "foto" : "fotos"}`,
+      tabId: `tab-${dia}`,
+      panelId: `dia-${dia}`,
+      fotos: await Promise.all(
+        fotos.map(async ({ src, numero }) => {
+          const grande = await getImage({ src, width: 1600, format: "webp", quality: 80 });
+          const vertical = src.height > src.width;
+          return {
+            src,
+            numero,
+            alt: `Semana Académica NEXUS 2026, ${enFrase}, foto ${numero}`,
+            grande: grande.src,
+            // Mosaico: las verticales ocupan dos filas; cada décima horizontal, 2 × 2.
+            forma: vertical ? "vertical" : numero % 10 === 1 ? "grande" : "normal",
+          };
+        }),
+      ),
+    };
+  }),
+);
+---
+
+<BaseLayout
+  title="Galería | Semana Académica ITD"
+  description={`Fotos de la Semana Académica NEXUS 2026 de Ingeniería Industrial e Ingeniería en Logística del ITD: ${totalFotos} fotos de ${dias.map((d) => d.titulo.toLowerCase()).join(" y ")}.`}
+>
+  <Header />
+
+  <main id="contenido">
+    <PageHeader title="Galería" breadcrumb={[{ label: "Galería" }]} stats={stats} />
+
+    <div class="site-container pb-10 pt-4 lg:pb-14 lg:pt-6" data-galeria>
+      <!-- Selector de día: oculto sin JavaScript (entonces se ven todos los días) -->
+      <div
+        class="sticky top-(--header-height) z-30 -mx-4 bg-white/95 px-4 py-3 backdrop-blur-sm sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0"
+        data-tabs
+        hidden
+      >
+        <div
+          role="tablist"
+          aria-label="Días de la galería"
+          class="flex gap-2 overflow-x-auto scrollbar-none"
+          data-tablist
+        >
+          {
+            dias.map((d) => (
+              <button
+                type="button"
+                role="tab"
+                id={d.tabId}
+                aria-controls={d.panelId}
+                aria-selected="false"
+                aria-label={d.titulo}
+                tabindex="-1"
+                class="chip"
+                data-tab
+              >
+                <span class="sm:hidden">{d.corto}</span>
+                <span class="hidden sm:inline">{d.titulo}</span>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="space-y-12 lg:space-y-14">
+        {
+          dias.map((d) => (
+            <section
+              id={d.panelId}
+              aria-labelledby={`${d.panelId}-titulo`}
+              class="dia pt-3 lg:pt-5"
+              data-panel
+            >
+              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h2
+                  id={`${d.panelId}-titulo`}
+                  class="font-display text-xl font-extrabold leading-tight tracking-tight text-navy sm:text-2xl"
+                >
+                  {d.titulo}
+                </h2>
+                <p class="text-sm text-muted">{d.total}</p>
+              </div>
+
+              <div class="mosaico-contenedor mt-5 lg:mt-7">
+                <ul role="list" class="mosaico" data-grupo={d.titulo}>
+                  {d.fotos.map((foto) => (
+                    <li class:list={["tile", `tile--${foto.forma}`]}>
+                      <button
+                        type="button"
+                        class="tile-boton"
+                        aria-haspopup="dialog"
+                        data-foto
+                        data-grande={foto.grande}
+                        data-alt={foto.alt}
+                      >
+                        <Image
+                          src={foto.src}
+                          alt={foto.alt}
+                          width={600}
+                          widths={foto.forma === "normal" ? [400, 600] : [600, 900]}
+                          sizes={
+                            foto.forma === "grande"
+                              ? "(min-width: 1024px) 50vw, (min-width: 768px) 66vw, 100vw"
+                              : "(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                          }
+                          format="webp"
+                          quality={75}
+                          loading="lazy"
+                          decoding="async"
+                          class="tile-imagen"
+                        />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+
+  <Visor />
+</BaseLayout>
+
+<style>
+  /* Mosaico: filas de altura fija (proporción 4:3 de una columna) calculada
+     con unidades de contenedor; las verticales ocupan 2 filas y las "grandes"
+     2 × 2. grid-auto-flow: dense rellena los huecos que dejan. */
+  .mosaico-contenedor {
+    container-type: inline-size;
+  }
+
+  .mosaico {
+    --cols: 2;
+    --gap: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    grid-auto-rows: calc((100cqi - (var(--cols) - 1) * var(--gap)) / var(--cols) * 0.75);
+    grid-auto-flow: row dense;
+    gap: var(--gap);
+  }
+
+  @media (width >= 48rem) {
+    .mosaico {
+      --cols: 3;
+      --gap: 0.75rem;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .mosaico {
+      --cols: 4;
+      --gap: 1rem;
+    }
+  }
+
+  .tile--vertical {
+    grid-row: span 2;
+  }
+
+  .tile--grande {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .tile-boton {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background: var(--color-surface);
+    cursor: zoom-in;
+    touch-action: manipulation;
+  }
+
+  .tile-boton::after {
+    /* Velo navy al pasar el cursor / enfocar */
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgb(15 30 74 / 0);
+    box-shadow: inset 0 0 0 1px rgb(15 30 74 / 0.06);
+    transition: background-color 200ms ease-out;
+    pointer-events: none;
+  }
+
+  .tile-boton:is(:hover, :focus-visible)::after {
+    background: rgb(15 30 74 / 0.12);
+  }
+
+  .tile-boton:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  :global(.tile-imagen) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.tile-imagen) {
+      transition: scale 300ms ease-out;
+    }
+
+    .tile-boton:is(:hover, :focus-visible) :global(.tile-imagen) {
+      scale: 1.04;
+    }
+  }
+
+  [data-galeria].con-pestanas .dia {
+    padding-top: 0.75rem;
+  }
+</style>
+
+<script>
+  const raiz = document.querySelector<HTMLElement>("[data-galeria]");
+  const barra = raiz?.querySelector<HTMLElement>("[data-tabs]");
+  const lista = raiz?.querySelector<HTMLElement>("[data-tablist]");
+
+  // Pestañas por día (mismo patrón que /programa). Con un solo día no hacen falta.
+  if (raiz && barra && lista) {
+    const tabs = [...lista.querySelectorAll<HTMLButtonElement>("[data-tab]")];
+    const paneles = [...raiz.querySelectorAll<HTMLElement>("[data-panel]")];
+
+    if (tabs.length > 1) {
+      for (const [i, panel] of paneles.entries()) {
+        panel.setAttribute("role", "tabpanel");
+        panel.setAttribute("aria-labelledby", tabs[i].id);
+      }
+      raiz.classList.add("con-pestanas");
+      barra.hidden = false;
+
+      const seleccionar = (indice: number, { foco = false, desplazar = false } = {}) => {
+        tabs.forEach((tab, i) => {
+          const activa = i === indice;
+          tab.setAttribute("aria-selected", String(activa));
+          tab.tabIndex = activa ? 0 : -1;
+          paneles[i].hidden = !activa;
+        });
+
+        const tab = tabs[indice];
+        if (foco) tab.focus();
+        const izquierda = tab.offsetLeft - lista.offsetLeft;
+        if (izquierda < lista.scrollLeft || izquierda + tab.offsetWidth > lista.scrollLeft + lista.clientWidth) {
+          lista.scrollLeft = izquierda - 16;
+        }
+
+        if (desplazar) {
+          const alto = document.querySelector("header")?.offsetHeight ?? 0;
+          const tope = raiz.getBoundingClientRect().top + window.scrollY - alto;
+          if (window.scrollY > tope) window.scrollTo({ top: tope });
+        }
+      };
+
+      tabs.forEach((tab, i) => {
+        tab.addEventListener("click", () => seleccionar(i, { desplazar: true }));
+        tab.addEventListener("keydown", (event) => {
+          const destino =
+            event.key === "ArrowRight" ? (i + 1) % tabs.length
+            : event.key === "ArrowLeft" ? (i - 1 + tabs.length) % tabs.length
+            : event.key === "Home" ? 0
+            : event.key === "End" ? tabs.length - 1
+            : -1;
+          if (destino < 0) return;
+          event.preventDefault();
+          seleccionar(destino, { foco: true, desplazar: true });
+        });
+      });
+
+      // Primero el día más reciente
+      seleccionar(0);
+    }
+  }
+</script>

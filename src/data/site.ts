@@ -87,7 +87,7 @@ export const nav = {
         { label: "Actividades Deportivas", href: "/actividades/deportivas" },
       ],
     },
-    { label: "Galería", href: "/#galeria" },
+    { label: "Galería", href: "/galeria" },
   ] satisfies NavItem[],
   /** Enlaces que solo aparecen en el pie de página (no en el menú superior). */
   footerOnly: [{ label: "Registro", href: "/registro" }] satisfies NavLink[],

@@ -1,0 +1,347 @@
+---
+/**
+ * Visor a pantalla completa para las fotos de la galería. Se abre con
+ * cualquier botón [data-foto] (con data-grande y data-alt); navega dentro del
+ * grupo [data-grupo] que lo contiene. Teclado: ← → para cambiar, Esc para
+ * cerrar, Tab queda dentro del visor. En touch: deslizar a los lados.
+ */
+import ArrowRightIcon from "../icons/ArrowRightIcon.astro";
+import CloseIcon from "../icons/CloseIcon.astro";
+---
+
+<dialog class="visor" aria-labelledby="visor-titulo" data-visor>
+  <div class="visor-marco">
+    <div class="visor-barra">
+      <p class="min-w-0">
+        <span id="visor-titulo" class="block truncate font-display text-sm font-bold sm:text-base" data-visor-grupo
+        ></span>
+        <span class="block text-sm text-white/75 tabular-nums" aria-live="polite" data-visor-contador></span>
+      </p>
+      <button type="button" class="visor-boton" aria-label="Cerrar visor" data-visor-cerrar>
+        <CloseIcon class="size-6" />
+      </button>
+    </div>
+
+    <div class="visor-escenario" data-visor-escenario>
+      <img class="visor-imagen" alt="" data-visor-imagen />
+      <span class="visor-cargando" aria-hidden="true" data-visor-cargando></span>
+    </div>
+
+    <button type="button" class="visor-boton visor-nav visor-nav--anterior" aria-label="Foto anterior" data-visor-anterior>
+      <ArrowRightIcon class="size-6 rotate-180" />
+    </button>
+    <button type="button" class="visor-boton visor-nav visor-nav--siguiente" aria-label="Foto siguiente" data-visor-siguiente>
+      <ArrowRightIcon class="size-6" />
+    </button>
+  </div>
+</dialog>
+
+<style>
+  .visor {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--color-navy-900);
+    color: #fff;
+    overflow: hidden;
+  }
+
+  .visor::backdrop {
+    background: rgb(10 21 54 / 0.6);
+  }
+
+  .visor-marco {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    height: 100dvh;
+    padding: max(0.75rem, env(safe-area-inset-top)) max(0.75rem, env(safe-area-inset-right))
+      max(0.75rem, env(safe-area-inset-bottom)) max(0.75rem, env(safe-area-inset-left));
+  }
+
+  .visor-barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0 0.25rem 0.75rem 0.5rem;
+  }
+
+  .visor-escenario {
+    position: relative;
+    display: grid;
+    /* Pista única de tamaño definido: así max-height: 100% de la foto se resuelve */
+    grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+    place-items: center;
+    min-height: 0;
+    touch-action: pan-y pinch-zoom; /* el deslizamiento horizontal lo maneja el visor */
+    user-select: none;
+  }
+
+  .visor-imagen {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    -webkit-user-drag: none;
+  }
+
+  .visor-imagen[data-cargando] {
+    opacity: 0.35;
+  }
+
+  .visor-imagen,
+  .visor-cargando {
+    grid-area: 1 / 1;
+  }
+
+  .visor-cargando {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 3px solid rgb(255 255 255 / 0.25);
+    border-top-color: var(--color-gold);
+    border-radius: 999px;
+    visibility: hidden;
+  }
+
+  .visor-imagen[data-cargando] + .visor-cargando {
+    visibility: visible;
+  }
+
+  .visor-boton {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.12);
+    color: #fff;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background-color 150ms ease-out;
+  }
+
+  .visor-boton:hover {
+    background: rgb(255 255 255 / 0.24);
+  }
+
+  .visor-boton:active {
+    background: rgb(255 255 255 / 0.32);
+  }
+
+  .visor-boton:focus-visible {
+    outline: 3px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+
+  /* Anterior / siguiente: a los lados, centrados en la foto. En móvil van
+     abajo para no tapar la imagen ni chocar con el gesto de deslizar. */
+  .visor-nav {
+    position: absolute;
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    background: rgb(15 30 74 / 0.85);
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.18);
+  }
+
+  .visor-nav:hover {
+    background: var(--color-navy-700);
+  }
+
+  .visor-nav--anterior {
+    left: calc(50% - 3.5rem);
+  }
+
+  .visor-nav--siguiente {
+    right: calc(50% - 3.5rem);
+  }
+
+  @media (width >= 48rem) {
+    .visor-marco {
+      padding-inline: 5rem;
+    }
+
+    .visor-nav {
+      top: 50%;
+      bottom: auto;
+      translate: 0 -50%;
+    }
+
+    .visor-nav--anterior {
+      left: 1rem;
+    }
+
+    .visor-nav--siguiente {
+      right: 1rem;
+    }
+  }
+
+  @media (width < 48rem) {
+    /* Espacio abajo para los botones */
+    .visor-escenario {
+      margin-bottom: 4.25rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .visor[open] {
+      animation: visor-entrar 200ms ease-out;
+    }
+
+    .visor-imagen {
+      transition: opacity 180ms ease-out;
+    }
+
+    .visor-imagen[data-soltando] {
+      transition:
+        opacity 180ms ease-out,
+        translate 200ms ease-out;
+    }
+
+    .visor-cargando {
+      animation: visor-girar 800ms linear infinite;
+    }
+  }
+
+  @keyframes visor-entrar {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes visor-girar {
+    to {
+      rotate: 1turn;
+    }
+  }
+</style>
+
+<script>
+  const visor = document.querySelector<HTMLDialogElement>("[data-visor]");
+
+  if (visor) {
+    const imagen = visor.querySelector<HTMLImageElement>("[data-visor-imagen]")!;
+    const escenario = visor.querySelector<HTMLElement>("[data-visor-escenario]")!;
+    const grupoTexto = visor.querySelector<HTMLElement>("[data-visor-grupo]")!;
+    const contador = visor.querySelector<HTMLElement>("[data-visor-contador]")!;
+    const botonCerrar = visor.querySelector<HTMLButtonElement>("[data-visor-cerrar]")!;
+    const botonAnterior = visor.querySelector<HTMLButtonElement>("[data-visor-anterior]")!;
+    const botonSiguiente = visor.querySelector<HTMLButtonElement>("[data-visor-siguiente]")!;
+
+    let fotos: HTMLButtonElement[] = [];
+    let indice = 0;
+    let origen: HTMLButtonElement | null = null;
+
+    const precargar = (boton?: HTMLButtonElement) => {
+      if (boton?.dataset.grande) new Image().src = boton.dataset.grande;
+    };
+
+    const mostrar = (nuevo: number) => {
+      indice = (nuevo + fotos.length) % fotos.length;
+      const boton = fotos[indice];
+      imagen.style.translate = "";
+      imagen.setAttribute("data-cargando", "");
+      imagen.alt = boton.dataset.alt ?? "";
+      imagen.src = boton.dataset.grande ?? "";
+      if (imagen.complete) imagen.removeAttribute("data-cargando");
+      contador.textContent = `${indice + 1} de ${fotos.length}`;
+      precargar(fotos[(indice + 1) % fotos.length]);
+      precargar(fotos[(indice - 1 + fotos.length) % fotos.length]);
+    };
+
+    imagen.addEventListener("load", () => imagen.removeAttribute("data-cargando"));
+    imagen.addEventListener("error", () => imagen.removeAttribute("data-cargando"));
+
+    const abrir = (boton: HTMLButtonElement) => {
+      const grupo = boton.closest<HTMLElement>("[data-grupo]");
+      fotos = [...(grupo ?? document).querySelectorAll<HTMLButtonElement>("[data-foto]")];
+      grupoTexto.textContent = grupo?.dataset.grupo ?? "Galería";
+      origen = boton;
+      mostrar(fotos.indexOf(boton));
+      document.documentElement.style.overflow = "hidden";
+      visor.showModal();
+      botonCerrar.focus();
+    };
+
+    document.addEventListener("click", (event) => {
+      const boton = (event.target as Element).closest<HTMLButtonElement>("[data-foto]");
+      if (boton) abrir(boton);
+    });
+
+    // Al cerrar (X, Esc o clic en el fondo): foco de vuelta a la miniatura
+    visor.addEventListener("close", () => {
+      document.documentElement.style.overflow = "";
+      imagen.removeAttribute("src");
+      origen?.focus();
+      origen?.scrollIntoView({ block: "nearest" });
+    });
+
+    botonCerrar.addEventListener("click", () => visor.close());
+    botonAnterior.addEventListener("click", () => mostrar(indice - 1));
+    botonSiguiente.addEventListener("click", () => mostrar(indice + 1));
+
+    // Clic en el área vacía alrededor de la foto: cerrar (no si fue un deslizamiento)
+    let deslizo = false;
+    escenario.addEventListener("click", (event) => {
+      if (event.target === escenario && !deslizo) visor.close();
+      deslizo = false;
+    });
+
+    visor.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        mostrar(indice - 1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        mostrar(indice + 1);
+      } else if (event.key === "Tab") {
+        // Foco atrapado: recorre solo los botones del visor
+        const focos = [botonCerrar, botonAnterior, botonSiguiente];
+        const actual = focos.indexOf(document.activeElement as HTMLButtonElement);
+        event.preventDefault();
+        const siguiente = event.shiftKey ? actual - 1 : actual + 1;
+        focos[(siguiente + focos.length) % focos.length].focus();
+      }
+    });
+
+    // Deslizar en touch: la foto sigue al dedo; > 50 px cambia de foto
+    let inicioX = 0;
+    let inicioY = 0;
+    let arrastrando = false;
+
+    escenario.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" || !event.isPrimary) return;
+      inicioX = event.clientX;
+      inicioY = event.clientY;
+      arrastrando = true;
+      imagen.removeAttribute("data-soltando");
+    });
+
+    escenario.addEventListener("pointermove", (event) => {
+      if (!arrastrando) return;
+      const dx = event.clientX - inicioX;
+      if (Math.abs(dx) > Math.abs(event.clientY - inicioY)) imagen.style.translate = `${dx}px 0`;
+    });
+
+    const soltar = (event: PointerEvent) => {
+      if (!arrastrando) return;
+      arrastrando = false;
+      const dx = event.clientX - inicioX;
+      const dy = event.clientY - inicioY;
+      imagen.setAttribute("data-soltando", "");
+      deslizo = Math.abs(dx) > 10;
+      if (event.type === "pointerup" && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        mostrar(dx < 0 ? indice + 1 : indice - 1);
+      } else {
+        imagen.style.translate = "";
+      }
+    };
+
+    escenario.addEventListener("pointerup", soltar);
+    escenario.addEventListener("pointercancel", soltar);
+  }
+</script>
