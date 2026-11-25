@@ -25,22 +25,6 @@ export const charlas: Charla[] = [
     lugar: "Centro de Innovación Tecnológica · Sala de Videoconferencias",
   },
   {
-    id: 2,
-    titulo: "La logística salva vidas: el viaje al paciente",
-    ponente: "Ing. Alexis Lares",
-    cargo: "CEO de LODIFARMA",
-    descripcion:
-      "El proceso que garantiza que cada dosis llegue al paciente en el momento y las condiciones correctas.",
-    puntos: [
-      { titulo: "Importación", texto: "El viaje comienza." },
-      { titulo: "Almacenamiento", texto: "El resguardo estratégico." },
-      { titulo: "Distribución", texto: "La entrega que salva vidas." },
-    ],
-    fecha: "2026-11-25",
-    hora: "17:00",
-    lugar: "Centro de Innovación Tecnológica · Sala de Videoconferencias",
-  },
-  {
     id: 3,
     titulo: "CV 2.0: tu marca personal",
     ponente: "Dr. Mario Valderrama Martínez",
