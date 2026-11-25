@@ -298,6 +298,7 @@ export const cursos: Curso[] = [
     lugares: 25,
     inscritos: 13,
     aula: "CIT · Aula C4",
+    fusionadoCon: 5, // Comunicación Efectiva para Ingenieros
   },
   {
     id: 16,
