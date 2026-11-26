@@ -49,7 +49,7 @@ export const programa: ActividadPrograma[] = [
   { dia: "2026-11-26", inicio: "17:00", fin: "18:00", tipo: "Charla", titulo: "Líderes que inspiran, equipos que transforman", detalle: "Motivacional", lugar: SUM, enlace: "/actividades/charlas" },
 
   /* Viernes 27 */
-  { dia: "2026-11-27", inicio: "09:00", fin: "10:00", tipo: "Visitas", titulo: "Visitas a empresas", enlace: "/actividades/visitas" },
+  { dia: "2026-11-27", inicio: "09:00", fin: "12:00", tipo: "Visitas", titulo: "Visitas a empresas", enlace: "/actividades/visitas" },
   { dia: "2026-11-27", inicio: "10:00", fin: "12:00", tipo: "Deportivas", titulo: "Rally y 100 Ingenieros Dijeron", enlace: "/actividades/deportivas" },
   { dia: "2026-11-27", inicio: "12:00", fin: "13:00", tipo: "Convivio", titulo: "Conjunto norteño y taquiza" },
   { dia: "2026-11-27", inicio: "13:00", fin: "13:30", tipo: "Ceremonia", titulo: "Premiación" },
